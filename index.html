@@ -27,6 +27,63 @@
   --shadow-sm:0 1px 2px rgba(93,74,52,.07);
   --radius:18px; --radius-sm:12px;
 }
+
+[data-theme="rpg"]{
+  --bg:#0e111a; --surface:#181c2d; --surface2:#22283f; --field:#121524;
+  --border:#3a4266; --border-strong:#cf9f38;
+  --text:#f5ecd7; --text-soft:#9ba5ce; --text-faint:#626c99;
+  --green:#2ee68a; --green-deep:#26c274; --green-soft:#163829;
+  --pink:#ff6584; --pink-soft:#3d1a24;
+  --lav:#a78bfa; --lav-soft:#2b2244;
+  --brown:#f6c85f; --fire:#ff7b47; --fire-soft:#3e2216;
+  --red:#ff4d6d;
+  --pattern:rgba(207,159,56,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.6),0 12px 32px -10px rgba(0,0,0,.85),0 0 1px #cf9f38;
+  --shadow-sm:0 2px 5px rgba(0,0,0,.5);
+}
+
+[data-theme="rpg"] .card{
+  border:2px solid #3d466b;
+  position:relative;
+  background:linear-gradient(180deg,#1a1f33 0%,#151829 100%);
+  box-shadow:0 4px 20px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(207,159,56,0.25);
+}
+[data-theme="rpg"] .hero{
+  border:2px solid #cf9f38;
+  box-shadow:0 0 25px rgba(207,159,56,0.18), inset 0 0 15px rgba(207,159,56,0.08);
+}
+[data-theme="rpg"] .hero-streak{
+  background:linear-gradient(135deg,#361b12 0%,#26130b 100%);
+  border:2px solid #ff7b47;
+  box-shadow:0 0 15px rgba(255,123,71,0.25);
+}
+
+/* RPG Quest Banner & Level Badge */
+.rpg-quest-card{
+  display:none;
+  background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);
+  border:2px solid var(--border-strong);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  margin-top:18px;
+  position:relative;
+  overflow:hidden;
+}
+[data-theme="rpg"] .rpg-quest-card{display:block}
+.rpg-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.rpg-title{font-size:18px;font-weight:800;color:var(--brown);display:flex;align-items:center;gap:8px}
+.rpg-rank-badge{background:var(--brown);color:#0e111a;font-weight:800;font-size:12px;padding:3px 10px;border-radius:999px;letter-spacing:.03em}
+.rpg-exp-bar-wrap{background:var(--field);border:1px solid var(--border);border-radius:999px;height:14px;overflow:hidden;position:relative;margin:10px 0 6px}
+.rpg-exp-fill{background:linear-gradient(90deg,var(--green) 0%,#5eead4 100%);height:100%;border-radius:999px;transition:width .4s ease;width:0%}
+.rpg-exp-text{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-soft);font-weight:700}
+.rpg-quests{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+@media(min-width:640px){.rpg-quests{grid-template-columns:repeat(3,1fr)}}
+.rpg-q-item{background:var(--field);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s}
+.rpg-q-item.done{border-color:var(--green);background:var(--green-soft)}
+.rpg-q-title{font-size:13.5px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between}
+.rpg-q-desc{font-size:12px;color:var(--text-soft)}
+.rpg-q-reward{font-size:11px;font-weight:800;color:var(--brown);margin-top:4px}
+
 [data-theme="dark"]{
   --bg:#1e1812; --surface:#292117; --surface2:#332a1e; --field:#221b12;
   --border:#3f3423; --border-strong:#54452d;
@@ -736,6 +793,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
           <button data-t="system">System</button>
           <button data-t="light">Light</button>
           <button data-t="dark">Dark</button>
+          <button data-t="rpg">⚔️ RPG Mode</button>
         </div>
       </div>
 
@@ -1330,7 +1388,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 function mergeSettings(v){
   const d = clone(DEFAULT_SETTINGS);
   if (!v || typeof v !== 'object') return d;
-  if (['system','light','dark'].includes(v.theme)) d.theme = v.theme;
+  if (['system','light','dark','rpg'].includes(v.theme)) d.theme = v.theme;
   if (v.goals && typeof v.goals === 'object'){
     d.goals.words        = clampInt(v.goals.words, 10000);
     d.goals.grammarPages = clampInt(v.goals.grammarPages, 10000);
@@ -1399,6 +1457,78 @@ async function patchToday(patch){
   const e = Object.assign(state.entries.get(k) || { date: k, words: 0, grammarPages: 0, kanjiPages: 0, notes: '', savedAt: '' }, patch, { updatedAt: new Date().toISOString() });
   state.entries.set(k, e);
   await stPutStudy(e);
+}
+
+
+/* ================================================================
+   RPG LEVEL, EXP & QUEST SYSTEM
+   ================================================================ */
+const RPG_RANKS = [
+  { maxLv: 3,  title: '見習い侍 (Apprentice Scribe ⚔️)' },
+  { maxLv: 7,  title: '冒険者 (Adventurer 🛡️)' },
+  { maxLv: 14, title: '浪人 (Ronin Warrior 🗡️)' },
+  { maxLv: 24, title: '侍 (Samurai 🥋)' },
+  { maxLv: 39, title: '剣豪 (Sword Master ⚡)' },
+  { maxLv: 59, title: '将軍 (Shogun Commander 👑)' },
+  { maxLv: 999, title: '伝説の勇者 (Legendary Hero 🌟)' }
+];
+
+function calculateTotalExp(){
+  let total = 0;
+  state.entries.forEach(e => {
+    total += (e.words || 0) * 10;
+    total += (e.grammarPages || 0) * 25;
+    total += (e.kanjiPages || 0) * 20;
+    total += (e.studyMinutes || 0) * 2;
+  });
+  return total;
+}
+
+function updateRpgBoard(){
+  const rpgCard = $('#rpg-card');
+  if (!rpgCard) return;
+
+  const totalExp = calculateTotalExp();
+  const expPerLevel = 150;
+  const level = Math.floor(totalExp / expPerLevel) + 1;
+  const curLevelExp = totalExp % expPerLevel;
+  const pct = Math.min(100, Math.round((curLevelExp / expPerLevel) * 100));
+
+  const rank = RPG_RANKS.find(r => level <= r.maxLv) || RPG_RANKS[RPG_RANKS.length - 1];
+
+  const rankEl = $('#rpg-rank-title');
+  if (rankEl) rankEl.textContent = `Lv. ${level} ${rank.title}`;
+
+  const fillEl = $('#rpg-exp-fill');
+  if (fillEl) fillEl.style.width = `${pct}%`;
+
+  const curEl = $('#rpg-exp-current');
+  if (curEl) curEl.textContent = `Total EXP: ${totalExp.toLocaleString()} · Lv. ${level} (${curLevelExp}/${expPerLevel} EXP)`;
+
+  const nextEl = $('#rpg-exp-next');
+  if (nextEl) nextEl.textContent = `${expPerLevel - curLevelExp} EXP to Level Up!`;
+
+  // Daily Quests
+  const today = getTodayEntry();
+  const wDone = (today.words || 0) >= 15;
+  const tDone = (today.studyMinutes || 0) >= 20;
+  const kDone = (today.kanjiPages || 0) >= 2;
+
+  const qw = $('#quest-words');
+  if (qw) {
+    qw.classList.toggle('done', wDone);
+    $('#qw-status').textContent = wDone ? 'COMPLETED ✓' : `${today.words || 0}/15`;
+  }
+  const qt = $('#quest-timer');
+  if (qt) {
+    qt.classList.toggle('done', tDone);
+    $('#qt-status').textContent = tDone ? 'COMPLETED ✓' : `${today.studyMinutes || 0}/20m`;
+  }
+  const qk = $('#quest-kanji');
+  if (qk) {
+    qk.classList.toggle('done', kDone);
+    $('#qk-status').textContent = kDone ? 'COMPLETED ✓' : `${today.kanjiPages || 0}/2`;
+  }
 }
 
 /* ---------------- streaks ---------------- */
@@ -1589,6 +1719,7 @@ function refreshTodayDerived(){
   $('#streak-total').textContent = s.total;
 
   renderGoalsPanel(e);
+  updateRpgBoard();
   const active = currentView();
   if (active === 'progress') renderProgress();
   if (active === 'history'){ renderCalendar(); renderDayDetail(); renderHistoryList(); }
@@ -2314,6 +2445,10 @@ function bindSettings(){
    ================================================================ */
 function applyTheme(){
   const t = state.settings.theme;
+  if (t === 'rpg'){
+    document.documentElement.dataset.theme = 'rpg';
+    return;
+  }
   const dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
 }
