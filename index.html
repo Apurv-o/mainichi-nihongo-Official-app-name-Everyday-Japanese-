@@ -158,16 +158,16 @@ main{flex:1;min-width:0;padding:26px clamp(16px,4vw,52px) 120px}
 @media(min-width:960px){.study-cards{grid-template-columns:repeat(4,1fr)}}
 
 
-/* ---------- Pie & Donut Charts ---------- */
-.pie-chart-wrap{display:flex;align-items:center;justify-content:space-around;gap:24px;flex-wrap:wrap;padding:12px 0}
-.pie-center{position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pie-center-text{position:absolute;text-align:center;pointer-events:none}
-.pie-center-text .pct-big{font-size:22px;font-weight:800;color:var(--text);line-height:1.1}
-.pie-center-text .pct-lbl{font-size:11.5px;font-weight:700;color:var(--text-soft)}
-.pie-legend{display:grid;grid-template-columns:1fr;gap:10px;flex:1;min-width:220px}
-.pie-legend-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;font-size:13.5px;font-weight:600}
-.pie-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-right:6px}
-.pie-val{font-variant-numeric:tabular-nums;font-weight:700}
+
+/* ---------- Line Charts ---------- */
+.chart-container{position:relative;width:100%;overflow-x:auto;padding:10px 0}
+.line-chart-svg{display:block;width:100%;height:auto;min-height:180px}
+.line-chart-svg .grid-line{stroke:var(--border);stroke-width:1;stroke-dasharray:3 3}
+.line-chart-svg .axis-text{font-size:11px;font-weight:600;fill:var(--text-soft)}
+.line-chart-svg .data-dot{transition:r .15s,fill .15s;cursor:pointer}
+.line-chart-svg .data-dot:hover{r:6;fill:var(--fire)}
+.chart-summary-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:13.5px;color:var(--text-soft)}
+.chart-summary-bar b{color:var(--text);font-weight:700}
 
 /* Focus Timer Widget */
 .timer-card{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;margin-top:14px;box-shadow:var(--shadow-sm)}
@@ -684,21 +684,12 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
 
     <!-- ================= PROGRESS ================= -->
     <section class="view" id="view-progress" aria-label="Progress">
-      <h2 class="page-title">📊 Progress & Analytics</h2>
+      <h2 class="page-title">📊 Progress & Trends</h2>
 
-      <!-- Weekly Pie Chart & Breakdown -->
+      <!-- Weekly Line Chart -->
       <div class="card">
         <div class="panel-head">
-          <h3>Weekly Study Distribution (Pie Chart)</h3>
-          <span style="font-size:13px;color:var(--text-soft);font-weight:600">This Week</span>
-        </div>
-        <div class="pie-chart-wrap" id="week-pie-wrap"></div>
-      </div>
-
-      <!-- Weekly Daily Breakdown -->
-      <div class="card">
-        <div class="panel-head">
-          <h3>Weekly Daily Breakdown</h3>
+          <h3>Weekly Study Trend (Line Chart)</h3>
           <div class="seg" id="week-metric" role="group" aria-label="Metric">
             <button data-m="words" class="active">📖 Words</button>
             <button data-m="grammar">文法</button>
@@ -706,28 +697,31 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
             <button data-m="studyMinutes">⏱️ Time</button>
           </div>
         </div>
-        <div id="week-chart"></div>
-        <p style="margin-top:12px;font-size:14px;color:var(--text-soft)">This week's total: <b id="week-total" style="color:var(--text)">0</b> <span id="week-unit">words</span></p>
+        <div class="chart-summary-bar">
+          <div>This week: <b id="week-total">0</b> <span id="week-unit">words</span></div>
+          <div>Peak: <b id="week-peak">0</b> · Daily Avg: <b id="week-avg">0</b></div>
+        </div>
+        <div class="chart-container" id="week-line-chart"></div>
       </div>
 
-      <!-- Monthly Progress & Category Share Pie Chart -->
+      <!-- Monthly Overview & Daily Trend Line Chart -->
       <div class="card">
         <div class="panel-head">
-          <h3>Monthly Overview & Breakdown (Pie Chart)</h3>
+          <h3>Monthly Overview & Daily Trend (Line Chart)</h3>
           <div class="month-nav">
             <button class="cal-nav" id="m-prev" aria-label="Previous month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-l"/></svg></button>
             <b id="m-title">—</b>
             <button class="cal-nav" id="m-next" aria-label="Next month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-r"/></svg></button>
           </div>
         </div>
-        <div class="stat-grid" id="month-stats"></div>
-        <div class="pie-chart-wrap" id="month-pie-wrap" style="margin-top:18px;border-top:1px dashed var(--border);padding-top:18px"></div>
+        <div class="stat-grid" id="month-stats" style="margin-bottom:18px"></div>
+        <div class="chart-container" id="month-line-chart" style="border-top:1px dashed var(--border);padding-top:16px"></div>
       </div>
 
-      <!-- 6-Month Trend -->
+      <!-- 6-Month Historical Line Chart -->
       <div class="card">
-        <div class="panel-head"><h3>Last 6 Months — Words Learned</h3></div>
-        <div class="trend" id="trend-chart"></div>
+        <div class="panel-head"><h3>Last 6 Months Trend (Line Chart)</h3></div>
+        <div class="chart-container" id="six-month-line-chart"></div>
       </div>
     </section>
 
@@ -1810,113 +1804,205 @@ function renderHistoryList(){
 }
 
 /* ================================================================
-   PROGRESS VIEW
+   SVG LINE CHART ENGINE & PROGRESS
    ================================================================ */
-function metricValue(e, m){ if (!e) return 0; if (m === 'words') return e.words||0; if (m === 'grammar') return e.grammarPages||0; if (m === 'kanji') return e.kanjiPages||0; return e.studyMinutes||0; }
+function createSvgLineChart({ data, labels, color = '#6f9268', gradientId = 'chartGrad', height = 170, unit = '' }){
+  const w = 560, h = height;
+  const padL = 40, padR = 25, padT = 25, padB = 30;
+  const plotW = w - padL - padR;
+  const plotH = h - padT - padB;
 
+  const maxVal = Math.max(1, ...data);
+  const n = data.length;
 
-/* ================================================================
-   PIE / DONUT CHART GENERATOR & PROGRESS
-   ================================================================ */
-function makeDonutSvg(slices, size = 180, strokeWidth = 24){
-  const total = slices.reduce((a, s) => a + (s.value || 0), 0);
-  if (total <= 0){
-    return `<div class="pie-center">
-      <svg width="${size}" height="${size}" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="38" fill="none" stroke="var(--surface2)" stroke-width="${strokeWidth}" />
-        <text x="50" y="53" text-anchor="middle" font-size="9" fill="var(--text-soft)" font-weight="700">No Study Yet</text>
-      </svg>
-    </div>`;
-  }
-  const r = 38;
-  const c = 2 * Math.PI * r;
-  let offset = 0;
-  const paths = slices.map(s => {
-    if (!s.value || s.value <= 0) return '';
-    const pct = s.value / total;
-    const dash = pct * c;
-    const path = `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${s.color}" stroke-width="${strokeWidth}" stroke-dasharray="${dash} ${c}" stroke-dashoffset="-${offset}" />`;
-    offset += dash;
-    return path;
-  }).join('');
+  const getX = idx => n === 1 ? padL + plotW / 2 : padL + (idx / (n - 1)) * plotW;
+  const getY = val => padT + plotH - (val / maxVal) * plotH;
 
-  return `<div class="pie-center">
-    <svg width="${size}" height="${size}" viewBox="0 0 100 100" style="transform:rotate(-90deg);border-radius:50%">
-      <circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="${strokeWidth}" />
-      ${paths}
-    </svg>
-    <div class="pie-center-text">
-      <div class="pct-big">${total.toLocaleString()}</div>
-      <div class="pct-lbl">Total Acts</div>
-    </div>
-  </div>`;
-}
+  const pts = data.map((v, i) => ({ x: getX(i), y: getY(v), v, label: labels[i] || '' }));
 
-function renderWeekPie(){
-  const wrap = $('#week-pie-wrap');
-  if (!wrap) return;
-  const mon = mondayOf(new Date());
-  let words = 0, gram = 0, kanji = 0, time = 0;
-  for (let i = 0; i < 7; i++){
-    const d = addDays(mon, i), k = fmtDate(d);
-    const e = state.entries.get(k);
-    if (e){
-      words += e.words || 0;
-      gram += e.grammarPages || 0;
-      kanji += e.kanjiPages || 0;
-      time += e.studyMinutes || 0;
+  // Create smooth bezier or straight line path
+  let pathD = '';
+  if (pts.length > 0) {
+    pathD = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const p0 = pts[i - 1], p1 = pts[i];
+      const cx1 = p0.x + (p1.x - p0.x) * 0.45;
+      const cy1 = p0.y;
+      const cx2 = p0.x + (p1.x - p0.x) * 0.55;
+      const cy2 = p1.y;
+      pathD += ` C ${cx1} ${cy1}, ${cx2} ${cy2}, ${p1.x} ${p1.y}`;
     }
   }
 
-  const grand = words + gram + kanji + time;
-  const slices = [
-    { label: 'Words Learned',   jp: '📖 単語', value: words, color: 'var(--green)', fmt: v => `${v.toLocaleString()} words` },
-    { label: 'Grammar Pages',   jp: '文法',    value: gram,  color: 'var(--pink)',  fmt: v => `${v.toLocaleString()} pages` },
-    { label: 'Kanji Pages',     jp: '漢字',    value: kanji, color: 'var(--lav)',   fmt: v => `${v.toLocaleString()} pages` },
-    { label: 'Study Time',      jp: '⏱️ 時間', value: time,  color: 'var(--fire)',  fmt: fmtDuration }
-  ];
+  // Area path for gradient fill
+  const areaD = `${pathD} L ${pts[pts.length - 1].x} ${padT + plotH} L ${pts[0].x} ${padT + plotH} Z`;
 
-  const svgHtml = makeDonutSvg(slices, 190);
-  const legendHtml = `<div class="pie-legend">
-    ${slices.map(s => {
-      const pct = grand > 0 ? Math.round(s.value / grand * 100) : 0;
-      return `<div class="pie-legend-item">
-        <div style="display:flex;align-items:center"><span class="pie-legend-dot" style="background:${s.color}"></span><span>${s.jp} ${s.label}</span></div>
-        <div class="pie-val">${s.fmt(s.value)} <span style="font-size:12px;color:var(--text-soft)">(${pct}%)</span></div>
-      </div>`;
-    }).join('')}
-  </div>`;
+  // Grid lines
+  const gridSteps = 3;
+  let gridHtml = '';
+  for (let s = 0; s <= gridSteps; s++) {
+    const yVal = Math.round((maxVal / gridSteps) * s);
+    const yPos = getY(yVal);
+    gridHtml += `<line class="grid-line" x1="${padL}" y1="${yPos}" x2="${w - padR}" y2="${yPos}" />`;
+    gridHtml += `<text class="axis-text" x="${padL - 8}" y="${yPos + 4}" text-anchor="end">${yVal}</text>`;
+  }
 
-  wrap.innerHTML = svgHtml + legendHtml;
+  // X-axis labels
+  let xLabelsHtml = '';
+  const labelStep = Math.ceil(n / 10);
+  pts.forEach((p, i) => {
+    if (n <= 12 || i % labelStep === 0 || i === n - 1) {
+      xLabelsHtml += `<text class="axis-text" x="${p.x}" y="${h - 8}" text-anchor="middle">${p.label}</text>`;
+    }
+  });
+
+  // Data dots and tooltip bubbles
+  const dotsHtml = pts.map(p => `
+    <circle class="data-dot" cx="${p.x}" cy="${p.y}" r="${p.v > 0 ? 4.5 : 2.5}" fill="${p.v > 0 ? color : 'var(--surface2)'}" stroke="var(--surface)" stroke-width="2">
+      <title>${p.label}: ${p.v.toLocaleString()} ${unit}</title>
+    </circle>
+    ${p.v > 0 && n <= 12 ? `<text x="${p.x}" y="${p.y - 8}" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--text)">${p.v}</text>` : ''}
+  `).join('');
+
+  return `<svg class="line-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.32" />
+        <stop offset="100%" stop-color="${color}" stop-opacity="0.01" />
+      </linearGradient>
+    </defs>
+    ${gridHtml}
+    <path d="${areaD}" fill="url(#${gradientId})" />
+    <path d="${pathD}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    ${dotsHtml}
+    ${xLabelsHtml}
+  </svg>`;
 }
 
-function renderMonthPie(words, gram, kanji, time){
-  const wrap = $('#month-pie-wrap');
-  if (!wrap) return;
-  const grand = words + gram + kanji + time;
-  const slices = [
-    { label: 'Words Learned',   jp: '📖 単語', value: words, color: 'var(--green)', fmt: v => `${v.toLocaleString()} words` },
-    { label: 'Grammar Pages',   jp: '文法',    value: gram,  color: 'var(--pink)',  fmt: v => `${v.toLocaleString()} pages` },
-    { label: 'Kanji Pages',     jp: '漢字',    value: kanji, color: 'var(--lav)',   fmt: v => `${v.toLocaleString()} pages` },
-    { label: 'Study Time',      jp: '⏱️ 時間', value: time,  color: 'var(--fire)',  fmt: fmtDuration }
-  ];
+function renderWeekChart(){
+  const m = state.ui.weekMetric || 'words';
+  const mon = mondayOf(new Date());
+  const todayK = todayStr();
+  const data = [], labels = [];
+  let sum = 0, peak = 0;
 
-  const svgHtml = makeDonutSvg(slices, 190);
-  const legendHtml = `<div class="pie-legend">
-    ${slices.map(s => {
-      const pct = grand > 0 ? Math.round(s.value / grand * 100) : 0;
-      return `<div class="pie-legend-item">
-        <div style="display:flex;align-items:center"><span class="pie-legend-dot" style="background:${s.color}"></span><span>${s.jp} ${s.label}</span></div>
-        <div class="pie-val">${s.fmt(s.value)} <span style="font-size:12px;color:var(--text-soft)">(${pct}%)</span></div>
-      </div>`;
-    }).join('')}
-  </div>`;
+  const colorMap = {
+    words: '#6f9268',
+    grammar: '#c98b82',
+    kanji: '#9d8bb8',
+    studyMinutes: '#d97e4a'
+  };
+  const unitMap = {
+    words: 'words',
+    grammar: 'pages',
+    kanji: 'pages',
+    studyMinutes: 'mins'
+  };
 
-  wrap.innerHTML = svgHtml + legendHtml;
+  for (let i = 0; i < 7; i++){
+    const d = addDays(mon, i), k = fmtDate(d);
+    const v = metricValue(state.entries.get(k), m);
+    data.push(v);
+    labels.push(WEEK_MON[i]);
+    sum += v;
+    if (v > peak) peak = v;
+  }
+
+  const avg = Math.round(sum / 7);
+  $('#week-total').textContent = (m === 'studyMinutes') ? fmtDuration(sum) : sum.toLocaleString();
+  $('#week-unit').textContent = unitMap[m] || '';
+  $('#week-peak').textContent = (m === 'studyMinutes') ? fmtDuration(peak) : peak.toLocaleString();
+  $('#week-avg').textContent  = (m === 'studyMinutes') ? fmtDuration(avg) : avg.toLocaleString();
+
+  const wrap = $('#week-line-chart');
+  if (wrap) {
+    wrap.innerHTML = createSvgLineChart({
+      data,
+      labels,
+      color: colorMap[m] || '#6f9268',
+      gradientId: `grad-wk-${m}`,
+      unit: unitMap[m] || '',
+      height: 180
+    });
+  }
+}
+
+function renderMonthStats(){
+  const { monthYear: y, monthMonth: m } = state.ui;
+  $('#m-title').textContent = `${MONTHS[m]} ${y}`;
+  const daysIn = new Date(y, m + 1, 0).getDate();
+  let words = 0, gram = 0, kanji = 0, time = 0, days = 0;
+  const data = [], labels = [];
+
+  for (let d = 1; d <= daysIn; d++){
+    const key = fmtDate(new Date(y, m, d));
+    const e = state.entries.get(key);
+    labels.push(`${d}`);
+    if (e && entryTotal(e) > 0){
+      days++;
+      words += (e.words || 0);
+      gram  += (e.grammarPages || 0);
+      kanji += (e.kanjiPages || 0);
+      time  += (e.studyMinutes || 0);
+      data.push(e.words || 0);
+    } else {
+      data.push(0);
+    }
+  }
+
+  $('#month-stats').innerHTML = `
+    <div class="stat-tile"><div class="n">${words.toLocaleString()}</div><div class="l">📖 Total words</div></div>
+    <div class="stat-tile"><div class="n">${gram.toLocaleString()}</div><div class="l">文法 Grammar pages</div></div>
+    <div class="stat-tile"><div class="n">${kanji.toLocaleString()}</div><div class="l">漢字 Kanji pages</div></div>
+    <div class="stat-tile"><div class="n">${fmtDuration(time)}</div><div class="l">⏱️ Total study time</div></div>
+    <div class="stat-tile"><div class="n">${days}</div><div class="l">Study days</div></div>`;
+
+  const mWrap = $('#month-line-chart');
+  if (mWrap) {
+    mWrap.innerHTML = `
+      <div style="font-size:12.5px;font-weight:700;color:var(--text-soft);margin-bottom:6px">Daily Words Learned (1st – ${daysIn}th)</div>
+      ${createSvgLineChart({
+        data,
+        labels,
+        color: '#6f9268',
+        gradientId: `grad-month-${y}-${m}`,
+        unit: 'words',
+        height: 160
+      })}
+    `;
+  }
+}
+
+function renderTrend(){
+  const now = new Date();
+  const data = [], labels = [];
+  for (let k = 5; k >= 0; k--){
+    const d = new Date(now.getFullYear(), now.getMonth() - k, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const daysIn = new Date(y, m + 1, 0).getDate();
+    let sum = 0;
+    for (let dd = 1; dd <= daysIn; dd++){
+      const e = state.entries.get(fmtDate(new Date(y, m, dd)));
+      if (e) sum += (e.words || 0);
+    }
+    data.push(sum);
+    labels.push(MONTHS_SHORT[m]);
+  }
+
+  const tWrap = $('#six-month-line-chart');
+  if (tWrap) {
+    tWrap.innerHTML = createSvgLineChart({
+      data,
+      labels,
+      color: '#9d8bb8',
+      gradientId: 'grad-6m-trend',
+      unit: 'words',
+      height: 160
+    });
+  }
 }
 
 function renderProgress(){
-  renderWeekPie();
   renderWeekChart();
   renderMonthStats();
   renderTrend();
