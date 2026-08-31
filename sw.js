@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mainichi-nihongo-v2';
+const CACHE_NAME = 'mainichi-nihongo-v3';
 const ASSETS = [
   './',
   './index.html'
@@ -26,6 +26,21 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  // Network-first for navigation requests so users always get fresh updates immediately
+  if (event.request.mode === 'navigate' || event.request.destination === 'document') {
+    event.respondWith(
+      fetch(event.request).then((response) => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      }).catch(() => caches.match(event.request, { ignoreSearch: true }) || caches.match('./index.html', { ignoreSearch: true }))
+    );
+    return;
+  }
+
+  // Cache-first with network fallback for other static assets
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then((cached) => {
       if (cached) return cached;
@@ -35,9 +50,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return response;
-      }).catch(() => {
-        return caches.match('./index.html', { ignoreSearch: true }) || caches.match('./', { ignoreSearch: true });
-      });
+      }).catch(() => caches.match('./index.html', { ignoreSearch: true }) || caches.match('./', { ignoreSearch: true }));
     })
   );
 });

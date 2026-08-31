@@ -1937,8 +1937,13 @@ function renderWeekChart(){
 }
 
 function renderMonthStats(){
-  const { monthYear: y, monthMonth: m } = state.ui;
-  $('#m-title').textContent = `${MONTHS[m]} ${y}`;
+  const now = new Date();
+  if (typeof state.ui.monthYear !== 'number' || !state.ui.monthYear) state.ui.monthYear = now.getFullYear();
+  if (typeof state.ui.monthMonth !== 'number') state.ui.monthMonth = now.getMonth();
+  const y = state.ui.monthYear;
+  const m = state.ui.monthMonth;
+  const mTitle = $('#m-title');
+  if (mTitle) mTitle.textContent = `${MONTHS[m] || MONTHS[now.getMonth()]} ${y || now.getFullYear()}`;
   const daysIn = new Date(y, m + 1, 0).getDate();
   let words = 0, gram = 0, kanji = 0, time = 0, days = 0;
   const data = [], labels = [];
@@ -1959,12 +1964,15 @@ function renderMonthStats(){
     }
   }
 
-  $('#month-stats').innerHTML = `
-    <div class="stat-tile"><div class="n">${words.toLocaleString()}</div><div class="l">📖 Total words</div></div>
-    <div class="stat-tile"><div class="n">${gram.toLocaleString()}</div><div class="l">文法 Grammar pages</div></div>
-    <div class="stat-tile"><div class="n">${kanji.toLocaleString()}</div><div class="l">漢字 Kanji pages</div></div>
-    <div class="stat-tile"><div class="n">${fmtDuration(time)}</div><div class="l">⏱️ Total study time</div></div>
-    <div class="stat-tile"><div class="n">${days}</div><div class="l">Study days</div></div>`;
+  const mStats = $('#month-stats');
+  if (mStats) {
+    mStats.innerHTML = `
+      <div class="stat-tile"><div class="n">${words.toLocaleString()}</div><div class="l">📖 Total words</div></div>
+      <div class="stat-tile"><div class="n">${gram.toLocaleString()}</div><div class="l">文法 Grammar pages</div></div>
+      <div class="stat-tile"><div class="n">${kanji.toLocaleString()}</div><div class="l">漢字 Kanji pages</div></div>
+      <div class="stat-tile"><div class="n">${fmtDuration(time)}</div><div class="l">⏱️ Total study time</div></div>
+      <div class="stat-tile"><div class="n">${days}</div><div class="l">Study days</div></div>`;
+  }
 
   const mWrap = $('#month-line-chart');
   if (mWrap) {
@@ -2012,6 +2020,9 @@ function renderTrend(){
 }
 
 function renderProgress(){
+  const now = new Date();
+  if (typeof state.ui.monthYear !== 'number' || !state.ui.monthYear) state.ui.monthYear = now.getFullYear();
+  if (typeof state.ui.monthMonth !== 'number') state.ui.monthMonth = now.getMonth();
   renderWeekChart();
   renderMonthStats();
   renderTrend();
