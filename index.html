@@ -1648,8 +1648,10 @@ function makeIconUrl(size){
   x.fillText('日', size/2, size/2 + size*0.02);
   return c.toDataURL('image/png');
 }
+let manifestBlobUrl = null;
 function setupManifest(){
   try {
+    if (manifestBlobUrl) URL.revokeObjectURL(manifestBlobUrl);
     const icon192 = makeIconUrl(192), icon512 = makeIconUrl(512);
     const manifest = {
       name: '毎日日本語 — Mainichi Nihongo',
@@ -1666,12 +1668,22 @@ function setupManifest(){
       ]
     };
     const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-    const link = document.createElement('link');
-    link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
-    document.head.appendChild(link);
-    const fav = document.createElement('link');
-    fav.rel = 'icon'; fav.href = icon192;
-    document.head.appendChild(fav);
+    manifestBlobUrl = URL.createObjectURL(blob);
+    let link = document.querySelector('link[rel="manifest"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'manifest';
+      document.head.appendChild(link);
+    }
+    link.href = manifestBlobUrl;
+
+    let fav = document.querySelector('link[rel="icon"]');
+    if (!fav) {
+      fav = document.createElement('link');
+      fav.rel = 'icon';
+      document.head.appendChild(fav);
+    }
+    fav.href = icon192;
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
