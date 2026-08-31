@@ -1372,16 +1372,29 @@ function buildReminder(){
 }
 
 async function deliverNotification(title, body){
+  const icon = makeIconUrl(192);
+  const options = {
+    body,
+    icon,
+    badge: icon,
+    tag: 'mainichi-nihongo-reminder',
+    renotify: true,
+    vibrate: [200, 100, 200],
+    data: { url: location.href.split('#')[0] }
+  };
   try {
-    if (notifApiSupported() && Notification.permission === 'granted'){
-      const n = new Notification(title, { body });
-      if (n) return true;
+    if ('serviceWorker' in navigator){
+      const reg = await navigator.serviceWorker.ready || await navigator.serviceWorker.getRegistration();
+      if (reg && reg.showNotification){
+        await reg.showNotification(title, options);
+        return true;
+      }
     }
   } catch (e) {}
   try {
-    if ('serviceWorker' in navigator){
-      const reg = await navigator.serviceWorker.getRegistration();
-      if (reg){ await reg.showNotification(title, { body }); return true; }
+    if (notifApiSupported() && Notification.permission === 'granted'){
+      const n = new Notification(title, options);
+      if (n) return true;
     }
   } catch (e) {}
   return false;
