@@ -157,6 +157,18 @@ main{flex:1;min-width:0;padding:26px clamp(16px,4vw,52px) 120px}
 @media(min-width:600px){.study-cards{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:960px){.study-cards{grid-template-columns:repeat(4,1fr)}}
 
+
+/* ---------- Pie & Donut Charts ---------- */
+.pie-chart-wrap{display:flex;align-items:center;justify-content:space-around;gap:24px;flex-wrap:wrap;padding:12px 0}
+.pie-center{position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pie-center-text{position:absolute;text-align:center;pointer-events:none}
+.pie-center-text .pct-big{font-size:22px;font-weight:800;color:var(--text);line-height:1.1}
+.pie-center-text .pct-lbl{font-size:11.5px;font-weight:700;color:var(--text-soft)}
+.pie-legend{display:grid;grid-template-columns:1fr;gap:10px;flex:1;min-width:220px}
+.pie-legend-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;font-size:13.5px;font-weight:600}
+.pie-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-right:6px}
+.pie-val{font-variant-numeric:tabular-nums;font-weight:700}
+
 /* Focus Timer Widget */
 .timer-card{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;margin-top:14px;box-shadow:var(--shadow-sm)}
 .timer-display{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--fire);letter-spacing:1px}
@@ -672,10 +684,21 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
 
     <!-- ================= PROGRESS ================= -->
     <section class="view" id="view-progress" aria-label="Progress">
-      <h2 class="page-title">📊 Progress</h2>
+      <h2 class="page-title">📊 Progress & Analytics</h2>
+
+      <!-- Weekly Pie Chart & Breakdown -->
       <div class="card">
         <div class="panel-head">
-          <h3>Weekly Progress</h3>
+          <h3>Weekly Study Distribution (Pie Chart)</h3>
+          <span style="font-size:13px;color:var(--text-soft);font-weight:600">This Week</span>
+        </div>
+        <div class="pie-chart-wrap" id="week-pie-wrap"></div>
+      </div>
+
+      <!-- Weekly Daily Breakdown -->
+      <div class="card">
+        <div class="panel-head">
+          <h3>Weekly Daily Breakdown</h3>
           <div class="seg" id="week-metric" role="group" aria-label="Metric">
             <button data-m="words" class="active">📖 Words</button>
             <button data-m="grammar">文法</button>
@@ -686,9 +709,11 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
         <div id="week-chart"></div>
         <p style="margin-top:12px;font-size:14px;color:var(--text-soft)">This week's total: <b id="week-total" style="color:var(--text)">0</b> <span id="week-unit">words</span></p>
       </div>
+
+      <!-- Monthly Progress & Category Share Pie Chart -->
       <div class="card">
         <div class="panel-head">
-          <h3>Monthly Progress</h3>
+          <h3>Monthly Overview & Breakdown (Pie Chart)</h3>
           <div class="month-nav">
             <button class="cal-nav" id="m-prev" aria-label="Previous month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-l"/></svg></button>
             <b id="m-title">—</b>
@@ -696,9 +721,12 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
           </div>
         </div>
         <div class="stat-grid" id="month-stats"></div>
+        <div class="pie-chart-wrap" id="month-pie-wrap" style="margin-top:18px;border-top:1px dashed var(--border);padding-top:18px"></div>
       </div>
+
+      <!-- 6-Month Trend -->
       <div class="card">
-        <div class="panel-head"><h3>Last 6 Months — words learned</h3></div>
+        <div class="panel-head"><h3>Last 6 Months — Words Learned</h3></div>
         <div class="trend" id="trend-chart"></div>
       </div>
     </section>
@@ -1786,7 +1814,109 @@ function renderHistoryList(){
    ================================================================ */
 function metricValue(e, m){ if (!e) return 0; if (m === 'words') return e.words||0; if (m === 'grammar') return e.grammarPages||0; if (m === 'kanji') return e.kanjiPages||0; return e.studyMinutes||0; }
 
+
+/* ================================================================
+   PIE / DONUT CHART GENERATOR & PROGRESS
+   ================================================================ */
+function makeDonutSvg(slices, size = 180, strokeWidth = 24){
+  const total = slices.reduce((a, s) => a + (s.value || 0), 0);
+  if (total <= 0){
+    return `<div class="pie-center">
+      <svg width="${size}" height="${size}" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="38" fill="none" stroke="var(--surface2)" stroke-width="${strokeWidth}" />
+        <text x="50" y="53" text-anchor="middle" font-size="9" fill="var(--text-soft)" font-weight="700">No Study Yet</text>
+      </svg>
+    </div>`;
+  }
+  const r = 38;
+  const c = 2 * Math.PI * r;
+  let offset = 0;
+  const paths = slices.map(s => {
+    if (!s.value || s.value <= 0) return '';
+    const pct = s.value / total;
+    const dash = pct * c;
+    const path = `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${s.color}" stroke-width="${strokeWidth}" stroke-dasharray="${dash} ${c}" stroke-dashoffset="-${offset}" />`;
+    offset += dash;
+    return path;
+  }).join('');
+
+  return `<div class="pie-center">
+    <svg width="${size}" height="${size}" viewBox="0 0 100 100" style="transform:rotate(-90deg);border-radius:50%">
+      <circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="${strokeWidth}" />
+      ${paths}
+    </svg>
+    <div class="pie-center-text">
+      <div class="pct-big">${total.toLocaleString()}</div>
+      <div class="pct-lbl">Total Acts</div>
+    </div>
+  </div>`;
+}
+
+function renderWeekPie(){
+  const wrap = $('#week-pie-wrap');
+  if (!wrap) return;
+  const mon = mondayOf(new Date());
+  let words = 0, gram = 0, kanji = 0, time = 0;
+  for (let i = 0; i < 7; i++){
+    const d = addDays(mon, i), k = fmtDate(d);
+    const e = state.entries.get(k);
+    if (e){
+      words += e.words || 0;
+      gram += e.grammarPages || 0;
+      kanji += e.kanjiPages || 0;
+      time += e.studyMinutes || 0;
+    }
+  }
+
+  const grand = words + gram + kanji + time;
+  const slices = [
+    { label: 'Words Learned',   jp: '📖 単語', value: words, color: 'var(--green)', fmt: v => `${v.toLocaleString()} words` },
+    { label: 'Grammar Pages',   jp: '文法',    value: gram,  color: 'var(--pink)',  fmt: v => `${v.toLocaleString()} pages` },
+    { label: 'Kanji Pages',     jp: '漢字',    value: kanji, color: 'var(--lav)',   fmt: v => `${v.toLocaleString()} pages` },
+    { label: 'Study Time',      jp: '⏱️ 時間', value: time,  color: 'var(--fire)',  fmt: fmtDuration }
+  ];
+
+  const svgHtml = makeDonutSvg(slices, 190);
+  const legendHtml = `<div class="pie-legend">
+    ${slices.map(s => {
+      const pct = grand > 0 ? Math.round(s.value / grand * 100) : 0;
+      return `<div class="pie-legend-item">
+        <div style="display:flex;align-items:center"><span class="pie-legend-dot" style="background:${s.color}"></span><span>${s.jp} ${s.label}</span></div>
+        <div class="pie-val">${s.fmt(s.value)} <span style="font-size:12px;color:var(--text-soft)">(${pct}%)</span></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  wrap.innerHTML = svgHtml + legendHtml;
+}
+
+function renderMonthPie(words, gram, kanji, time){
+  const wrap = $('#month-pie-wrap');
+  if (!wrap) return;
+  const grand = words + gram + kanji + time;
+  const slices = [
+    { label: 'Words Learned',   jp: '📖 単語', value: words, color: 'var(--green)', fmt: v => `${v.toLocaleString()} words` },
+    { label: 'Grammar Pages',   jp: '文法',    value: gram,  color: 'var(--pink)',  fmt: v => `${v.toLocaleString()} pages` },
+    { label: 'Kanji Pages',     jp: '漢字',    value: kanji, color: 'var(--lav)',   fmt: v => `${v.toLocaleString()} pages` },
+    { label: 'Study Time',      jp: '⏱️ 時間', value: time,  color: 'var(--fire)',  fmt: fmtDuration }
+  ];
+
+  const svgHtml = makeDonutSvg(slices, 190);
+  const legendHtml = `<div class="pie-legend">
+    ${slices.map(s => {
+      const pct = grand > 0 ? Math.round(s.value / grand * 100) : 0;
+      return `<div class="pie-legend-item">
+        <div style="display:flex;align-items:center"><span class="pie-legend-dot" style="background:${s.color}"></span><span>${s.jp} ${s.label}</span></div>
+        <div class="pie-val">${s.fmt(s.value)} <span style="font-size:12px;color:var(--text-soft)">(${pct}%)</span></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  wrap.innerHTML = svgHtml + legendHtml;
+}
+
 function renderProgress(){
+  renderWeekPie();
   renderWeekChart();
   renderMonthStats();
   renderTrend();
@@ -1839,6 +1969,7 @@ function renderMonthStats(){
     <div class="stat-tile"><div class="n">${kanji.toLocaleString()}</div><div class="l">漢字 Kanji pages</div></div>
     <div class="stat-tile"><div class="n">${fmtDuration(time)}</div><div class="l">⏱️ Total study time</div></div>
     <div class="stat-tile"><div class="n">${days}</div><div class="l">Study days</div></div>`;
+  renderMonthPie(words, gram, kanji, time);
 }
 
 function renderTrend(){
