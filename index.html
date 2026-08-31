@@ -137,7 +137,9 @@ main{flex:1;min-width:0;padding:26px clamp(16px,4vw,52px) 120px}
 .streak-num{font-size:40px;font-weight:800;line-height:1.1;color:var(--fire);font-variant-numeric:tabular-nums}
 .streak-label{font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase}
 
-.quote{display:flex;flex-direction:column;gap:2px;padding:14px 20px;margin-top:16px;border-left:4px solid var(--lav)}
+.quote{display:flex;flex-direction:column;gap:2px;padding:14px 20px;margin-top:16px;border-left:4px solid var(--lav);cursor:pointer;user-select:none;transition:transform .12s,background .15s}
+.quote:hover{background:var(--surface2)}
+.quote:active{transform:scale(.99)}
 .quote-jp{font-size:17px;font-weight:700}
 .quote-en{font-size:13px;color:var(--text-soft);font-style:italic}
 
@@ -682,17 +684,108 @@ function toMin(hhmm){ const [h,m] = String(hhmm).split(':').map(Number); return 
 const clampInt = (v, max = 99999) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(0, Math.min(max, n)) : 0; };
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ---------------- motivation (easy to edit) ---------------- */
+/* ---------------- motivation (100 daily quotes) ---------------- */
 const MOTIVATION = [
-  { jp: '毎日少しずつ。',            en: 'A little every day.' },
-  { jp: '今日も一歩前進。',          en: 'One step forward today.' },
-  { jp: '継続は力なり。',            en: 'Consistency is strength.' },
-  { jp: '頑張って！',                en: 'Keep going!' },
-  { jp: '塵も積もれば山となる。',    en: 'Many a little makes a mickle.' },
-  { jp: '千里の道も一歩から。',      en: 'A journey of a thousand miles begins with a single step.' },
-  { jp: '焦らず、止まらず。',        en: 'Don\u2019t rush. Don\u2019t stop.' },
-  { jp: '続けることが才能です。',    en: 'Continuing is itself a talent.' },
-  { jp: '雨垂れ石を穿つ。',          en: 'Constant dripping wears away the stone.' },
+  { jp: 'あきらめないでください。', en: 'Don\u2019t give up.' },
+  { jp: '毎日、少しずつがんばりましょう。', en: 'Let\u2019s work hard little by little every day.' },
+  { jp: 'あなたなら、できます。', en: 'You can do it.' },
+  { jp: '今日もがんばりましょう。', en: 'Let\u2019s do our best today too.' },
+  { jp: 'ゆっくりでも、大丈夫です。', en: 'It\u2019s okay even if you go slowly.' },
+  { jp: '一歩ずつ進みましょう。', en: 'Let\u2019s move forward one step at a time.' },
+  { jp: '失敗しても、大丈夫です。', en: 'It\u2019s okay to fail.' },
+  { jp: '失敗は勉強です。', en: 'Failure is learning.' },
+  { jp: '毎日の努力は大切です。', en: 'Daily effort is important.' },
+  { jp: '夢をあきらめないでください。', en: 'Don\u2019t give up on your dream.' },
+  { jp: '自分を信じてください。', en: 'Believe in yourself.' },
+  { jp: 'できるまで、やりましょう。', en: 'Let\u2019s keep doing it until we can.' },
+  { jp: '今日できることをしましょう。', en: 'Let\u2019s do what we can today.' },
+  { jp: '少しでも前に進みましょう。', en: 'Let\u2019s move forward, even a little.' },
+  { jp: '毎日、新しいことを学びましょう。', en: 'Let\u2019s learn something new every day.' },
+  { jp: '勉強は未来を作ります。', en: 'Studying creates the future.' },
+  { jp: '努力はいつか力になります。', en: 'Effort will someday become strength.' },
+  { jp: 'あせらないでください。', en: 'Don\u2019t rush.' },
+  { jp: '自分のペースで進みましょう。', en: 'Move at your own pace.' },
+  { jp: '今日の努力は明日の力です。', en: 'Today\u2019s effort is tomorrow\u2019s strength.' },
+  { jp: 'できないことも、練習すればできます。', en: 'Even things you can\u2019t do become possible with practice.' },
+  { jp: '毎日続けることが大切です。', en: 'Continuing every day is important.' },
+  { jp: '小さな努力を大切にしましょう。', en: 'Let\u2019s value small efforts.' },
+  { jp: '昨日より少し強くなりましょう。', en: 'Let\u2019s become a little stronger than yesterday.' },
+  { jp: '今から始めましょう。', en: 'Let\u2019s start now.' },
+  { jp: '遅くても、前に進んでいます。', en: 'Even if you\u2019re slow, you\u2019re moving forward.' },
+  { jp: 'できると信じてください。', en: 'Believe that you can do it.' },
+  { jp: '毎日が新しいチャンスです。', en: 'Every day is a new chance.' },
+  { jp: '夢に向かって進みましょう。', en: 'Let\u2019s move toward our dreams.' },
+  { jp: '一人でできなくても、助けてもらえます。', en: 'Even if you can\u2019t do it alone, you can get help.' },
+  { jp: '間違いをこわがらないでください。', en: 'Don\u2019t be afraid of mistakes.' },
+  { jp: '間違いから学びましょう。', en: 'Let\u2019s learn from mistakes.' },
+  { jp: '今日も一つ覚えましょう。', en: 'Let\u2019s remember one thing today too.' },
+  { jp: '勉強したことは、なくなりません。', en: 'What you studied will not disappear.' },
+  { jp: '努力した時間は大切です。', en: 'The time you spent making an effort is valuable.' },
+  { jp: '休むことも大切です。', en: 'Resting is also important.' },
+  { jp: '疲れたら、少し休みましょう。', en: 'If you\u2019re tired, let\u2019s rest a little.' },
+  { jp: '休んだら、また始めましょう。', en: 'After resting, let\u2019s start again.' },
+  { jp: '今日は昨日よりがんばりましょう。', en: 'Let\u2019s work harder today than yesterday.' },
+  { jp: '明日はもっとできます。', en: 'Tomorrow you can do more.' },
+  { jp: 'できない日は、休んでもいいです。', en: 'On days you can\u2019t do it, it\u2019s okay to rest.' },
+  { jp: '毎日少しずつ強くなります。', en: 'You become stronger little by little every day.' },
+  { jp: 'あなたの努力はすごいです。', en: 'Your effort is amazing.' },
+  { jp: 'あきらめなければ、道があります。', en: 'If you don\u2019t give up, there is a way.' },
+  { jp: '夢は遠くても、歩き続けましょう。', en: 'Even if the dream is far away, keep walking.' },
+  { jp: '今日の一歩を大切にしましょう。', en: 'Let\u2019s value today\u2019s step.' },
+  { jp: 'できることから始めましょう。', en: 'Let\u2019s start with what we can do.' },
+  { jp: '小さく始めてもいいです。', en: 'It\u2019s okay to start small.' },
+  { jp: '毎日がんばる自分をほめましょう。', en: 'Let\u2019s praise ourselves for working hard every day.' },
+  { jp: 'あなたの未来はあなたが作ります。', en: 'You create your own future.' },
+  { jp: '勉強は少しずつでいいです。', en: 'It\u2019s okay to study little by little.' },
+  { jp: '今日も一時間がんばりましょう。', en: 'Let\u2019s work hard for one hour today too.' },
+  { jp: 'できないことは、まだできないだけです。', en: 'Things you can\u2019t do are simply things you can\u2019t do yet.' },
+  { jp: '「まだ」が大切です。', en: '\u201cYet\u201d is important.' },
+  { jp: 'もう少しだけがんばりましょう。', en: 'Let\u2019s try just a little more.' },
+  { jp: 'あと一回、やってみましょう。', en: 'Let\u2019s try one more time.' },
+  { jp: 'もう一度、挑戦しましょう。', en: 'Let\u2019s challenge ourselves once more.' },
+  { jp: '新しいことをこわがらないでください。', en: 'Don\u2019t be afraid of new things.' },
+  { jp: 'できないことにも挑戦しましょう。', en: 'Let\u2019s challenge things we can\u2019t do.' },
+  { jp: '努力すれば、自信がつきます。', en: 'If you make an effort, you gain confidence.' },
+  { jp: '自信を持ってください。', en: 'Have confidence.' },
+  { jp: '自分の力を信じましょう。', en: 'Let\u2019s believe in our own ability.' },
+  { jp: '昨日の自分に負けないでください。', en: 'Don\u2019t lose to yesterday\u2019s self.' },
+  { jp: '毎日一歩前に進みましょう。', en: 'Let\u2019s move one step forward every day.' },
+  { jp: '今日を大切にしましょう。', en: 'Let\u2019s make today count.' },
+  { jp: '時間を大切に使いましょう。', en: 'Let\u2019s use our time wisely.' },
+  { jp: '今できることをしましょう。', en: 'Let\u2019s do what we can now.' },
+  { jp: '明日のために、今日がんばりましょう。', en: 'Let\u2019s work hard today for tomorrow.' },
+  { jp: '夢を見るだけではなく、行動しましょう。', en: 'Don\u2019t just dream; take action.' },
+  { jp: '少しの努力でも意味があります。', en: 'Even a little effort has meaning.' },
+  { jp: '毎日の習慣が力になります。', en: 'Daily habits become strength.' },
+  { jp: '続ければ、上手になります。', en: 'If you continue, you will get better.' },
+  { jp: '練習すれば、もっと上手になります。', en: 'If you practice, you\u2019ll get better.' },
+  { jp: 'わからなくても、考えてみましょう。', en: 'Even if you don\u2019t understand, try thinking.' },
+  { jp: '知らないことを楽しみましょう。', en: 'Let\u2019s enjoy learning things we don\u2019t know.' },
+  { jp: '勉強することを楽しみましょう。', en: 'Let\u2019s enjoy studying.' },
+  { jp: '今日の自分を昨日より好きになりましょう。', en: 'Let\u2019s like today\u2019s self more than yesterday\u2019s self.' },
+  { jp: 'できたことを忘れないでください。', en: 'Don\u2019t forget what you have accomplished.' },
+  { jp: '小さな成功も大切です。', en: 'Small successes are important too.' },
+  { jp: '一つできたら、次へ行きましょう。', en: 'Once you can do one thing, move to the next.' },
+  { jp: 'ゆっくりでも、止まらないでください。', en: 'Even if slowly, don\u2019t stop.' },
+  { jp: '疲れても、夢を忘れないでください。', en: 'Even when tired, don\u2019t forget your dream.' },
+  { jp: '今日の努力を信じましょう。', en: 'Let\u2019s believe in today\u2019s effort.' },
+  { jp: '未来の自分に会うために、がんばりましょう。', en: 'Let\u2019s work hard to meet our future selves.' },
+  { jp: 'あなたには力があります。', en: 'You have strength.' },
+  { jp: 'あなたは一人ではありません。', en: 'You are not alone.' },
+  { jp: '助けをもらってもいいです。', en: 'It\u2019s okay to get help.' },
+  { jp: 'わからないときは、聞きましょう。', en: 'When you don\u2019t understand, ask.' },
+  { jp: '質問することは恥ずかしくありません。', en: 'Asking questions is not embarrassing.' },
+  { jp: 'できるまで何度も練習しましょう。', en: 'Let\u2019s practice many times until we can do it.' },
+  { jp: '今日も新しい一日です。', en: 'Today is another new day.' },
+  { jp: '昨日の失敗を今日の力にしましょう。', en: 'Let\u2019s turn yesterday\u2019s failure into today\u2019s strength.' },
+  { jp: '未来はまだ決まっていません。', en: 'The future has not been decided yet.' },
+  { jp: 'これからが大切です。', en: 'What happens from now is important.' },
+  { jp: '今からでも遅くありません。', en: 'It\u2019s not too late even now.' },
+  { jp: '一緒にがんばりましょう。', en: 'Let\u2019s work hard together.' },
+  { jp: '最後までがんばりましょう。', en: 'Let\u2019s do our best until the end.' },
+  { jp: '今日も自分を信じましょう。', en: 'Let\u2019s believe in ourselves today too.' },
+  { jp: '夢に近づくために、今日も勉強しましょう。', en: 'Let\u2019s study today too to get closer to our dreams.' },
+  { jp: 'あきらめなければ、きっとできます。', en: 'If you don\u2019t give up, you can surely do it.' }
 ];
 
 /* ================================================================
@@ -1780,6 +1873,22 @@ function checkMidnight(){
     notesTimer = setTimeout(() => patchToday({ notes: e.target.value.slice(0, 2000) }), 600);
   });
   $('#edit-goals-link').addEventListener('click', () => { location.hash = '#/settings'; });
+
+  let quoteIdx = -1;
+  const quoteCard = $('#quote-card');
+  if (quoteCard) {
+    quoteCard.title = 'Click to see another motivation quote 🌸';
+    quoteCard.addEventListener('click', () => {
+      if (quoteIdx === -1) {
+        const qToday = dailyPick(MOTIVATION);
+        quoteIdx = MOTIVATION.indexOf(qToday);
+      }
+      quoteIdx = (quoteIdx + 1) % MOTIVATION.length;
+      const q = MOTIVATION[quoteIdx];
+      $('#quote-jp').textContent = `「${q.jp}」`;
+      $('#quote-en').textContent = q.en;
+    });
+  }
 
   const now = new Date();
   state.ui.calYear = now.getFullYear(); state.ui.calMonth = now.getMonth();
