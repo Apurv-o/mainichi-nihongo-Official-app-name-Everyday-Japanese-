@@ -372,6 +372,35 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .pop{animation:popNum .35s ease}
+
+/* ---------- N4 Kanji Flashcard & Practice ---------- */
+.fc-wrap{perspective:1000px;margin:16px 0;width:100%}
+.flashcard{width:100%;min-height:360px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.34,1.3,.64,1);user-select:none}
+.flashcard.flipped{transform:rotateY(180deg)}
+.fc-side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--border);box-shadow:var(--shadow);background:var(--surface);text-align:center}
+.fc-front{z-index:2}
+.fc-back{transform:rotateY(180deg);background:var(--field)}
+.fc-kanji{font-size:clamp(80px,18vw,120px);font-weight:800;line-height:1;margin:12px 0;color:var(--text)}
+.fc-reading{font-size:24px;font-weight:800;color:var(--green-deep);margin-bottom:4px}
+[data-theme="dark"] .fc-reading{color:var(--green)}
+.fc-romaji{font-size:14px;color:var(--text-faint);margin-bottom:12px}
+.fc-meaning{font-size:22px;font-weight:800;color:var(--text);margin-bottom:16px}
+.fc-example{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:15px;font-weight:600;width:100%;max-width:400px;color:var(--text)}
+.fc-badge{display:inline-block;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:700;background:var(--lav-soft);color:var(--lav);margin-bottom:6px}
+.fc-tip{font-size:12.5px;color:var(--text-faint);margin-top:14px}
+.fc-controls{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
+.fc-btn{background:var(--surface2);border:1px solid var(--border-strong);border-radius:12px;padding:10px 18px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.fc-btn:hover{background:var(--green-soft)}
+.fc-btn.star.active{background:var(--fire-soft);color:var(--fire);border-color:var(--fire)}
+.kanji-grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:16px}
+.kj-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 10px;text-align:center;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s;position:relative}
+.kj-tile:hover{transform:translateY(-2px);border-color:var(--green);box-shadow:var(--shadow-sm)}
+.kj-tile.starred::after{content:"★";position:absolute;top:6px;right:8px;font-size:12px;color:var(--fire)}
+.kj-char{font-size:36px;font-weight:800;color:var(--text);line-height:1.15}
+.kj-hira{font-size:13px;font-weight:700;color:var(--green-deep);margin-top:4px}
+[data-theme="dark"] .kj-hira{color:var(--green)}
+.kj-mean{font-size:11.5px;color:var(--text-soft);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 @keyframes popNum{40%{transform:scale(1.18)}}
 
 @media (prefers-reduced-motion: reduce){
@@ -418,6 +447,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
     </div>
     <nav class="sidenav" aria-label="Main navigation">
       <button class="nav-item active" data-view="today"><svg class="ic"><use href="#i-home"/></svg>Today<span class="jp">今日</span></button>
+      <button class="nav-item" data-view="kanji"><svg class="ic"><use href="#i-grid"/></svg>N4 Kanji<span class="jp">漢字</span></button>
       <button class="nav-item" data-view="history"><svg class="ic"><use href="#i-cal"/></svg>History<span class="jp">履歴</span></button>
       <button class="nav-item" data-view="progress"><svg class="ic"><use href="#i-chart"/></svg>Progress<span class="jp">進捗</span></button>
       <button class="nav-item" data-view="settings"><svg class="ic"><use href="#i-sliders"/></svg>Settings<span class="jp">設定</span></button>
@@ -488,6 +518,66 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
           <span class="ss-icon" aria-hidden="true">✨</span>
           <div><strong id="ss-title">今日もよくできました！</strong><br><span id="ss-sub">Great job today!</span></div>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= N4 KANJI PRACTICE ================= -->
+    <section class="view" id="view-kanji" aria-label="N4 Kanji Practice">
+      <div class="panel-head" style="margin-bottom:14px">
+        <h2 class="page-title" style="margin-bottom:0">🎴 N4 Kanji Practice</h2>
+        <div class="seg" id="kanji-view-mode" role="group" aria-label="View mode">
+          <button data-mode="flashcard" class="active">Flashcards</button>
+          <button data-mode="grid">Browse All (213)</button>
+        </div>
+      </div>
+
+      <!-- Flashcard Mode -->
+      <div id="kj-flashcard-mode">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:14px;color:var(--text-soft)">
+          <span>Card <b id="fc-current-idx" style="color:var(--text)">1</b> of <span id="fc-total-cards">213</span></span>
+          <span>⭐ Mastered: <b id="fc-mastered-count" style="color:var(--green-deep)">0</b></span>
+        </div>
+
+        <div class="fc-wrap">
+          <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Kanji flashcard, tap to flip">
+            <div class="fc-side fc-front">
+              <span class="fc-badge">JLPT N4</span>
+              <div class="fc-kanji" id="fc-kanji">会</div>
+              <p class="fc-tip">👆 Tap or Click to Flip</p>
+            </div>
+            <div class="fc-side fc-back">
+              <span class="fc-badge">Reading & Meaning</span>
+              <div class="fc-reading" id="fc-reading">かい、あ・う</div>
+              <div class="fc-romaji" id="fc-romaji">kai, a-u</div>
+              <div class="fc-meaning" id="fc-meaning">Meeting, Meet</div>
+              <div class="fc-example" id="fc-example">会社 (かいしゃ) - Company</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-controls">
+          <button class="fc-btn" id="fc-prev" aria-label="Previous card"><svg class="ic" style="width:16px;height:16px"><use href="#i-chev-l"/></svg>Prev</button>
+          <button class="fc-btn" id="fc-flip" aria-label="Flip card"><svg class="ic" style="width:16px;height:16px"><use href="#i-book"/></svg>Flip</button>
+          <button class="fc-btn" id="fc-next" aria-label="Next card">Next<svg class="ic" style="width:16px;height:16px"><use href="#i-chev-r"/></svg></button>
+          <button class="fc-btn" id="fc-shuffle" title="Shuffle flashcards"><svg class="ic" style="width:16px;height:16px"><use href="#i-sliders"/></svg>Shuffle</button>
+          <button class="fc-btn star" id="fc-star" title="Mark as mastered"><span id="fc-star-icon">⭐</span> <span id="fc-star-label">Mark Mastered</span></button>
+          <button class="fc-btn" id="fc-log-kanji" style="background:var(--green-soft);color:var(--green-deep);border-color:var(--green)" title="Add 1 to today's kanji tracker">+1 to Today's Kanji</button>
+        </div>
+      </div>
+
+      <!-- Grid / Browse Mode -->
+      <div id="kj-grid-mode" style="display:none">
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+            <input type="text" id="kj-search-input" placeholder="🔍 Search by Kanji, Hiragana (e.g. あう), or Meaning (e.g. meet)..." style="flex:1;min-width:240px">
+            <div class="seg" id="kj-filter-seg" role="group" aria-label="Filter Kanji">
+              <button data-kf="all" class="active">All (213)</button>
+              <button data-kf="starred">Mastered ⭐</button>
+              <button data-kf="unstarred">Need Practice</button>
+            </div>
+          </div>
+        </div>
+        <div class="kanji-grid-list" id="kanji-grid-list"></div>
       </div>
     </section>
 
@@ -643,6 +733,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
   <!-- ======= Bottom nav (Android / mobile) ======= -->
   <nav class="bottomnav" aria-label="Main navigation">
     <button class="bnav-btn active" data-view="today"><svg class="ic" style="width:22px;height:22px"><use href="#i-home"/></svg>Today</button>
+    <button class="bnav-btn" data-view="kanji"><svg class="ic" style="width:22px;height:22px"><use href="#i-grid"/></svg>N4 Kanji</button>
     <button class="bnav-btn" data-view="history"><svg class="ic" style="width:22px;height:22px"><use href="#i-cal"/></svg>History</button>
     <button class="bnav-btn" data-view="progress"><svg class="ic" style="width:22px;height:22px"><use href="#i-chart"/></svg>Progress</button>
     <button class="bnav-btn" data-view="settings"><svg class="ic" style="width:22px;height:22px"><use href="#i-sliders"/></svg>Settings</button>
@@ -859,6 +950,165 @@ async function stPutSettings(value){
   if (b === 'idb'){ try { const db = await openDB(); await idbReq(db.transaction('settings','readwrite').objectStore('settings').put({ key: 'app', value })); return; } catch (e){} }
   if (b === 'ls'){ try { localStorage.setItem(LS_SETTINGS, JSON.stringify(value)); } catch (e){} return; }
   memSettings = value;
+}
+
+const N4_KANJI = [{"k": "会", "h": "かい、あ・う", "r": "kai, a-u", "m": "Meeting, Meet", "ex": "会社 (かいしゃ) - Company"}, {"k": "同", "h": "どう、おな・じ", "r": "dou, ona-ji", "m": "Same, Agree", "ex": "同じ (おなじ) - Same"}, {"k": "事", "h": "じ、こと", "r": "ji, koto", "m": "Thing, Matter", "ex": "仕事 (しごと) - Work, Job"}, {"k": "自", "h": "じ、し、みずか・ら", "r": "ji, shi", "m": "Self, Oneself", "ex": "自分 (じぶん) - Oneself"}, {"k": "社", "h": "しゃ、やしろ", "r": "sha", "m": "Company, Society", "ex": "社会 (しゃかい) - Society"}, {"k": "発", "h": "はつ、ほつ", "r": "hatsu", "m": "Departure, Emit", "ex": "出発 (しゅっぱつ) - Departure"}, {"k": "者", "h": "しゃ、もの", "r": "sha, mono", "m": "Person, Someone", "ex": "医者 (いしゃ) - Doctor"}, {"k": "地", "h": "ち、じ", "r": "chi, ji", "m": "Earth, Land", "ex": "地下鉄 (ちかてつ) - Subway"}, {"k": "業", "h": "ぎょう、ごう", "r": "gyou", "m": "Business, Industry", "ex": "授業 (じゅぎょう) - Class, Lesson"}, {"k": "方", "h": "ほう、かた", "r": "hou, kata", "m": "Direction, Person", "ex": "読み方 (よみかた) - How to read"}, {"k": "新", "h": "しん、あたら・しい", "r": "shin, atara-shii", "m": "New", "ex": "新聞 (しんぶん) - Newspaper"}, {"k": "場", "h": "じょう、ば", "r": "jou, ba", "m": "Place, Location", "ex": "場所 (ばしょ) - Place"}, {"k": "員", "h": "いん", "r": "in", "m": "Member, Employee", "ex": "店員 (てんいん) - Store clerk"}, {"k": "立", "h": "りつ、た・つ", "r": "ritsu, ta-tsu", "m": "Stand, Establish", "ex": "立つ (たつ) - To stand"}, {"k": "開", "h": "かい、あ・く、ひら・く", "r": "kai, a-ku", "m": "Open, Unfold", "ex": "開ける (あける) - To open"}, {"k": "手", "h": "しゅ、て", "r": "shu, te", "m": "Hand", "ex": "手紙 (てがみ) - Letter"}, {"k": "力", "h": "りょく、りき、ちから", "r": "ryoku, chikara", "m": "Power, Strength", "ex": "力 (ちから) - Power"}, {"k": "問", "h": "もん、と・う", "r": "mon, to-u", "m": "Question, Problem", "ex": "問題 (もんだい) - Problem, Question"}, {"k": "代", "h": "だい、か・わる", "r": "dai, ka-waru", "m": "Substitute, Era, Fee", "ex": "時代 (じだい) - Era, Age"}, {"k": "明", "h": "めい、あか・るい", "r": "mei, aka-rui", "m": "Bright, Clear", "ex": "明るい (あかるい) - Bright"}, {"k": "動", "h": "どう、うご・く", "r": "dou, ugo-ku", "m": "Move, Motion", "ex": "運動 (うんどう) - Exercise"}, {"k": "京", "h": "きょう、けい", "r": "kyou, kei", "m": "Capital city", "ex": "東京 (とうきょう) - Tokyo"}, {"k": "目", "h": "もく、め", "r": "moku, me", "m": "Eye, Look", "ex": "目的 (もくてき) - Purpose"}, {"k": "通", "h": "つう、とお・る、かよ・う", "r": "tsuu, kayo-u", "m": "Pass through, Commute", "ex": "通う (かよう) - To commute"}, {"k": "言", "h": "げん、ごん、い・う", "r": "gen, i-u", "m": "Say, Word", "ex": "言う (いう) - To say"}, {"k": "理", "h": "り", "r": "ri", "m": "Reason, Logic", "ex": "料理 (りょうり) - Cooking"}, {"k": "体", "h": "たい、からだ", "r": "tai, karada", "m": "Body", "ex": "体 (からだ) - Body"}, {"k": "田", "h": "でん、た", "r": "den, ta", "m": "Rice field", "ex": "水田 (すいでん) - Paddy field"}, {"k": "主", "h": "しゅ、おも、ぬし", "r": "shu, omo", "m": "Main, Master", "ex": "主に (おもに) - Mainly"}, {"k": "題", "h": "だい", "r": "dai", "m": "Topic, Title", "ex": "宿題 (しゅくだい) - Homework"}, {"k": "意", "h": "い", "r": "i", "m": "Mind, Meaning, Intent", "ex": "意味 (いみ) - Meaning"}, {"k": "不", "h": "ふ、ぶ", "r": "fu, bu", "m": "Non-, Un-, Bad", "ex": "不便 (ふべん) - Inconvenient"}, {"k": "作", "h": "さく、さ、つく・る", "r": "saku, tsuku-ru", "m": "Make, Create", "ex": "作る (つくる) - To make"}, {"k": "用", "h": "よう、もち・いる", "r": "you", "m": "Use, Business", "ex": "用意 (ようい) - Preparation"}, {"k": "度", "h": "ど、たび", "r": "do, tabi", "m": "Degree, Times", "ex": "今度 (こんど) - Next time"}, {"k": "強", "h": "きょう、つよ・い", "r": "kyou, tsuyo-i", "m": "Strong", "ex": "勉強 (べんきょう) - Study"}, {"k": "公", "h": "こう、おおやけ", "r": "kou", "m": "Public", "ex": "公園 (こうえん) - Park"}, {"k": "持", "h": "じ、も・つ", "r": "ji, mo-tsu", "m": "Hold, Have", "ex": "持つ (もつ) - To hold"}, {"k": "野", "h": "や、の", "r": "ya, no", "m": "Field, Plain", "ex": "野菜 (やさい) - Vegetable"}, {"k": "以", "h": "い", "r": "i", "m": "By means of, Compared to", "ex": "以上 (いじょう) - More than"}, {"k": "思", "h": "し、おも・う", "r": "shi, omo-u", "m": "Think, Feel", "ex": "思う (おもう) - To think"}, {"k": "家", "h": "か、け、いえ、うち", "r": "ka, ie, uchi", "m": "House, Family", "ex": "家族 (かぞく) - Family"}, {"k": "世", "h": "せい、せ、よ", "r": "sei, se, yo", "m": "World, Generation", "ex": "世界 (せかい) - World"}, {"k": "多", "h": "た、おお・い", "r": "ta, oo-i", "m": "Many, Much", "ex": "多い (おおい) - Many"}, {"k": "正", "h": "せい、しょう、ただ・しい", "r": "sei, tada-shii", "m": "Correct, Right", "ex": "正しい (ただしい) - Correct"}, {"k": "安", "h": "あん、やす・い", "r": "an, yasu-i", "m": "Cheap, Peaceful", "ex": "安心 (あんしん) - Relief"}, {"k": "院", "h": "いん", "r": "in", "m": "Institution, Hospital", "ex": "病院 (びょういん) - Hospital"}, {"k": "心", "h": "しん、こころ", "r": "shin, kokoro", "m": "Heart, Mind", "ex": "心 (こころ) - Heart"}, {"k": "界", "h": "かい", "r": "kai", "m": "World, Boundary", "ex": "世界 (せかい) - World"}, {"k": "教", "h": "きょう、おし・える、おそ・わる", "r": "kyou, oshi-eru", "m": "Teach, Faith", "ex": "教室 (きょうしつ) - Classroom"}, {"k": "文", "h": "ぶん、もん、ふみ", "r": "bun, mon", "m": "Sentence, Writing, Letter", "ex": "文学 (ぶんがく) - Literature"}, {"k": "元", "h": "げん、がん、もと", "r": "gen, moto", "m": "Origin, Healthy", "ex": "元気 (げんき) - Healthy, Energetic"}, {"k": "重", "h": "じゅう、ちょう、おも・い", "r": "juu, omo-i", "m": "Heavy, Important", "ex": "重要 (じゅうよう) - Important"}, {"k": "近", "h": "きん、ちか・い", "r": "kin, chika-i", "m": "Near, Close", "ex": "近く (ちかく) - Nearby"}, {"k": "千", "h": "せん、ち", "r": "sen, chi", "m": "Thousand", "ex": "千円 (せんえん) - 1,000 yen"}, {"k": "考", "h": "こう、かんが・える", "r": "kou, kanga-eru", "m": "Think, Consider", "ex": "考える (かんがえる) - To think"}, {"k": "画", "h": "が、かく", "r": "ga, kaku", "m": "Picture, Stroke", "ex": "映画 (えいが) - Movie"}, {"k": "海", "h": "かい、うみ", "r": "kai, umi", "m": "Sea, Ocean", "ex": "海岸 (かいがん) - Coast"}, {"k": "売", "h": "ばい、う・る", "r": "bai, u-ru", "m": "Sell", "ex": "売り場 (うりば) - Sales counter"}, {"k": "知", "h": "ち、し・る", "r": "chi, shi-ru", "m": "Know, Wisdom", "ex": "知らせる (しらせる) - To notify"}, {"k": "道", "h": "どう、とう、みち", "r": "dou, michi", "m": "Road, Way, Street", "ex": "道具 (どうぐ) - Tool"}, {"k": "集", "h": "しゅう、あつ・まる、あつ・める", "r": "shuu, atsu-meru", "m": "Gather, Collect", "ex": "集める (あつめる) - To collect"}, {"k": "別", "h": "べつ、わか・れる", "r": "betsu, waka-reru", "m": "Separate, Different", "ex": "特別 (とくべつ) - Special"}, {"k": "物", "h": "ぶつ、もつ、もの", "r": "butsu, mono", "m": "Thing, Object", "ex": "食べ物 (たべもの) - Food"}, {"k": "使", "h": "し、つか・う", "r": "shi, tsuka-u", "m": "Use, Messenger", "ex": "使う (つかう) - To use"}, {"k": "品", "h": "ひん、しな", "r": "hin, shina", "m": "Goods, Article, Quality", "ex": "商品 (しょうひん) - Product"}, {"k": "計", "h": "けい、はか・る", "r": "kei, haka-ru", "m": "Measure, Plan", "ex": "計画 (けいかく) - Plan"}, {"k": "死", "h": "し、し・ぬ", "r": "shi, shi-nu", "m": "Death, Die", "ex": "死ぬ (しぬ) - To die"}, {"k": "特", "h": "とく", "r": "toku", "m": "Special", "ex": "特に (とくに) - Especially"}, {"k": "私", "h": "し、わたし、わたくし", "r": "shi, watashi", "m": "I, Private", "ex": "私立 (しりつ) - Private (school)"}, {"k": "始", "h": "し、はじ・まる、はじ・める", "r": "shi, haji-meru", "m": "Begin, Start", "ex": "始まる (はじまる) - To begin"}, {"k": "朝", "h": "ちょう、あさ", "r": "chou, asa", "m": "Morning", "ex": "朝ご飯 (あさごはん) - Breakfast"}, {"k": "運", "h": "うん、はこ・ぶ", "r": "un, hako-bu", "m": "Carry, Luck, Destiny", "ex": "運転 (うんてん) - Driving"}, {"k": "終", "h": "しゅう、お・わる、お・える", "r": "shuu, o-waru", "m": "End, Finish", "ex": "終わり (おわり) - The end"}, {"k": "台", "h": "だい、たい", "r": "dai, tai", "m": "Pedestal, Counter for machines", "ex": "台風 (たいふう) - Typhoon"}, {"k": "広", "h": "こう、ひろ・い", "r": "kou, hiro-i", "m": "Wide, Spacious", "ex": "広場 (ひろば) - Plaza"}, {"k": "住", "h": "じゅう、す・む", "r": "juu, su-mu", "m": "Live, Reside", "ex": "住所 (じゅうしょ) - Address"}, {"k": "真", "h": "しん、ま", "r": "shin, ma", "m": "True, Reality", "ex": "写真 (しゃしん) - Photograph"}, {"k": "有", "h": "ゆう、う、あ・る", "r": "yuu, a-ru", "m": "Have, Exist", "ex": "有名 (ゆうめい) - Famous"}, {"k": "口", "h": "こう、く、くち", "r": "kou, kuchi", "m": "Mouth, Opening", "ex": "入口 (いりぐち) - Entrance"}, {"k": "少", "h": "しょう、すこ・し、すく・ない", "r": "shou, suko-shi", "m": "Few, Little", "ex": "少し (すこし) - A little"}, {"k": "町", "h": "ちょう、まち", "r": "chou, machi", "m": "Town", "ex": "町 (まち) - Town"}, {"k": "料", "h": "りょう", "r": "ryou", "m": "Fee, Material", "ex": "料金 (りょうきん) - Fee, Charge"}, {"k": "工", "h": "こう、く", "r": "kou, ku", "m": "Craft, Construction", "ex": "工場 (こうじょう) - Factory"}, {"k": "建", "h": "けん、た・てる", "r": "ken, ta-teru", "m": "Build, Construct", "ex": "建物 (たてもの) - Building"}, {"k": "空", "h": "くう、そら、あ・く", "r": "kuu, sora", "m": "Sky, Empty", "ex": "空港 (くうこう) - Airport"}, {"k": "急", "h": "きゅう、いそ・ぐ", "r": "kyuu, iso-gu", "m": "Hurry, Sudden, Urgent", "ex": "急行 (きゅうこう) - Express train"}, {"k": "止", "h": "し、と・まる、と・める", "r": "shi, to-maru", "m": "Stop", "ex": "止まる (とまる) - To stop"}, {"k": "送", "h": "そう、おく・る", "r": "sou, oku-ru", "m": "Send", "ex": "送る (おくる) - To send"}, {"k": "切", "h": "せつ、さい、き・る", "r": "setsu, ki-ru", "m": "Cut", "ex": "切手 (きって) - Postage stamp"}, {"k": "転", "h": "てん、ころ・がる", "r": "ten, koro-bu", "m": "Revolve, Turn, Fall", "ex": "自転車 (じてんしゃ) - Bicycle"}, {"k": "研", "h": "けん、と・ぐ", "r": "ken", "m": "Sharpen, Study", "ex": "研究 (けんきゅう) - Research"}, {"k": "足", "h": "そく、あし、た・りる", "r": "soku, ashi", "m": "Foot, Leg, Sufficient", "ex": "足りる (たりる) - To be sufficient"}, {"k": "究", "h": "きゅう、きわ・める", "r": "kyuu", "m": "Research, Investigate", "ex": "研究者 (けんきゅうしゃ) - Researcher"}, {"k": "楽", "h": "がく、らく、たの・しい", "r": "gaku, raku, tano-shii", "m": "Comfortable, Music, Fun", "ex": "音楽 (おんがく) - Music"}, {"k": "起", "h": "き、お・きる、お・こす", "r": "ki, o-kiru", "m": "Wake up, Happen", "ex": "起きる (おきる) - To wake up"}, {"k": "店", "h": "てん、みせ", "r": "ten, mise", "m": "Shop, Store", "ex": "喫茶店 (きっさてん) - Coffee shop"}, {"k": "着", "h": "ちゃく、つ・く、き・る", "r": "chaku, tsu-ku, ki-ru", "m": "Arrive, Wear", "ex": "着物 (きもの) - Kimono"}, {"k": "買", "h": "ばい、か・う", "r": "bai, ka-u", "m": "Buy", "ex": "買い物 (かいもの) - Shopping"}, {"k": "借", "h": "しゃく、か・りる", "r": "shaku, ka-riru", "m": "Borrow, Rent", "ex": "借金 (しゃっきん) - Debt"}, {"k": "貸", "h": "たい、か・す", "r": "tai, ka-su", "m": "Lend, Loan", "ex": "貸す (かす) - To lend"}, {"k": "返", "h": "へん、かえ・す、かえ・る", "r": "hen, kae-su", "m": "Return", "ex": "返事 (へんじ) - Reply"}, {"k": "待", "h": "たい、ま・つ", "r": "tai, ma-tsu", "m": "Wait", "ex": "待つ (まつ) - To wait"}, {"k": "歩", "h": "ほ、ぶ、ある・く", "r": "ho, aru-ku", "m": "Walk, Step", "ex": "散歩 (さんぽ) - Walk, Stroll"}, {"k": "走", "h": "そう、はし・る", "r": "sou, hashi-ru", "m": "Run", "ex": "走る (はしる) - To run"}, {"k": "洗", "h": "せん、あら・う", "r": "sen, ara-u", "m": "Wash", "ex": "洗濯 (せんたく) - Laundry"}, {"k": "泳", "h": "えい、およ・ぐ", "r": "ei, oyo-gu", "m": "Swim", "ex": "水泳 (すいえい) - Swimming"}, {"k": "話", "h": "わ、はな・す、はなし", "r": "wa, hana-su", "m": "Talk, Speak, Story", "ex": "会話 (かいわ) - Conversation"}, {"k": "読", "h": "どく、とく、よ・む", "r": "doku, yo-mu", "m": "Read", "ex": "読書 (どくしょ) - Reading books"}, {"k": "書", "h": "しょ、か・く", "r": "sho, ka-ku", "m": "Write, Book", "ex": "図書館 (としょかん) - Library"}, {"k": "聞", "h": "ぶん、もん、き・く", "r": "bun, ki-ku", "m": "Hear, Listen, Ask", "ex": "新聞 (しんぶん) - Newspaper"}, {"k": "見", "h": "けん、み・る、み・える", "r": "ken, mi-ru", "m": "See, Look, View", "ex": "意見 (いけん) - Opinion"}, {"k": "座", "h": "ざ、すわ・る", "r": "za, suwa-ru", "m": "Sit, Seat", "ex": "座る (すわる) - To sit"}, {"k": "脱", "h": "だつ、ぬ・ぐ", "r": "datsu, nu-gu", "m": "Undress, Escape", "ex": "脱ぐ (ぬぐ) - To take off clothes"}, {"k": "飲", "h": "いん、の・む", "r": "in, no-mu", "m": "Drink", "ex": "飲み物 (のみもの) - Beverage"}, {"k": "寝", "h": "しん、ね・る", "r": "shin, ne-ru", "m": "Sleep, Lie down", "ex": "寝室 (しんしつ) - Bedroom"}, {"k": "勉", "h": "べん、つと・める", "r": "ben", "m": "Exertion, Diligence", "ex": "勉強 (べんきょう) - Study"}, {"k": "習", "h": "しゅう、なら・う", "r": "shuu, nara-u", "m": "Learn, Practice", "ex": "練習 (れんしゅう) - Practice"}, {"k": "肉", "h": "にく", "r": "niku", "m": "Meat, Flesh", "ex": "牛肉 (ぎゅうにく) - Beef"}, {"k": "魚", "h": "ぎょ、さかな、うお", "r": "gyo, sakana", "m": "Fish", "ex": "金魚 (きんぎょ) - Goldfish"}, {"k": "鳥", "h": "ちょう、とり", "r": "chou, tori", "m": "Bird, Poultry", "ex": "小鳥 (ことり) - Small bird"}, {"k": "飯", "h": "はん、めし", "r": "han, meshi", "m": "Meal, Cooked rice", "ex": "ご飯 (ごはん) - Meal, Rice"}, {"k": "茶", "h": "ちゃ、さ", "r": "cha, sa", "m": "Tea", "ex": "お茶 (おちゃ) - Japanese tea"}, {"k": "酒", "h": "しゅ、さけ、さか", "r": "shu, sake", "m": "Alcohol, Sake", "ex": "居酒屋 (いざかや) - Japanese pub"}, {"k": "菜", "h": "さい、な", "r": "sai, na", "m": "Vegetable, Greens", "ex": "野菜 (やさい) - Vegetable"}, {"k": "春", "h": "しゅん、はる", "r": "shun, haru", "m": "Spring", "ex": "春休み (はるやすみ) - Spring break"}, {"k": "夏", "h": "か、げ、なつ", "r": "ka, natsu", "m": "Summer", "ex": "夏休み (なつやすみ) - Summer vacation"}, {"k": "秋", "h": "しゅう、あき", "r": "shuu, aki", "m": "Autumn, Fall", "ex": "秋 (あき) - Autumn"}, {"k": "冬", "h": "とう、ふゆ", "r": "tou, fuyu", "m": "Winter", "ex": "冬休み (ふゆやすみ) - Winter break"}, {"k": "風", "h": "ふう、ふ、かぜ", "r": "fuu, kaze", "m": "Wind, Style", "ex": "風邪 (かぜ) - A cold"}, {"k": "雨", "h": "う、あめ、あま", "r": "u, ame", "m": "Rain", "ex": "大雨 (おおあめ) - Heavy rain"}, {"k": "雪", "h": "せつ、ゆき", "r": "setsu, yuki", "m": "Snow", "ex": "雪祭り (ゆきまつり) - Snow festival"}, {"k": "天", "h": "てん、あめ", "r": "ten", "m": "Heaven, Sky", "ex": "天気 (てんき) - Weather"}, {"k": "気", "h": "き、け", "r": "ki", "m": "Spirit, Mood, Air", "ex": "気持ち (きもち) - Feeling"}, {"k": "晴", "h": "せい、は・れる", "r": "sei, ha-reru", "m": "Clear weather, Sunny", "ex": "晴れ (はれ) - Fine weather"}, {"k": "曇", "h": "どん、くも・る", "r": "don, kumo-ru", "m": "Cloudy", "ex": "曇り (くもり) - Cloudy weather"}, {"k": "曜", "h": "よう", "r": "you", "m": "Day of the week", "ex": "日曜日 (にちようび) - Sunday"}, {"k": "週", "h": "しゅう", "r": "shuu", "m": "Week", "ex": "今週 (こんしゅう) - This week"}, {"k": "午", "h": "ご", "r": "go", "m": "Noon", "ex": "午前 (ごぜん) - A.M., Morning"}, {"k": "前", "h": "ぜん、まえ", "r": "zen, mae", "m": "Before, Front", "ex": "名前 (なまえ) - Name"}, {"k": "後", "h": "ご、こう、うし・ろ、あと", "r": "go, kou, ato", "m": "After, Behind, Later", "ex": "午後 (ごご) - P.M., Afternoon"}, {"k": "今", "h": "こん、きん、いま", "r": "kon, ima", "m": "Now, Present", "ex": "今日 (きょう) - Today"}, {"k": "毎", "h": "まい", "r": "mai", "m": "Every", "ex": "毎日 (まいにち) - Every day"}, {"k": "昼", "h": "ちゅう、ひる", "r": "chuu, hiru", "m": "Noon, Daytime", "ex": "昼ご飯 (ひるごはん) - Lunch"}, {"k": "夕", "h": "せき、ゆう", "r": "seki, yuu", "m": "Evening", "ex": "夕方 (ゆうがた) - Evening"}, {"k": "夜", "h": "や、よる、よ", "r": "ya, yoru", "m": "Night", "ex": "今夜 (こんや) - Tonight"}, {"k": "間", "h": "かん、けん、あいだ、ま", "r": "kan, ken, aida", "m": "Interval, Space, Between", "ex": "時間 (じかん) - Time"}, {"k": "半", "h": "はん、なか・ば", "r": "han", "m": "Half", "ex": "半分 (はんぶん) - Half"}, {"k": "分", "h": "ぶん、ふん、わ・ける、わ・かる", "r": "bun, fun, wa-karu", "m": "Part, Minute, Understand", "ex": "分かる (わかる) - To understand"}, {"k": "時", "h": "じ、とき", "r": "ji, toki", "m": "Time, Hour", "ex": "時計 (とけい) - Clock, Watch"}, {"k": "年", "h": "ねん、とし", "r": "nen, toshi", "m": "Year", "ex": "来年 (らいねん) - Next year"}, {"k": "月", "h": "げつ、がつ、つき", "r": "getsu, gatsu, tsuki", "m": "Month, Moon", "ex": "今月 (こんげつ) - This month"}, {"k": "日", "h": "にち、じつ、ひ、か", "r": "nichi, jitsu, hi", "m": "Day, Sun", "ex": "休日 (きゅうじつ) - Holiday"}, {"k": "火", "h": "か、ひ", "r": "ka, hi", "m": "Fire", "ex": "火曜日 (かようび) - Tuesday"}, {"k": "水", "h": "すい、みず", "r": "sui, mizu", "m": "Water", "ex": "水曜日 (すいようび) - Wednesday"}, {"k": "木", "h": "もく、ぼく、き", "r": "moku, boku, ki", "m": "Tree, Wood", "ex": "木曜日 (もくようび) - Thursday"}, {"k": "金", "h": "きん、こん、かね", "r": "kin, kane", "m": "Gold, Money", "ex": "お金 (おかね) - Money"}, {"k": "土", "h": "ど、と、つち", "r": "do, to, tsuchi", "m": "Soil, Earth", "ex": "土曜日 (どようび) - Saturday"}, {"k": "友", "h": "ゆう、とも", "r": "yuu, tomo", "m": "Friend", "ex": "友達 (ともだち) - Friend"}, {"k": "父", "h": "ふ、ちち、とう", "r": "fu, chichi", "m": "Father", "ex": "お父さん (おとうさん) - Father"}, {"k": "母", "h": "ぼ、はは、かあ", "r": "bo, haha", "m": "Mother", "ex": "お母さん (おかあさん) - Mother"}, {"k": "兄", "h": "けい、きょう、あに、にい", "r": "kei, kyou, ani", "m": "Older brother", "ex": "お兄さん (おにいさん) - Older brother"}, {"k": "弟", "h": "だい、で、おとうと", "r": "dai, de, otouto", "m": "Younger brother", "ex": "兄弟 (きょうだい) - Siblings"}, {"k": "姉", "h": "し、あね、ねえ", "r": "shi, ane", "m": "Older sister", "ex": "お姉さん (おねえさん) - Older sister"}, {"k": "妹", "h": "まい、いもうと", "r": "mai, imouto", "m": "Younger sister", "ex": "姉妹 (しまい) - Sisters"}, {"k": "犬", "h": "けん、いぬ", "r": "ken, inu", "m": "Dog", "ex": "子犬 (こいぬ) - Puppy"}, {"k": "花", "h": "か、はな", "r": "ka, hana", "m": "Flower", "ex": "花火 (はなび) - Fireworks"}, {"k": "山", "h": "さん、やま", "r": "san, yama", "m": "Mountain", "ex": "富士山 (ふじさん) - Mt. Fuji"}, {"k": "川", "h": "せん、かわ", "r": "sen, kawa", "m": "River", "ex": "小川 (おがわ) - Stream"}, {"k": "色", "h": "しょく、しき、いろ", "r": "shoku, iro", "m": "Color", "ex": "景色 (けしき) - Scenery"}, {"k": "赤", "h": "せき、しゃく、あか・い", "r": "seki, aka-i", "m": "Red", "ex": "赤ちゃん (あかちゃん) - Baby"}, {"k": "青", "h": "せい、しょう、あお・い", "r": "sei, ao-i", "m": "Blue", "ex": "青空 (あおぞら) - Blue sky"}, {"k": "黒", "h": "こく、くろ・い", "r": "koku, kuro-i", "m": "Black", "ex": "黒板 (こくばん) - Blackboard"}, {"k": "白", "h": "はく、びゃく、しろ・い", "r": "haku, shiro-i", "m": "White", "ex": "白鳥 (はくちょう) - Swan"}, {"k": "音", "h": "おん、いん、おと、ね", "r": "on, oto", "m": "Sound, Noise", "ex": "発音 (はつおん) - Pronunciation"}, {"k": "歌", "h": "か、うた、うた・う", "r": "ka, uta", "m": "Song, Sing", "ex": "歌手 (かしゅ) - Singer"}, {"k": "校", "h": "こう", "r": "kou", "m": "School, Exam", "ex": "学校 (がっこう) - School"}, {"k": "先", "h": "せん、さき", "r": "sen, saki", "m": "Before, Ahead, Teacher", "ex": "先生 (せんせい) - Teacher"}, {"k": "生", "h": "せい、しょう、い・きる、う・まれる", "r": "sei, i-kiru, u-mareru", "m": "Life, Birth, Genuine", "ex": "学生 (がくせい) - Student"}, {"k": "学", "h": "がく、まな・ぶ", "r": "gaku, mana-bu", "m": "Study, Learning", "ex": "大学 (だいがく) - University"}, {"k": "国", "h": "こく、くに", "r": "koku, kuni", "m": "Country, Nation", "ex": "外国 (がいこく) - Foreign country"}, {"k": "外", "h": "がい、げ、そと、ほか", "r": "gai, soto", "m": "Outside, Foreign", "ex": "外国人 (がいこくじん) - Foreigner"}, {"k": "内", "h": "ない、だい、うち", "r": "nai, uchi", "m": "Inside, Within", "ex": "案内 (あんない) - Guidance"}, {"k": "高", "h": "こう、たか・い", "r": "kou, taka-i", "m": "High, Tall, Expensive", "ex": "高校 (こうこう) - High school"}, {"k": "低", "h": "てい、ひく・い", "r": "tei, hiku-i", "m": "Low, Short", "ex": "低下 (ていか) - Decline"}, {"k": "長", "h": "ちょう、なが・い", "r": "chou, naga-i", "m": "Long, Leader", "ex": "社長 (しゃちょう) - Company president"}, {"k": "短", "h": "たん、みじか・い", "r": "tan, mijika-i", "m": "Short, Brief", "ex": "短所 (たんしょ) - Weak point"}, {"k": "大", "h": "だい、たい、おお・きい", "r": "dai, tai, oo-kii", "m": "Big, Large", "ex": "大人 (おとな) - Adult"}, {"k": "小", "h": "しょう、ちい・さい、こ", "r": "shou, chii-sai", "m": "Small, Little", "ex": "小学校 (しょうがっこう) - Elementary school"}, {"k": "古", "h": "こ、ふる・い", "r": "ko, furu-i", "m": "Old", "ex": "中古 (ちゅうこ) - Secondhand"}, {"k": "早", "h": "そう、はや・い", "r": "sou, haya-i", "m": "Early, Fast", "ex": "早く (はやく) - Early, Quickly"}, {"k": "速", "h": "そく、はや・い", "r": "soku, haya-i", "m": "Fast, Quick", "ex": "速度 (そくど) - Speed"}, {"k": "遅", "h": "ち、おそ・い、おく・れる", "r": "chi, oso-i", "m": "Slow, Late", "ex": "遅刻 (ちこく) - Lateness"}, {"k": "遠", "h": "えん、おん、とお・い", "r": "en, too-i", "m": "Far, Distant", "ex": "遠慮 (えんりょ) - Hesitation, Restraint"}, {"k": "太", "h": "たい、た、ふと・い", "r": "tai, futo-i", "m": "Fat, Thick", "ex": "太陽 (たいよう) - The sun"}, {"k": "細", "h": "さい、ほそ・い、こま・かい", "r": "sai, hoso-i", "m": "Slender, Thin, Detailed", "ex": "細かい (こまかい) - Detailed, Small change"}, {"k": "暗", "h": "あん、くら・い", "r": "an, kura-i", "m": "Dark, Gloomy", "ex": "暗記 (あんき) - Memorization"}, {"k": "寒", "h": "かん、さむ・い", "r": "kan, samu-i", "m": "Cold (weather)", "ex": "寒気 (さむけ) - Chills"}, {"k": "暑", "h": "しょ、あつ・い", "r": "sho, atsu-i", "m": "Hot (weather)", "ex": "猛暑 (もうしょ) - Heatwave"}, {"k": "熱", "h": "ねつ、あつ・い", "r": "netsu, atsu-i", "m": "Hot (things), Fever", "ex": "熱心 (ねっしん) - Enthusiastic"}, {"k": "温", "h": "おん、あたた・かい", "r": "on, atata-kai", "m": "Warm", "ex": "温泉 (おんせん) - Hot spring"}, {"k": "涼", "h": "りょう、すず・しい", "r": "ryou, suzu-shii", "m": "Cool, Refreshing", "ex": "涼しい (すずしい) - Cool"}, {"k": "軽", "h": "けい、かる・い", "r": "kei, karu-i", "m": "Light (weight), Easy", "ex": "手軽 (てがる) - Easy, Convenient"}, {"k": "弱", "h": "じゃく、よわ・い", "r": "jaku, yowa-i", "m": "Weak", "ex": "弱点 (じゃくてん) - Weakness"}, {"k": "好", "h": "こう、す・き、この・む", "r": "kou, su-ki", "m": "Like, Favorite", "ex": "大好物 (だいこうぶつ) - Favorite food"}, {"k": "嫌", "h": "けん、げん、きら・い、いや", "r": "ken, kira-i", "m": "Dislike, Hate", "ex": "嫌い (きらい) - Dislike"}, {"k": "困", "h": "こん、こま・る", "r": "kon, koma-ru", "m": "Troubled, Distress", "ex": "困る (こまる) - To be troubled"}, {"k": "難", "h": "なん、むずか・しい", "r": "nan, muzuka-shii", "m": "Difficult, Trouble", "ex": "難しい (むずかしい) - Difficult"}, {"k": "易", "h": "えき、い、やさ・しい", "r": "eki, i, yasa-shii", "m": "Easy, Divination", "ex": "貿易 (ぼうえき) - Foreign trade"}, {"k": "痛", "h": "つう、いた・い", "r": "tsuu, ita-i", "m": "Pain, Hurt", "ex": "頭痛 (ずつう) - Headache"}, {"k": "病", "h": "びょう、やまい", "r": "byou, yamai", "m": "Illness, Sickness", "ex": "病人 (びょうにん) - Sick person"}, {"k": "薬", "h": "やく、くすり", "r": "yaku, kusuri", "m": "Medicine, Chemical", "ex": "薬局 (やっきょく) - Pharmacy"}, {"k": "医", "h": "い", "r": "i", "m": "Medicine, Doctor", "ex": "医学 (いがく) - Medical science"}];
+
+/* ================================================================
+   N4 KANJI PRACTICE LOGIC
+   ================================================================ */
+const LS_KANJI_STARRED = 'mn.kanji.starred.v1';
+let kanjiDeck = [...N4_KANJI];
+let kanjiIdx = 0;
+let kanjiStarred = new Set();
+
+function loadKanjiStarred(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(LS_KANJI_STARRED) || '[]');
+    kanjiStarred = new Set(Array.isArray(raw) ? raw : []);
+  } catch(e) { kanjiStarred = new Set(); }
+}
+function saveKanjiStarred(){
+  try { localStorage.setItem(LS_KANJI_STARRED, JSON.stringify([...kanjiStarred])); } catch(e){}
+}
+
+function updateFlashcardUI(){
+  const item = kanjiDeck[kanjiIdx];
+  if (!item) return;
+  const isStarred = kanjiStarred.has(item.k);
+  $('#fc-current-idx').textContent = kanjiIdx + 1;
+  $('#fc-total-cards').textContent = kanjiDeck.length;
+  $('#fc-mastered-count').textContent = kanjiStarred.size;
+
+  $('#fc-kanji').textContent = item.k;
+  $('#fc-reading').textContent = item.h;
+  $('#fc-romaji').textContent = item.r;
+  $('#fc-meaning').textContent = item.m;
+  $('#fc-example').textContent = item.ex;
+
+  const starBtn = $('#fc-star');
+  starBtn.classList.toggle('active', isStarred);
+  $('#fc-star-label').textContent = isStarred ? 'Mastered ✓' : 'Mark Mastered';
+
+  const card = $('#flashcard');
+  card.classList.remove('flipped');
+}
+
+function renderKanjiGrid(){
+  const list = $('#kanji-grid-list');
+  if (!list) return;
+  const q = ($('#kj-search-input').value || '').trim().toLowerCase();
+  const f = state.ui.kanjiFilter || 'all';
+
+  let items = N4_KANJI.filter(item => {
+    const isStarred = kanjiStarred.has(item.k);
+    if (f === 'starred' && !isStarred) return false;
+    if (f === 'unstarred' && isStarred) return false;
+    if (q) {
+      return item.k.includes(q) || item.h.toLowerCase().includes(q) || item.r.toLowerCase().includes(q) || item.m.toLowerCase().includes(q) || item.ex.toLowerCase().includes(q);
+    }
+    return true;
+  });
+
+  if (!items.length){
+    list.innerHTML = `<div class="empty-state" style="grid-column:1/-1">🌱 No kanji match your filter.</div>`;
+    return;
+  }
+
+  list.innerHTML = items.map(item => {
+    const isStarred = kanjiStarred.has(item.k);
+    return `<div class="kj-tile ${isStarred ? 'starred' : ''}" data-k="${item.k}">
+      <div class="kj-char">${item.k}</div>
+      <div class="kj-hira">${esc(item.h)}</div>
+      <div class="kj-mean" title="${esc(item.m)}">${esc(item.m)}</div>
+    </div>`;
+  }).join('');
+
+  $$('.kj-tile', list).forEach(tile => {
+    tile.addEventListener('click', () => {
+      const k = tile.dataset.k;
+      const foundIdx = kanjiDeck.findIndex(x => x.k === k);
+      if (foundIdx !== -1){
+        kanjiIdx = foundIdx;
+        switchKanjiMode('flashcard');
+        updateFlashcardUI();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
+}
+
+function switchKanjiMode(mode){
+  state.ui.kanjiMode = mode;
+  $$('#kanji-view-mode button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  $('#kj-flashcard-mode').style.display = (mode === 'flashcard') ? 'block' : 'none';
+  $('#kj-grid-mode').style.display = (mode === 'grid') ? 'block' : 'none';
+  if (mode === 'grid') renderKanjiGrid();
+  else updateFlashcardUI();
+}
+
+function initKanjiPractice(){
+  loadKanjiStarred();
+  state.ui.kanjiMode = 'flashcard';
+  state.ui.kanjiFilter = 'all';
+
+  const card = $('#flashcard');
+  card.addEventListener('click', () => { card.classList.toggle('flipped'); });
+  card.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); card.classList.toggle('flipped'); }
+  });
+
+  $('#fc-flip').addEventListener('click', () => { card.classList.toggle('flipped'); });
+  $('#fc-next').addEventListener('click', () => {
+    kanjiIdx = (kanjiIdx + 1) % kanjiDeck.length;
+    updateFlashcardUI();
+  });
+  $('#fc-prev').addEventListener('click', () => {
+    kanjiIdx = (kanjiIdx - 1 + kanjiDeck.length) % kanjiDeck.length;
+    updateFlashcardUI();
+  });
+  $('#fc-shuffle').addEventListener('click', () => {
+    for (let i = kanjiDeck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [kanjiDeck[i], kanjiDeck[j]] = [kanjiDeck[j], kanjiDeck[i]];
+    }
+    kanjiIdx = 0;
+    updateFlashcardUI();
+    toast('🔀 Flashcard deck shuffled!');
+  });
+  $('#fc-star').addEventListener('click', () => {
+    const item = kanjiDeck[kanjiIdx];
+    if (!item) return;
+    if (kanjiStarred.has(item.k)){
+      kanjiStarred.delete(item.k);
+      toast(`Unmarked ${item.k}`);
+    } else {
+      kanjiStarred.add(item.k);
+      toast(`⭐ Mastered ${item.k} (${item.h})!`);
+    }
+    saveKanjiStarred();
+    updateFlashcardUI();
+  });
+  $('#fc-log-kanji').addEventListener('click', async () => {
+    const cur = getTodayEntry().kanjiPages || 0;
+    await setMetric('kanjiPages', cur + 1);
+    toast(`+1 Kanji logged to today! Total: ${cur + 1} 💮`);
+  });
+
+  $$('#kanji-view-mode button').forEach(b => {
+    b.addEventListener('click', () => switchKanjiMode(b.dataset.mode));
+  });
+
+  $('#kj-search-input').addEventListener('input', renderKanjiGrid);
+  $$('#kj-filter-seg button').forEach(b => {
+    b.addEventListener('click', () => {
+      state.ui.kanjiFilter = b.dataset.kf;
+      $$('#kj-filter-seg button').forEach(x => x.classList.toggle('active', x === b));
+      renderKanjiGrid();
+    });
+  });
+
+  updateFlashcardUI();
 }
 
 /* ---------------- state & settings ---------------- */
@@ -1716,7 +1966,7 @@ function applyTheme(){
 /* ================================================================
    NAVIGATION / ROUTING
    ================================================================ */
-const VIEWS = ['today', 'history', 'progress', 'settings'];
+const VIEWS = ['today', 'kanji', 'history', 'progress', 'settings'];
 function currentView(){
   const h = location.hash.replace('#/', '');
   return VIEWS.includes(h) ? h : 'today';
@@ -1724,6 +1974,7 @@ function currentView(){
 function rerenderActive(){
   const v = currentView();
   if (v === 'today') renderToday();
+  else if (v === 'kanji'){ updateFlashcardUI(); if (state.ui.kanjiMode === 'grid') renderKanjiGrid(); }
   else if (v === 'history'){ renderCalendar(); renderDayDetail(); renderHistoryList(); }
   else if (v === 'progress') renderProgress();
   else if (v === 'settings') syncSettingsUI();
@@ -1860,6 +2111,7 @@ function checkMidnight(){
 /* ---------------- init ---------------- */
 (function init(){
   setupManifest();
+  initKanjiPractice();
   buildStudyCards();
   bindNav();
   bindSettings();
