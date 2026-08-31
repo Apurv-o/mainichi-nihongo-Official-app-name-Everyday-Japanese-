@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>毎日日本語 — Mainichi Nihongo</title>
+<meta name="description" content="A little Japanese, every day. A cozy offline-first Japanese study tracker.">
+<meta name="theme-color" content="#6f9268">
+<style>
+/* ============================================================
+   毎日日本語 — Mainichi Nihongo
+   Cozy offline-first Japanese study tracker (single-file PWA)
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f6f0e3; --surface:#fffcf5; --surface2:#f3ecdd; --field:#fdf9ef;
+  --border:#e6dbc6; --border-strong:#d5c5a8;
+  --text:#463b2e; --text-soft:#8b7c67; --text-faint:#b3a48d;
+  --green:#6f9268; --green-deep:#55764f; --green-soft:#e6edde;
+  --pink:#c98b82; --pink-soft:#f4e3df;
+  --lav:#9d8bb8; --lav-soft:#eae4f1;
+  --brown:#8a6f52; --fire:#d97e4a; --fire-soft:#f7e5d4;
+  --red:#c96f5e;
+  --pattern:rgba(138,111,82,.075);
+  --shadow:0 1px 2px rgba(93,74,52,.05),0 10px 28px -14px rgba(93,74,52,.22);
+  --shadow-sm:0 1px 2px rgba(93,74,52,.07);
+  --radius:18px; --radius-sm:12px;
+}
+[data-theme="dark"]{
+  --bg:#1e1812; --surface:#292117; --surface2:#332a1e; --field:#221b12;
+  --border:#3f3423; --border-strong:#54452d;
+  --text:#f0e7d7; --text-soft:#c0ac8f; --text-faint:#8a7a62;
+  --green:#93b189; --green-deep:#a9c49f; --green-soft:#2c3827;
+  --pink:#d9a097; --pink-soft:#3e2c28;
+  --lav:#b6a5d2; --lav-soft:#332c3e;
+  --brown:#c4a377; --fire:#e2915c; --fire-soft:#3d2b1c;
+  --red:#d98070;
+  --pattern:rgba(240,231,215,.05);
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 12px 30px -14px rgba(0,0,0,.55);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  background:var(--bg); color:var(--text);
+  font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--green) 60%,transparent);outline-offset:2px;border-radius:6px}
+::selection{background:var(--green-soft)}
+
+/* ---------- global icon rule (SVG line icons) ---------- */
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ---------- layout ---------- */
+.app{display:flex;min-height:100dvh}
+main{flex:1;min-width:0;padding:26px clamp(16px,4vw,52px) 120px}
+.view-wrap{max-width:1020px;margin:0 auto}
+
+/* ---------- sidebar (Windows / desktop) ---------- */
+.sidebar{
+  width:236px;flex-shrink:0;position:sticky;top:0;height:100dvh;
+  display:flex;flex-direction:column;gap:6px;
+  padding:26px 16px 20px;border-right:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface2),var(--bg));
+}
+.brand{padding:4px 10px 18px;border-bottom:1px dashed var(--border-strong);margin-bottom:12px}
+.brand-jp{font-size:24px;font-weight:800;letter-spacing:.02em}
+.brand-en{font-size:12px;color:var(--text-soft);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.brand-tag{font-size:12px;color:var(--text-faint);margin-top:6px;font-style:italic}
+.brand-sun{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:2px}
+.sidenav{display:flex;flex-direction:column;gap:4px}
+.nav-item{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--radius-sm);
+  color:var(--text-soft);font-weight:600;font-size:15px;text-align:left;width:100%;
+  transition:background .18s,color .18s;
+}
+.nav-item:hover{background:var(--surface);color:var(--text)}
+.nav-item.active{background:var(--surface);color:var(--green-deep);box-shadow:var(--shadow-sm)}
+[data-theme="dark"] .nav-item.active{color:var(--green)}
+.nav-item .jp{margin-left:auto;font-size:11px;color:var(--text-faint);font-weight:500}
+.sidebar-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding:0 10px}
+.conn-pill{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-soft)}
+.conn-dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+.conn-pill.offline .conn-dot{background:var(--fire)}
+.side-note{font-size:11.5px;color:var(--text-faint);line-height:1.5}
+
+/* ---------- bottom nav (Android / mobile) ---------- */
+.bottomnav{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  justify-content:space-around;
+}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:64px;padding:8px 6px;border-radius:14px;color:var(--text-faint);font-size:11.5px;font-weight:600;transition:color .18s,background .18s}
+.bnav-btn.active{color:var(--green-deep);background:var(--green-soft)}
+[data-theme="dark"] .bnav-btn.active{color:var(--green)}
+
+@media (max-width:880px){
+  .sidebar{display:none}
+  .bottomnav{display:flex}
+  main{padding-bottom:130px}
+}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px;
+  animation:cardIn .4s ease both;
+}
+.card + .card{margin-top:18px}
+.card-mini{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.section-title{font-size:19px;font-weight:800;margin:30px 0 14px;display:flex;align-items:baseline;gap:10px}
+.section-sub{font-size:13px;color:var(--text-soft);font-weight:500}
+
+/* ---------- hero ---------- */
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:center;position:relative;overflow:hidden;
+  background:
+    repeating-radial-gradient(circle at 115% -30%,transparent 0 20px,var(--pattern) 20px 21.5px),
+    var(--surface);
+}
+.greet-jp{font-size:15px;color:var(--text-soft);font-weight:600}
+.hero-title{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:.01em;line-height:1.15;margin:4px 0 2px}
+.hero-sub{color:var(--text-soft);font-size:14px}
+.hero-date{margin-top:12px;display:inline-block;background:var(--surface2);border:1px solid var(--border);padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--text-soft)}
+.hero-streak{text-align:center;flex-shrink:0;background:var(--fire-soft);border:1px solid color-mix(in srgb,var(--fire) 35%,transparent);border-radius:var(--radius);padding:18px 26px}
+.streak-flame{font-size:26px;animation:flick 2.6s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.12) rotate(3deg)}}
+.streak-num{font-size:40px;font-weight:800;line-height:1.1;color:var(--fire);font-variant-numeric:tabular-nums}
+.streak-label{font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase}
+
+.quote{display:flex;flex-direction:column;gap:2px;padding:14px 20px;margin-top:16px;border-left:4px solid var(--lav)}
+.quote-jp{font-size:17px;font-weight:700}
+.quote-en{font-size:13px;color:var(--text-soft);font-style:italic}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.stat{padding:14px 18px;text-align:center}
+.stat-num{font-size:24px;font-weight:800;color:var(--brown);font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:var(--text-soft);font-weight:600}
+@media(min-width:640px){.stat-row{grid-template-columns:repeat(2,minmax(0,240px))}}
+
+/* ---------- study cards ---------- */
+.study-cards{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:760px){.study-cards{grid-template-columns:repeat(3,1fr)}}
+.study-card{padding:20px;text-align:center;position:relative;overflow:hidden}
+.study-card::after{content:attr(data-deco);position:absolute;right:-6px;bottom:-16px;font-size:64px;opacity:.08;font-weight:800;pointer-events:none}
+.sc-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.sc-icon .ic{width:24px;height:24px}
+.sc-green{background:var(--green-soft);color:var(--green-deep)}
+.sc-pink{background:var(--pink-soft);color:var(--pink)}
+.sc-lav{background:var(--lav-soft);color:var(--lav)}
+.sc-jp{font-size:13px;font-weight:700;color:var(--text-soft)}
+.sc-title{font-size:16px;font-weight:800;margin-bottom:14px}
+.stepper{display:flex;align-items:center;justify-content:center;gap:10px}
+.step-btn{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  background:var(--surface2);border:1px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--text);
+  transition:transform .12s,background .15s;user-select:none;touch-action:manipulation;
+}
+.step-btn:hover{background:var(--green-soft)}
+.step-btn:active{transform:scale(.9)}
+.step-btn .ic{width:22px;height:22px;stroke-width:2.5}
+.step-input{
+  width:86px;text-align:center;font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;
+  background:var(--field);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:6px 4px;-moz-appearance:textfield;appearance:textfield;
+}
+.step-input::-webkit-inner-spin-button,.step-input::-webkit-outer-spin-button{-webkit-appearance:none}
+
+/* ---------- goals ---------- */
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.panel-head h3{font-size:17px;font-weight:800}
+.link-btn{color:var(--green-deep);font-weight:700;font-size:13.5px;padding:6px 10px;border-radius:8px}
+.link-btn:hover{background:var(--green-soft)}
+[data-theme="dark"] .link-btn{color:var(--green)}
+.goal-row{margin-bottom:14px}
+.goal-row:last-child{margin-bottom:0}
+.goal-top{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px}
+.goal-pct{color:var(--text-soft);font-variant-numeric:tabular-nums}
+.goal-none{color:var(--text-faint);font-style:italic;font-weight:500}
+.bar{height:12px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.fill-green{background:linear-gradient(90deg,var(--green),color-mix(in srgb,var(--green) 70%,#fff))}
+.fill-pink{background:linear-gradient(90deg,var(--pink),color-mix(in srgb,var(--pink) 70%,#fff))}
+.fill-lav{background:linear-gradient(90deg,var(--lav),color-mix(in srgb,var(--lav) 70%,#fff))}
+[data-theme="dark"] .bar-fill{background:var(--green)}
+[data-theme="dark"] .fill-pink{background:var(--pink)}
+[data-theme="dark"] .fill-lav{background:var(--lav)}
+.bar-fill.done{box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 30%,transparent)}
+.goals-empty{color:var(--text-soft);font-size:14px}
+
+/* ---------- check-in ---------- */
+.checkin h3{font-size:17px;font-weight:800;margin-bottom:4px}
+.checkin .sub{font-size:13px;color:var(--text-soft);margin-bottom:14px}
+.checkin-summary{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.checkin-summary li{background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600}
+.checkin-summary b{font-variant-numeric:tabular-nums;color:var(--green-deep)}
+[data-theme="dark"] .checkin-summary b{color:var(--green)}
+label.field-label{display:block;font-size:13.5px;font-weight:700;margin-bottom:6px;color:var(--text-soft)}
+textarea,input[type="text"],input[type="time"],input[type="number"]{
+  width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:11px 13px;font-size:16px;color:var(--text);transition:border-color .15s;
+}
+textarea{resize:vertical;min-height:84px}
+textarea:focus,input:focus{border-color:var(--green);outline:none}
+.btn-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn-primary{
+  background:var(--green);color:#fdfbf3;font-weight:800;font-size:15.5px;
+  padding:13px 26px;border-radius:14px;box-shadow:var(--shadow-sm);
+  transition:transform .12s,filter .15s;display:inline-flex;flex-direction:column;align-items:center;line-height:1.25;
+}
+.btn-primary small{font-weight:600;font-size:11.5px;opacity:.85}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-primary:active{transform:scale(.97)}
+.btn{
+  background:var(--surface2);border:1px solid var(--border-strong);color:var(--text);
+  font-weight:700;font-size:14px;padding:10px 18px;border-radius:12px;
+  display:inline-flex;align-items:center;gap:8px;transition:background .15s,transform .12s;
+}
+.btn:hover{background:var(--green-soft)}
+.btn:active{transform:scale(.97)}
+.btn.danger{color:var(--red);border-color:color-mix(in srgb,var(--red) 40%,transparent)}
+.btn.danger:hover{background:color-mix(in srgb,var(--red) 12%,transparent)}
+.btn.danger-solid{background:var(--red);border-color:var(--red);color:#fff}
+.btn.danger-solid:hover{filter:brightness(1.07);background:var(--red)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.save-success{
+  display:none;margin-top:16px;background:var(--green-soft);border:1px solid color-mix(in srgb,var(--green) 45%,transparent);
+  border-radius:var(--radius-sm);padding:14px 18px;position:relative;overflow:hidden;
+}
+.save-success.show{display:flex;gap:12px;align-items:center;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.save-success .ss-icon{font-size:26px}
+.save-success strong{font-size:15px}
+.save-success span{font-size:13px;color:var(--text-soft)}
+.spark{position:absolute;font-size:14px;animation:floatUp 2.4s ease-in-out infinite;opacity:.7}
+.spark.s1{right:14%;top:8px}
+.spark.s2{right:4%;bottom:6px;animation-delay:1.1s}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ---------- history ---------- */
+.page-title{font-size:24px;font-weight:800;margin-bottom:18px}
+.history-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:820px){.history-grid{grid-template-columns:1.15fr 1fr;align-items:start}}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-head b{font-size:16px}
+.cal-nav{width:38px;height:38px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.cal-nav:hover{background:var(--green-soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-dow{font-size:11px;font-weight:700;color:var(--text-faint);text-align:center;padding:4px 0;text-transform:uppercase}
+.cal-cell{
+  aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  font-size:13.5px;font-weight:600;color:var(--text-soft);border:1px solid transparent;position:relative;
+  transition:background .15s;min-height:40px;
+}
+.cal-cell:hover{background:var(--surface2)}
+.cal-cell.studied{background:var(--green-soft);color:var(--green-deep)}
+[data-theme="dark"] .cal-cell.studied{color:var(--green)}
+.cal-cell.today{border-color:var(--fire);color:var(--fire)}
+.cal-cell.today::after{content:"★";position:absolute;top:1px;right:3px;font-size:8px;color:var(--fire)}
+.cal-cell.selected{outline:2px solid var(--green);outline-offset:-2px}
+.cal-cell.future{color:var(--text-faint);opacity:.55}
+.cal-legend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--text-soft);flex-wrap:wrap}
+.day-detail h4{font-size:16px;font-weight:800;margin-bottom:10px}
+.detail-metrics{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.detail-metric{display:flex;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600}
+.detail-metric b{font-variant-numeric:tabular-nums}
+.detail-notes{background:var(--field);border:1px dashed var(--border-strong);border-radius:10px;padding:12px 14px;font-size:14px;white-space:pre-wrap;margin-bottom:14px;color:var(--text-soft)}
+.detail-empty{color:var(--text-soft);font-size:14px;margin-bottom:14px}
+
+.seg{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:700;color:var(--text-soft);transition:background .15s,color .15s}
+.seg button.active{background:var(--surface);color:var(--green-deep);box-shadow:var(--shadow-sm)}
+[data-theme="dark"] .seg button.active{color:var(--green)}
+
+.entry{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;background:var(--field);animation:cardIn .3s ease both}
+.entry-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.entry-date b{font-size:14.5px}
+.entry-date span{font-size:12px;color:var(--text-faint);margin-left:6px}
+.entry-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.chip{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px}
+.chip-w{background:var(--green-soft);color:var(--green-deep)}
+.chip-g{background:var(--pink-soft);color:var(--pink)}
+.chip-k{background:var(--lav-soft);color:var(--lav)}
+[data-theme="dark"] .chip-w{color:var(--green)}
+.entry-notes{font-size:13.5px;color:var(--text-soft);white-space:pre-wrap;margin-top:4px}
+.entry-actions{display:flex;gap:8px;margin-top:10px}
+.icon-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--border);color:var(--text-soft);transition:background .15s,color .15s}
+.icon-btn:hover{background:var(--green-soft);color:var(--text)}
+.icon-btn.del:hover{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.icon-btn .ic{width:17px;height:17px}
+.empty-state{text-align:center;color:var(--text-soft);padding:28px 10px;font-size:14.5px}
+
+/* ---------- progress ---------- */
+.wk-row{display:grid;grid-template-columns:52px 1fr 44px;align-items:center;gap:12px;margin-bottom:10px}
+.wk-day{font-size:13.5px;font-weight:700;color:var(--text-soft)}
+.wk-row.today .wk-day{color:var(--fire)}
+.wk-track{height:16px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.wk-fill{height:100%;border-radius:999px;background:var(--green);width:0;transition:width .7s cubic-bezier(.22,1,.36,1)}
+.wk-row.today .wk-fill{background:var(--fire)}
+.wk-val{font-size:13.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;color:var(--text-soft)}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.stat-grid{grid-template-columns:repeat(5,1fr)}}
+.stat-tile{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.stat-tile .n{font-size:22px;font-weight:800;color:var(--green-deep);font-variant-numeric:tabular-nums}
+[data-theme="dark"] .stat-tile .n{color:var(--green)}
+.stat-tile .l{font-size:11.5px;color:var(--text-soft);font-weight:600;margin-top:2px}
+.trend{display:flex;align-items:flex-end;gap:10px;height:120px;padding-top:8px}
+.trend-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.trend-bar{width:100%;max-width:44px;background:var(--lav);border-radius:8px 8px 3px 3px;min-height:3px;transition:height .7s cubic-bezier(.22,1,.36,1)}
+.trend-col.cur .trend-bar{background:var(--green)}
+.trend-lbl{font-size:11px;font-weight:700;color:var(--text-faint)}
+.trend-val{font-size:11px;color:var(--text-soft);font-weight:600;font-variant-numeric:tabular-nums}
+.month-nav{display:flex;align-items:center;gap:12px}
+
+/* ---------- settings ---------- */
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px dashed var(--border);flex-wrap:wrap}
+.set-row:last-child{border-bottom:none}
+.set-row .lbl{font-weight:700;font-size:14.5px}
+.set-row .hint{font-size:12.5px;color:var(--text-soft);margin-top:2px;max-width:420px}
+.switch{position:relative;width:52px;height:30px;flex-shrink:0}
+.switch input{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;margin:0;z-index:2}
+.switch .track{position:absolute;inset:0;background:var(--border-strong);border-radius:999px;transition:background .2s}
+.switch .knob{position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;box-shadow:var(--shadow-sm);transition:transform .2s}
+.switch input:checked ~ .track{background:var(--green)}
+.switch input:checked ~ .knob{transform:translateX(22px)}
+.switch input:focus-visible ~ .track{outline:3px solid color-mix(in srgb,var(--green) 55%,transparent);outline-offset:2px}
+.time-input{width:130px!important}
+.num-input{width:110px!important;text-align:center}
+.badge{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid var(--border)}
+.badge.ok{background:var(--green-soft);color:var(--green-deep);border-color:color-mix(in srgb,var(--green) 40%,transparent)}
+[data-theme="dark"] .badge.ok{color:var(--green)}
+.badge.warn{background:var(--fire-soft);color:var(--fire);border-color:color-mix(in srgb,var(--fire) 40%,transparent)}
+.badge.mut{background:var(--surface2);color:var(--text-soft)}
+.notice{font-size:12.5px;color:var(--text-soft);background:var(--surface2);border:1px dashed var(--border-strong);border-radius:10px;padding:10px 14px;margin-top:12px;line-height:1.6}
+.goal-inputs{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.goal-inputs .gi{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:var(--text-soft)}
+
+/* ---------- modal ---------- */
+.modal-backdrop{position:fixed;inset:0;background:rgba(40,30,20,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:100;padding:18px;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;width:100%;max-width:460px;max-height:88dvh;overflow:auto;animation:popIn .3s cubic-bezier(.34,1.4,.64,1)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.modal .m-sub{font-size:13.5px;color:var(--text-soft);margin-bottom:16px}
+.modal .field{margin-bottom:14px}
+.modal .btn-row{justify-content:flex-end}
+.radio-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px}
+.radio-row input{margin-top:3px;accent-color:var(--green)}
+.radio-row small{display:block;color:var(--text-soft)}
+
+/* ---------- toast ---------- */
+#toast-root{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:min(92vw,480px)}
+@media(min-width:880px){#toast-root{bottom:28px}}
+.toast{background:var(--text);color:var(--bg);font-size:14px;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:var(--shadow);animation:toastIn .35s cubic-bezier(.34,1.4,.64,1);text-align:center;max-width:100%}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.95)}to{opacity:1;transform:none}}
+.toast.out{opacity:0;transform:translateY(8px);transition:all .3s}
+
+.view{display:none}
+.view.active{display:block;animation:viewIn .3s ease}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.pop{animation:popNum .35s ease}
+@keyframes popNum{40%{transform:scale(1.18)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  html{scroll-behavior:auto}
+}
+@media (max-width:400px){
+  .hero{flex-direction:column;align-items:flex-start}
+  .hero-streak{width:100%;display:flex;gap:12px;align-items:center;justify-content:center}
+  .step-input{width:74px;font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- ======= inline SVG icon set (lucide-style, no external deps) ======= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3"/><path d="M14 2v4M8 10v4M16 18v4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- ======= Sidebar (desktop / Windows) ======= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-jp"><span class="brand-sun"></span>毎日日本語</div>
+      <div class="brand-en">Mainichi Nihongo</div>
+      <div class="brand-tag">"A little Japanese, every day."</div>
+    </div>
+    <nav class="sidenav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="today"><svg class="ic"><use href="#i-home"/></svg>Today<span class="jp">今日</span></button>
+      <button class="nav-item" data-view="history"><svg class="ic"><use href="#i-cal"/></svg>History<span class="jp">履歴</span></button>
+      <button class="nav-item" data-view="progress"><svg class="ic"><use href="#i-chart"/></svg>Progress<span class="jp">進捗</span></button>
+      <button class="nav-item" data-view="settings"><svg class="ic"><use href="#i-sliders"/></svg>Settings<span class="jp">設定</span></button>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="conn-pill" id="conn-pill"><span class="conn-dot"></span><span id="conn-label">Online</span></div>
+      <p class="side-note">Offline-first · your data never leaves this device. 頑張って！</p>
+    </div>
+  </aside>
+
+  <!-- ======= Main content ======= -->
+  <main><div class="view-wrap">
+
+    <!-- ================= TODAY ================= -->
+    <section class="view active" id="view-today" aria-label="Today dashboard">
+      <header class="hero card">
+        <div>
+          <p class="greet-jp"><span id="greet-jp">こんにちは</span> <span id="greet-emoji">🌿</span></p>
+          <h1 class="hero-title">毎日日本語</h1>
+          <p class="hero-sub">Mainichi Nihongo — "A little Japanese, every day."</p>
+          <p class="hero-date" id="today-date">—</p>
+        </div>
+        <div class="hero-streak" aria-label="Current streak">
+          <div class="streak-flame" aria-hidden="true">🔥</div>
+          <div class="streak-num" id="streak-current">0</div>
+          <div class="streak-label">Day Streak</div>
+        </div>
+      </header>
+
+      <div class="quote card-mini" id="quote-card">
+        <span class="quote-jp" id="quote-jp"></span>
+        <span class="quote-en" id="quote-en"></span>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat card-mini"><div class="stat-num" id="streak-longest">0</div><div class="stat-label">🏆 Longest streak</div></div>
+        <div class="stat card-mini"><div class="stat-num" id="streak-total">0</div><div class="stat-label">📅 Total study days</div></div>
+      </div>
+
+      <h2 class="section-title">今日の学習 <span class="section-sub">Today's Study</span></h2>
+      <div class="study-cards" id="study-cards"></div>
+
+      <h2 class="section-title">🎯 Goals <span class="section-sub">Daily targets (optional)</span></h2>
+      <div class="card">
+        <div class="panel-head">
+          <h3>Today's progress toward your goals</h3>
+          <button class="link-btn" id="edit-goals-link">Edit goals →</button>
+        </div>
+        <div id="goals-body"></div>
+      </div>
+
+      <h2 class="section-title">今日のチェックイン <span class="section-sub">Daily Check-in</span></h2>
+      <div class="card checkin">
+        <h3>Today's Study</h3>
+        <p class="sub">Review your numbers, add a note, then save your day.</p>
+        <ul class="checkin-summary">
+          <li>📖 Words learned: <b id="sum-words">0</b></li>
+          <li>文法 Grammar pages: <b id="sum-grammar">0</b></li>
+          <li>漢字 Kanji pages: <b id="sum-kanji">0</b></li>
+        </ul>
+        <label class="field-label" for="notes-input">Notes</label>
+        <textarea id="notes-input" maxlength="2000" placeholder="e.g., Finished Genki chapter 3, reviewed 20 flashcards…"></textarea>
+        <div class="btn-row">
+          <button class="btn-primary" id="save-btn">保存する <small>Save Today's Progress</small></button>
+        </div>
+        <div class="save-success" id="save-success" role="status" aria-live="polite">
+          <i class="spark s1" aria-hidden="true">✨</i><i class="spark s2" aria-hidden="true">🌸</i>
+          <span class="ss-icon" aria-hidden="true">✨</span>
+          <div><strong id="ss-title">今日もよくできました！</strong><br><span id="ss-sub">Great job today!</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HISTORY ================= -->
+    <section class="view" id="view-history" aria-label="History">
+      <h2 class="page-title">📅 History</h2>
+      <div class="history-grid">
+        <div class="card">
+          <div class="cal-head">
+            <button class="cal-nav" id="cal-prev" aria-label="Previous month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-l"/></svg></button>
+            <b id="cal-title">—</b>
+            <button class="cal-nav" id="cal-next" aria-label="Next month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-r"/></svg></button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-legend"><span>🟢 Studied</span><span>⭐ Today</span><span>⚪ No study</span></div>
+        </div>
+        <div class="card day-detail" id="day-detail"></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <div class="panel-head">
+          <h3>Study log</h3>
+          <div class="seg" id="hist-filter" role="group" aria-label="Filter entries">
+            <button data-f="all" class="active">All</button>
+            <button data-f="today">Day</button>
+            <button data-f="week">Week</button>
+            <button data-f="month">Month</button>
+          </div>
+        </div>
+        <div id="history-list"></div>
+      </div>
+    </section>
+
+    <!-- ================= PROGRESS ================= -->
+    <section class="view" id="view-progress" aria-label="Progress">
+      <h2 class="page-title">📊 Progress</h2>
+      <div class="card">
+        <div class="panel-head">
+          <h3>Weekly Progress</h3>
+          <div class="seg" id="week-metric" role="group" aria-label="Metric">
+            <button data-m="words" class="active">📖 Words</button>
+            <button data-m="grammar">文法</button>
+            <button data-m="kanji">漢字</button>
+          </div>
+        </div>
+        <div id="week-chart"></div>
+        <p style="margin-top:12px;font-size:14px;color:var(--text-soft)">This week's total: <b id="week-total" style="color:var(--text)">0</b> <span id="week-unit">words</span></p>
+      </div>
+      <div class="card">
+        <div class="panel-head">
+          <h3>Monthly Progress</h3>
+          <div class="month-nav">
+            <button class="cal-nav" id="m-prev" aria-label="Previous month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-l"/></svg></button>
+            <b id="m-title">—</b>
+            <button class="cal-nav" id="m-next" aria-label="Next month"><svg class="ic" style="width:18px;height:18px"><use href="#i-chev-r"/></svg></button>
+          </div>
+        </div>
+        <div class="stat-grid" id="month-stats"></div>
+      </div>
+      <div class="card">
+        <div class="panel-head"><h3>Last 6 Months — words learned</h3></div>
+        <div class="trend" id="trend-chart"></div>
+      </div>
+    </section>
+
+    <!-- ================= SETTINGS ================= -->
+    <section class="view" id="view-settings" aria-label="Settings">
+      <h2 class="page-title">⚙️ Settings</h2>
+
+      <div class="card">
+        <div class="panel-head"><h3>🎨 Theme</h3></div>
+        <div class="seg" id="theme-seg" role="group" aria-label="Theme">
+          <button data-t="system">System</button>
+          <button data-t="light">Light</button>
+          <button data-t="dark">Dark</button>
+        </div>
+      </div>
+
+      <div class="card" id="goals-settings">
+        <div class="panel-head"><h3>🎯 Daily Goals</h3></div>
+        <p class="hint" style="color:var(--text-soft);font-size:13.5px;margin-bottom:14px">Optional. Set 0 (or leave blank) to disable a goal — no fake percentages will be shown.</p>
+        <div class="goal-inputs">
+          <div class="gi"><label for="goal-words">📖 Words / day</label><input class="num-input" id="goal-words" type="number" min="0" max="10000" inputmode="numeric" placeholder="20"></div>
+          <div class="gi"><label for="goal-grammar">文法 Grammar pages</label><input class="num-input" id="goal-grammar" type="number" min="0" max="10000" inputmode="numeric" placeholder="3"></div>
+          <div class="gi"><label for="goal-kanji">漢字 Kanji pages</label><input class="num-input" id="goal-kanji" type="number" min="0" max="10000" inputmode="numeric" placeholder="2"></div>
+          <button class="btn" id="save-goals-btn">Save goals</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><h3>🔔 Daily Reminder</h3><span class="badge mut" id="perm-badge">checking…</span></div>
+        <div class="set-row">
+          <div><div class="lbl">Reminder enabled</div><div class="hint">A gentle nudge at your chosen time, based on today's progress. Works while the app is open.</div></div>
+          <label class="switch"><input type="checkbox" id="rem-toggle" aria-label="Enable daily reminder"><span class="track"></span><span class="knob"></span></label>
+        </div>
+        <div class="set-row">
+          <div><div class="lbl">⏰ Reminder time</div></div>
+          <input type="time" class="time-input" id="rem-time" value="20:00" aria-label="Reminder time">
+        </div>
+        <div class="set-row">
+          <div><div class="lbl">📝 Custom reminder message</div><div class="hint">Optional. If empty, a friendly default message is used.</div></div>
+        </div>
+        <input type="text" id="custom-msg" maxlength="200" placeholder="Don't forget your Japanese practice 🇯🇵" aria-label="Custom reminder message">
+        <div class="btn-row">
+          <button class="btn" id="perm-btn" style="display:none">Enable notifications</button>
+          <button class="btn" id="test-notif-btn"><svg class="ic" style="width:16px;height:16px"><use href="#i-bell"/></svg>Test notification</button>
+        </div>
+        <div class="notice" id="notif-note"></div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><h3>🌙 Quiet Hours</h3></div>
+        <div class="set-row">
+          <div><div class="lbl">Quiet hours enabled</div><div class="hint">No reminders during these hours (crosses midnight correctly).</div></div>
+          <label class="switch"><input type="checkbox" id="quiet-toggle" aria-label="Enable quiet hours"><span class="track"></span><span class="knob"></span></label>
+        </div>
+        <div class="set-row">
+          <div class="lbl">From → To</div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="time" class="time-input" id="quiet-start" value="22:30" aria-label="Quiet hours start">
+            <span style="color:var(--text-faint)">→</span>
+            <input type="time" class="time-input" id="quiet-end" value="07:00" aria-label="Quiet hours end">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><h3>💾 Data Management</h3></div>
+        <p style="font-size:13.5px;color:var(--text-soft);margin-bottom:14px">All data lives on this device (IndexedDB with automatic fallback storage). Use export/import to move your history between Windows and Android — no cloud, no account.</p>
+        <div class="btn-row" style="margin-top:0">
+          <button class="btn" id="export-btn"><svg class="ic" style="width:16px;height:16px"><use href="#i-down"/></svg>Export My Data</button>
+          <button class="btn" id="import-btn"><svg class="ic" style="width:16px;height:16px"><use href="#i-up"/></svg>Import My Data</button>
+        </div>
+        <div class="notice">Backup file name: <b>mainichi-nihongo-backup-YYYY-MM-DD.json</b>. Imports are validated (structure, dates, numbers) — corrupted or foreign files are rejected safely. There is no automatic sync.</div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><h3>📲 Install App</h3></div>
+        <div id="install-area"></div>
+      </div>
+
+      <div class="card">
+        <div class="panel-head"><h3>ℹ️ About</h3></div>
+        <p style="font-size:13.5px;color:var(--text-soft);line-height:1.8">
+          <b>毎日日本語 — Mainichi Nihongo</b> v1.1<br>
+          A cozy, offline-first Japanese study tracker. No cloud, no login, no tracking, no ads.<br>
+          Data is stored locally (IndexedDB → localStorage fallback). 継続は力なり。
+        </p>
+      </div>
+    </section>
+
+  </div></main>
+
+  <!-- ======= Bottom nav (Android / mobile) ======= -->
+  <nav class="bottomnav" aria-label="Main navigation">
+    <button class="bnav-btn active" data-view="today"><svg class="ic" style="width:22px;height:22px"><use href="#i-home"/></svg>Today</button>
+    <button class="bnav-btn" data-view="history"><svg class="ic" style="width:22px;height:22px"><use href="#i-cal"/></svg>History</button>
+    <button class="bnav-btn" data-view="progress"><svg class="ic" style="width:22px;height:22px"><use href="#i-chart"/></svg>Progress</button>
+    <button class="bnav-btn" data-view="settings"><svg class="ic" style="width:22px;height:22px"><use href="#i-sliders"/></svg>Settings</button>
+  </nav>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<input type="file" id="import-file" accept=".json,application/json" hidden>
+
+<script>
+'use strict';
+/* ================================================================
+   毎日日本語 — Mainichi Nihongo — application logic (v1.1 fixes)
+   FIXES: visible +/- icons · theme switching always applies ·
+   resilient storage (IndexedDB → localStorage → memory) so history,
+   goals, theme & reminders always save even if IndexedDB is blocked.
+   ================================================================ */
+
+/* ---------------- utils ---------------- */
+const $  = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+const pad2 = n => String(n).padStart(2, '0');
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)');
+const reducedMotion = () => REDUCED.matches;
+
+const WEEKDAYS      = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const WEEKDAYS_SHORT= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const WEEK_MON      = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MONTHS        = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function fmtDate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function parseKey(k){ const [y,m,d] = k.split('-').map(Number); return new Date(y, m-1, d); }
+function addDays(d, n){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate()+n); return x; }
+function todayStr(){ return fmtDate(new Date()); }
+function mondayOf(d){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay()+6)%7)); return x; }
+function toMin(hhmm){ const [h,m] = String(hhmm).split(':').map(Number); return (h||0)*60 + (m||0); }
+const clampInt = (v, max = 99999) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(0, Math.min(max, n)) : 0; };
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------------- motivation (easy to edit) ---------------- */
+const MOTIVATION = [
+  { jp: '毎日少しずつ。',            en: 'A little every day.' },
+  { jp: '今日も一歩前進。',          en: 'One step forward today.' },
+  { jp: '継続は力なり。',            en: 'Consistency is strength.' },
+  { jp: '頑張って！',                en: 'Keep going!' },
+  { jp: '塵も積もれば山となる。',    en: 'Many a little makes a mickle.' },
+  { jp: '千里の道も一歩から。',      en: 'A journey of a thousand miles begins with a single step.' },
+  { jp: '焦らず、止まらず。',        en: 'Don\u2019t rush. Don\u2019t stop.' },
+  { jp: '続けることが才能です。',    en: 'Continuing is itself a talent.' },
+  { jp: '雨垂れ石を穿つ。',          en: 'Constant dripping wears away the stone.' },
+];
+
+/* ================================================================
+   RESILIENT LOCAL STORAGE
+   Primary: IndexedDB. Fallback: localStorage. Last resort: memory.
+   Every st* function NEVER throws, so UI actions always complete.
+   ================================================================ */
+const DB_NAME = 'mainichi-nihongo', DB_VERSION = 1;
+const LS_STUDY = 'mn.study.v1', LS_SETTINGS = 'mn.settings.v1';
+let dbPromise = null, backend = null;
+const memStudy = new Map(); let memSettings = null;
+
+function openDB(){
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    if (typeof indexedDB === 'undefined'){ reject(new Error('no idb')); return; }
+    const r = indexedDB.open(DB_NAME, DB_VERSION);
+    r.onupgradeneeded = () => {
+      const db = r.result;
+      if (!db.objectStoreNames.contains('study'))    db.createObjectStore('study',    { keyPath: 'date' });
+      if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+    };
+    r.onsuccess = () => resolve(r.result);
+    r.onerror   = () => reject(r.error);
+  });
+  return dbPromise;
+}
+function idbReq(req){ return new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); }); }
+function lsOk(){ try { localStorage.setItem('__mn_t','1'); localStorage.removeItem('__mn_t'); return true; } catch (e){ return false; } }
+async function ensureBackend(){
+  if (backend) return backend;
+  try { await openDB(); backend = 'idb'; }
+  catch (e){ backend = lsOk() ? 'ls' : 'mem'; }
+  return backend;
+}
+function lsReadStudy(){ try { const v = JSON.parse(localStorage.getItem(LS_STUDY) || '[]'); return Array.isArray(v) ? v : []; } catch (e){ return []; } }
+function lsWriteStudy(rows){ try { localStorage.setItem(LS_STUDY, JSON.stringify(rows)); } catch (e){} }
+
+async function stAllStudy(){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); return await idbReq(db.transaction('study','readonly').objectStore('study').getAll()); } catch (e){} }
+  if (b === 'ls') return lsReadStudy();
+  return [...memStudy.values()];
+}
+async function stPutStudy(entry){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); await idbReq(db.transaction('study','readwrite').objectStore('study').put(entry)); return; } catch (e){} }
+  if (b === 'ls'){ lsWriteStudy(lsReadStudy().filter(r => r.date !== entry.date).concat([entry])); return; }
+  memStudy.set(entry.date, entry);
+}
+async function stDelStudy(date){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); await idbReq(db.transaction('study','readwrite').objectStore('study').delete(date)); return; } catch (e){} }
+  if (b === 'ls'){ lsWriteStudy(lsReadStudy().filter(r => r.date !== date)); return; }
+  memStudy.delete(date);
+}
+async function stClearStudy(){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); await idbReq(db.transaction('study','readwrite').objectStore('study').clear()); return; } catch (e){} }
+  if (b === 'ls'){ lsWriteStudy([]); return; }
+  memStudy.clear();
+}
+async function stGetSettings(){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); const r = await idbReq(db.transaction('settings','readonly').objectStore('settings').get('app')); return r ? r.value : null; } catch (e){} }
+  if (b === 'ls'){ try { return JSON.parse(localStorage.getItem(LS_SETTINGS) || 'null'); } catch (e){ return null; } }
+  return memSettings;
+}
+async function stPutSettings(value){
+  const b = await ensureBackend();
+  if (b === 'idb'){ try { const db = await openDB(); await idbReq(db.transaction('settings','readwrite').objectStore('settings').put({ key: 'app', value })); return; } catch (e){} }
+  if (b === 'ls'){ try { localStorage.setItem(LS_SETTINGS, JSON.stringify(value)); } catch (e){} return; }
+  memSettings = value;
+}
+
+/* ---------------- state & settings ---------------- */
+const DEFAULT_SETTINGS = {
+  theme: 'system',
+  goals: { words: 0, grammarPages: 0, kanjiPages: 0 },
+  reminder: { enabled: false, time: '20:00', custom: '' },
+  quiet: { enabled: false, start: '22:30', end: '07:00' },
+  lastReminderDate: ''
+};
+const clone = o => (typeof structuredClone === 'function') ? structuredClone(o) : JSON.parse(JSON.stringify(o));
+const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function mergeSettings(v){
+  const d = clone(DEFAULT_SETTINGS);
+  if (!v || typeof v !== 'object') return d;
+  if (['system','light','dark'].includes(v.theme)) d.theme = v.theme;
+  if (v.goals && typeof v.goals === 'object'){
+    d.goals.words        = clampInt(v.goals.words, 10000);
+    d.goals.grammarPages = clampInt(v.goals.grammarPages, 10000);
+    d.goals.kanjiPages   = clampInt(v.goals.kanjiPages, 10000);
+  }
+  if (v.reminder && typeof v.reminder === 'object'){
+    d.reminder.enabled = !!v.reminder.enabled;
+    if (TIME_RE.test(String(v.reminder.time))) d.reminder.time = v.reminder.time;
+    d.reminder.custom = String(v.reminder.custom ?? '').slice(0, 200);
+  }
+  if (v.quiet && typeof v.quiet === 'object'){
+    d.quiet.enabled = !!v.quiet.enabled;
+    if (TIME_RE.test(String(v.quiet.start))) d.quiet.start = v.quiet.start;
+    if (TIME_RE.test(String(v.quiet.end)))   d.quiet.end = v.quiet.end;
+  }
+  if (DATE_RE.test(String(v.lastReminderDate ?? ''))) d.lastReminderDate = v.lastReminderDate;
+  return d;
+}
+
+const state = {
+  entries: new Map(),
+  settings: clone(DEFAULT_SETTINGS),
+  ui: { weekMetric: 'words', histFilter: 'all', calYear: 0, calMonth: 0, selDate: '', monthYear: 0, monthMonth: 0 },
+  installEvent: null
+};
+let cachedTodayKey = todayStr();
+
+async function persistSettings(){ try { await stPutSettings(state.settings); } catch (e){} }
+
+function sanitizeEntry(raw){
+  if (!raw || typeof raw !== 'object') return null;
+  const date = String(raw.date ?? '');
+  if (!DATE_RE.test(date)) return null;
+  const parsed = parseKey(date);
+  if (parsed.getDate() !== Number(date.slice(8))) return null;
+  const num = x => clampInt(x, 1000000);
+  return {
+    date,
+    words: num(raw.words),
+    grammarPages: num(raw.grammarPages),
+    kanjiPages: num(raw.kanjiPages),
+    notes: String(raw.notes ?? '').slice(0, 5000),
+    updatedAt: String(raw.updatedAt ?? ''),
+    savedAt: String(raw.savedAt ?? '')
+  };
+}
+async function loadAll(){
+  try {
+    const rows = await stAllStudy();
+    state.entries = new Map();
+    for (const r of rows){ const e = sanitizeEntry(r); if (e) state.entries.set(e.date, e); }
+    state.settings = mergeSettings(await stGetSettings());
+  } catch (err) { console.warn('Could not load local data:', err); }
+}
+
+function getTodayEntry(){
+  const k = todayStr();
+  let e = state.entries.get(k);
+  if (!e) e = { date: k, words: 0, grammarPages: 0, kanjiPages: 0, notes: '', updatedAt: '', savedAt: '' };
+  return e;
+}
+async function patchToday(patch){
+  const k = todayStr();
+  const e = Object.assign(state.entries.get(k) || { date: k, words: 0, grammarPages: 0, kanjiPages: 0, notes: '', savedAt: '' }, patch, { updatedAt: new Date().toISOString() });
+  state.entries.set(k, e);
+  await stPutStudy(e);
+}
+
+/* ---------------- streaks ---------------- */
+const entryTotal = e => e.words + e.grammarPages + e.kanjiPages;
+const isStudied  = e => !!(e && e.savedAt && entryTotal(e) > 0);
+function computeStreaks(){
+  const days = new Set();
+  state.entries.forEach(e => { if (isStudied(e)) days.add(e.date); });
+  let cur = 0, d = new Date();
+  if (!days.has(fmtDate(d))) d = addDays(d, -1);
+  while (days.has(fmtDate(d))){ cur++; d = addDays(d, -1); }
+  let longest = 0, run = 0, prev = null;
+  for (const ds of [...days].sort()){
+    run = (prev && fmtDate(addDays(parseKey(prev), 1)) === ds) ? run + 1 : 1;
+    if (run > longest) longest = run;
+    prev = ds;
+  }
+  return { current: cur, longest, total: days.size };
+}
+
+/* ---------------- greeting ---------------- */
+function greeting(){
+  const h = new Date().getHours();
+  if (h >= 5  && h < 12) return { jp: 'おはようございます', emoji: '☀️' };
+  if (h >= 12 && h < 17) return { jp: 'こんにちは',         emoji: '🌿' };
+  if (h >= 17 && h < 22) return { jp: 'こんばんは',         emoji: '🌙' };
+  return { jp: 'おやすみなさい', emoji: '🌙' };
+}
+function dailyPick(arr){
+  const k = todayStr(); let h = 0;
+  for (const c of k) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return arr[h % arr.length];
+}
+
+/* ---------------- number animation ---------------- */
+function animateNumber(el, to){
+  const from = el._val ?? 0;
+  el._val = to;
+  if (reducedMotion() || from === to){ el.textContent = to.toLocaleString(); return; }
+  const t0 = performance.now(), dur = 260;
+  (function step(t){
+    const p = Math.min(1, (t - t0) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * eased).toLocaleString();
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
+/* ---------------- toast & modal ---------------- */
+function toast(msg, ms = 3600){
+  const root = $('#toast-root');
+  while (root.children.length >= 3) root.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  root.appendChild(t);
+  setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, ms);
+}
+let modalCloseFn = null;
+function closeModal(){ if (modalCloseFn){ modalCloseFn(); modalCloseFn = null; } }
+function openModal(html, mount){
+  closeModal();
+  const back = document.createElement('div');
+  back.className = 'modal-backdrop';
+  back.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
+  $('#modal-root').appendChild(back);
+  const close = () => { back.remove(); document.removeEventListener('keydown', onKey); modalCloseFn = null; };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', onKey);
+  back.addEventListener('pointerdown', e => { if (e.target === back) close(); });
+  modalCloseFn = close;
+  if (mount) mount(back, close);
+  setTimeout(() => { const f = back.querySelector('input,textarea,button'); if (f) f.focus(); }, 40);
+  return close;
+}
+function confirmDialog({ title, body, confirmText = 'Confirm', danger = false }, onYes){
+  openModal(`
+    <h3>${esc(title)}</h3>
+    <p class="m-sub">${body}</p>
+    <div class="btn-row">
+      <button class="btn" data-close>Cancel</button>
+      <button class="btn ${danger ? 'danger-solid' : ''}" id="m-yes" style="${danger ? '' : 'background:var(--green);color:#fdfbf3;border-color:var(--green)'}">${esc(confirmText)}</button>
+    </div>`, wrap => {
+    wrap.querySelector('[data-close]').onclick = closeModal;
+    wrap.querySelector('#m-yes').onclick = () => { closeModal(); onYes(); };
+  });
+}
+
+/* ================================================================
+   TODAY VIEW
+   ================================================================ */
+const METRICS = [
+  { key: 'words',        jp: '単語', icon: 'i-book', cls: 'sc-green', title: 'Words Learned',          deco: '語' },
+  { key: 'grammarPages', jp: '文法', icon: 'i-pen',  cls: 'sc-pink',  title: 'Grammar Pages',          deco: '文' },
+  { key: 'kanjiPages',   jp: '漢字', icon: 'i-grid', cls: 'sc-lav',   title: 'Kanji Worksheet Pages',  deco: '漢' }
+];
+
+function buildStudyCards(){
+  const wrap = $('#study-cards');
+  wrap.innerHTML = METRICS.map(m => `
+    <div class="study-card card" data-metric="${m.key}" data-deco="${m.deco}">
+      <div class="sc-icon ${m.cls}"><svg class="ic"><use href="#${m.icon}"/></svg></div>
+      <div class="sc-jp">${m.jp}</div>
+      <div class="sc-title">${m.title}</div>
+      <div class="stepper">
+        <button class="step-btn" data-act="minus" aria-label="Decrease ${m.title}"><svg class="ic"><use href="#i-minus"/></svg></button>
+        <input class="step-input" inputmode="numeric" pattern="[0-9]*" value="0" aria-label="${m.title} count">
+        <button class="step-btn" data-act="plus" aria-label="Increase ${m.title}"><svg class="ic"><use href="#i-plus"/></svg></button>
+      </div>
+    </div>`).join('');
+
+  $$('.study-card', wrap).forEach(card => {
+    const key = card.dataset.metric;
+    const input = $('.step-input', card);
+    const bump = delta => {
+      const cur = clampInt(input.value);
+      const next = Math.max(0, cur + delta);
+      input.value = next;
+      setMetric(key, next);
+    };
+    const commit = () => {
+      const v = clampInt(input.value);
+      input.value = v;
+      if (v !== (getTodayEntry()[key] || 0)) setMetric(key, v);
+    };
+    input.addEventListener('change', commit);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
+
+    const minus = $('[data-act="minus"]', card), plus = $('[data-act="plus"]', card);
+    minus.addEventListener('click', () => { if (minus._suppress){ minus._suppress = false; return; } bump(-1); });
+    plus.addEventListener('click',  () => { if (plus._suppress){  plus._suppress  = false; return; } bump(+1); });
+    holdRepeat(minus, () => bump(-1));
+    holdRepeat(plus,  () => bump(+1));
+  });
+}
+function holdRepeat(btn, fn){
+  let timer = null, iv = null;
+  const stop = () => {
+    if (iv) btn._suppress = true;
+    clearTimeout(timer); clearInterval(iv); timer = iv = null;
+  };
+  btn.addEventListener('pointerdown', () => { timer = setTimeout(() => { iv = setInterval(fn, 110); }, 450); });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev => btn.addEventListener(ev, stop));
+}
+async function setMetric(key, value){
+  await patchToday({ [key]: clampInt(value) });
+  refreshTodayDerived();
+}
+
+function goalsActive(){
+  const g = state.settings.goals;
+  return g.words > 0 || g.grammarPages > 0 || g.kanjiPages > 0;
+}
+
+function renderToday(){
+  const now = new Date();
+  const g = greeting();
+  $('#greet-jp').textContent = g.jp;
+  $('#greet-emoji').textContent = g.emoji;
+  $('#today-date').textContent = `${WEEKDAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  const q = dailyPick(MOTIVATION);
+  $('#quote-jp').textContent = `「${q.jp}」`;
+  $('#quote-en').textContent = q.en;
+
+  const e = getTodayEntry();
+  METRICS.forEach(m => {
+    const input = $(`.study-card[data-metric="${m.key}"] .step-input`);
+    if (input && document.activeElement !== input){ input.value = e[m.key]; input._val = e[m.key]; }
+  });
+  const notesEl = $('#notes-input');
+  if (document.activeElement !== notesEl) notesEl.value = e.notes;
+  $('#save-success').classList.remove('show');
+  refreshTodayDerived();
+}
+
+function refreshTodayDerived(){
+  const e = getTodayEntry();
+  animateNumber($('#sum-words'), e.words);
+  animateNumber($('#sum-grammar'), e.grammarPages);
+  animateNumber($('#sum-kanji'), e.kanjiPages);
+
+  const s = computeStreaks();
+  const sc = $('#streak-current');
+  if (sc.textContent !== String(s.current)){ sc.textContent = s.current; sc.classList.remove('pop'); void sc.offsetWidth; sc.classList.add('pop'); }
+  $('#streak-longest').textContent = s.longest;
+  $('#streak-total').textContent = s.total;
+
+  renderGoalsPanel(e);
+  const active = currentView();
+  if (active === 'progress') renderProgress();
+  if (active === 'history'){ renderCalendar(); renderDayDetail(); renderHistoryList(); }
+}
+
+function renderGoalsPanel(e){
+  const body = $('#goals-body');
+  const g = state.settings.goals;
+  if (!goalsActive()){
+    body.innerHTML = `<p class="goals-empty">No goals set yet. That's perfectly fine — your consistency matters most. <button class="link-btn" id="goals-empty-link">Set a gentle goal →</button></p>`;
+    const l = $('#goals-empty-link'); if (l) l.onclick = () => { location.hash = '#/settings'; };
+    return;
+  }
+  const rows = [
+    { jp: '📖 単語', label: 'Words',         cur: e.words,        goal: g.words,        fill: 'fill-green' },
+    { jp: '文法',    label: 'Grammar pages', cur: e.grammarPages, goal: g.grammarPages, fill: 'fill-pink'  },
+    { jp: '漢字',    label: 'Kanji pages',   cur: e.kanjiPages,   goal: g.kanjiPages,   fill: 'fill-lav'   }
+  ];
+  body.innerHTML = rows.map(r => {
+    if (r.goal <= 0) return `<div class="goal-row"><div class="goal-top"><span>${r.jp} ${r.label}</span><span class="goal-none">no goal set</span></div><div class="bar"></div></div>`;
+    const pct = Math.min(100, Math.round(r.cur / r.goal * 100));
+    return `<div class="goal-row">
+      <div class="goal-top"><span>${r.jp} ${r.label}</span><span class="goal-pct">${r.cur} / ${r.goal} · ${pct}%${pct >= 100 ? ' ✓' : ''}</span></div>
+      <div class="bar"><div class="bar-fill ${r.fill} ${pct >= 100 ? 'done' : ''}" data-w="${pct}"></div></div>
+    </div>`;
+  }).join('');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    $$('.bar-fill', body).forEach(f => { f.style.width = f.dataset.w + '%'; });
+  }));
+}
+
+/* -------- save / check-in -------- */
+let saveTimer = null;
+async function saveCheckIn(){
+  const notes = $('#notes-input').value.slice(0, 2000);
+  const e = getTodayEntry();
+  if (entryTotal(e) === 0 && !notes.trim()){
+    toast('Nothing to save yet — add a little study first 🌸');
+    return;
+  }
+  const before = computeStreaks().current;
+  await patchToday({ notes });
+  const entry = state.entries.get(todayStr());
+  entry.savedAt = new Date().toISOString();
+  await stPutStudy(entry);
+
+  const after = computeStreaks().current;
+  const ss = $('#save-success');
+  $('#ss-title').textContent = '今日もよくできました！';
+  $('#ss-sub').textContent = (after > before)
+    ? `Great job today! 🔥 ${after}-day streak!`
+    : 'Great job today!';
+  ss.classList.remove('show'); void ss.offsetWidth; ss.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => ss.classList.remove('show'), 4500);
+  refreshTodayDerived();
+}
+
+/* ================================================================
+   HISTORY VIEW — calendar + day detail + list
+   ================================================================ */
+function renderCalendar(){
+  const { calYear: y, calMonth: m } = state.ui;
+  $('#cal-title').textContent = `${MONTHS[m]} ${y}`;
+  const grid = $('#cal-grid');
+  const todayK = todayStr();
+  let html = WEEK_MON.map(d => `<div class="cal-dow">${d[0]}</div>`).join('');
+  const first = new Date(y, m, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const daysIn = new Date(y, m + 1, 0).getDate();
+  for (let i = 0; i < offset; i++) html += `<div></div>`;
+  for (let d = 1; d <= daysIn; d++){
+    const key = fmtDate(new Date(y, m, d));
+    const e = state.entries.get(key);
+    const studied = e && entryTotal(e) > 0;
+    const cls = ['cal-cell'];
+    if (studied) cls.push('studied');
+    if (key === todayK) cls.push('today');
+    if (key === state.ui.selDate) cls.push('selected');
+    if (key > todayK) cls.push('future');
+    html += `<button class="${cls.join(' ')}" data-date="${key}" aria-label="${MONTHS[m]} ${d}${studied ? ', studied' : ''}"><span>${d}</span></button>`;
+  }
+  grid.innerHTML = html;
+  $$('.cal-cell', grid).forEach(c => c.addEventListener('click', () => {
+    state.ui.selDate = c.dataset.date;
+    renderCalendar(); renderDayDetail();
+  }));
+}
+
+function renderDayDetail(){
+  const box = $('#day-detail');
+  const key = state.ui.selDate || todayStr();
+  const d = parseKey(key);
+  const e = state.entries.get(key);
+  const studied = e && entryTotal(e) > 0;
+  const title = `${WEEKDAYS_SHORT[d.getDay()]}, ${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  if (!studied && !(e && e.notes)){
+    box.innerHTML = `<h4>${title}</h4>
+      <p class="detail-empty">⚪ No study logged for this day.</p>
+      <button class="btn" id="dd-log"><svg class="ic" style="width:16px;height:16px"><use href="#i-pen"/></svg>Log study for this day</button>`;
+    $('#dd-log').onclick = () => openEntryModal(key);
+    return;
+  }
+  box.innerHTML = `<h4>${title}</h4>
+    <div class="detail-metrics">
+      <div class="detail-metric"><span>📖 Words learned</span><b>${(e.words||0).toLocaleString()}</b></div>
+      <div class="detail-metric"><span>文法 Grammar pages</span><b>${(e.grammarPages||0).toLocaleString()}</b></div>
+      <div class="detail-metric"><span>漢字 Kanji pages</span><b>${(e.kanjiPages||0).toLocaleString()}</b></div>
+    </div>
+    ${e.notes ? `<div class="detail-notes">📝 ${esc(e.notes)}</div>` : ''}
+    <div class="btn-row" style="margin-top:0">
+      <button class="btn" id="dd-edit"><svg class="ic" style="width:15px;height:15px"><use href="#i-pen"/></svg>Edit</button>
+      <button class="btn danger" id="dd-del"><svg class="ic" style="width:15px;height:15px"><use href="#i-trash"/></svg>Delete</button>
+    </div>`;
+  $('#dd-edit').onclick = () => openEntryModal(key);
+  $('#dd-del').onclick  = () => askDelete(key);
+}
+
+function openEntryModal(dateKey){
+  const e = state.entries.get(dateKey) || { words: 0, grammarPages: 0, kanjiPages: 0, notes: '' };
+  const d = parseKey(dateKey);
+  openModal(`
+    <h3>✏️ ${WEEKDAYS_SHORT[d.getDay()]}, ${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</h3>
+    <p class="m-sub">Edit this day's study log.</p>
+    <div class="field"><label class="field-label" for="em-words">📖 Words learned</label><input id="em-words" type="number" min="0" max="99999" inputmode="numeric" value="${e.words}"></div>
+    <div class="field"><label class="field-label" for="em-grammar">文法 Grammar pages</label><input id="em-grammar" type="number" min="0" max="99999" inputmode="numeric" value="${e.grammarPages}"></div>
+    <div class="field"><label class="field-label" for="em-kanji">漢字 Kanji pages</label><input id="em-kanji" type="number" min="0" max="99999" inputmode="numeric" value="${e.kanjiPages}"></div>
+    <div class="field"><label class="field-label" for="em-notes">📝 Notes</label><textarea id="em-notes" maxlength="2000">${esc(e.notes)}</textarea></div>
+    <div class="btn-row">
+      <button class="btn" id="em-cancel">Cancel</button>
+      <button class="btn" id="em-save" style="background:var(--green);color:#fdfbf3;border-color:var(--green)">Save</button>
+    </div>`, wrap => {
+    wrap.querySelector('#em-cancel').onclick = closeModal;
+    wrap.querySelector('#em-save').onclick = async () => {
+      const entry = {
+        date: dateKey,
+        words: clampInt(wrap.querySelector('#em-words').value),
+        grammarPages: clampInt(wrap.querySelector('#em-grammar').value),
+        kanjiPages: clampInt(wrap.querySelector('#em-kanji').value),
+        notes: wrap.querySelector('#em-notes').value.slice(0, 2000),
+        updatedAt: new Date().toISOString(),
+        savedAt: new Date().toISOString()
+      };
+      state.entries.set(dateKey, entry);
+      await stPutStudy(entry);
+      closeModal();
+      toast('Saved ✓');
+      renderCalendar(); renderDayDetail(); renderHistoryList(); refreshTodayDerived();
+    };
+  });
+}
+
+function askDelete(dateKey){
+  const d = parseKey(dateKey);
+  confirmDialog({
+    title: 'Delete this entry?',
+    body: `${WEEKDAYS_SHORT[d.getDay()]}, ${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} will be removed. This cannot be undone.`,
+    confirmText: 'Delete', danger: true
+  }, async () => {
+    state.entries.delete(dateKey);
+    await stDelStudy(dateKey);
+    toast('Entry deleted');
+    renderCalendar(); renderDayDetail(); renderHistoryList(); refreshTodayDerived();
+  });
+}
+
+function renderHistoryList(){
+  const list = $('#history-list');
+  const f = state.ui.histFilter;
+  const now = new Date();
+  let keys = [...state.entries.keys()].sort().reverse();
+  if (f === 'today'){
+    const k = todayStr();
+    keys = keys.filter(x => x === k);
+  } else if (f === 'week'){
+    const mon = mondayOf(now), sun = addDays(mon, 6);
+    keys = keys.filter(x => x >= fmtDate(mon) && x <= fmtDate(sun));
+  } else if (f === 'month'){
+    const pref = `${now.getFullYear()}-${pad2(now.getMonth()+1)}`;
+    keys = keys.filter(x => x.startsWith(pref));
+  }
+  keys = keys.filter(k => { const e = state.entries.get(k); return e && (entryTotal(e) > 0 || e.notes); });
+  if (!keys.length){
+    list.innerHTML = `<div class="empty-state">🌱 No entries here yet. Your study history will appear after you save your first day.</div>`;
+    return;
+  }
+  list.innerHTML = keys.map(k => {
+    const e = state.entries.get(k), d = parseKey(k);
+    return `<article class="entry">
+      <div class="entry-head">
+        <div class="entry-date"><b>${WEEKDAYS_SHORT[d.getDay()]}, ${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}</b><span>${d.getFullYear()}</span></div>
+        <div style="display:flex;gap:6px">
+          <button class="icon-btn" data-act="edit" data-date="${k}" aria-label="Edit ${k}"><svg class="ic"><use href="#i-pen"/></svg></button>
+          <button class="icon-btn del" data-act="del" data-date="${k}" aria-label="Delete ${k}"><svg class="ic"><use href="#i-trash"/></svg></button>
+        </div>
+      </div>
+      <div class="entry-chips">
+        <span class="chip chip-w">📖 ${e.words} words</span>
+        <span class="chip chip-g">文法 ${e.grammarPages} pg</span>
+        <span class="chip chip-k">漢字 ${e.kanjiPages} pg</span>
+      </div>
+      ${e.notes ? `<div class="entry-notes">📝 ${esc(e.notes)}</div>` : ''}
+    </article>`;
+  }).join('');
+  $$('[data-act]', list).forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.act === 'edit') openEntryModal(b.dataset.date);
+    else askDelete(b.dataset.date);
+  }));
+}
+
+/* ================================================================
+   PROGRESS VIEW
+   ================================================================ */
+function metricValue(e, m){ return e ? (m === 'words' ? e.words : m === 'grammar' ? e.grammarPages : e.kanjiPages) : 0; }
+
+function renderProgress(){
+  renderWeekChart();
+  renderMonthStats();
+  renderTrend();
+}
+
+function renderWeekChart(){
+  const m = state.ui.weekMetric;
+  const mon = mondayOf(new Date());
+  const todayK = todayStr();
+  const rows = [];
+  let max = 0;
+  for (let i = 0; i < 7; i++){
+    const d = addDays(mon, i), k = fmtDate(d);
+    const v = metricValue(state.entries.get(k), m);
+    max = Math.max(max, v);
+    rows.push({ label: WEEK_MON[i], v, today: k === todayK, future: k > todayK });
+  }
+  $('#week-chart').innerHTML = rows.map(r => {
+    const w = max > 0 && r.v > 0 ? Math.max(5, Math.round(r.v / max * 100)) : 0;
+    return `<div class="wk-row ${r.today ? 'today' : ''}" style="${r.future ? 'opacity:.5' : ''}">
+      <span class="wk-day">${r.label}</span>
+      <div class="wk-track"><div class="wk-fill" data-w="${w}"></div></div>
+      <span class="wk-val">${r.v > 0 ? r.v.toLocaleString() : '—'}</span>
+    </div>`;
+  }).join('');
+  const total = rows.reduce((a, r) => a + r.v, 0);
+  $('#week-total').textContent = total.toLocaleString();
+  $('#week-unit').textContent = m === 'words' ? 'words' : m === 'grammar' ? 'grammar pages' : 'kanji pages';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    $$('#week-chart .wk-fill').forEach(f => { f.style.width = f.dataset.w + '%'; });
+  }));
+}
+
+function renderMonthStats(){
+  const { monthYear: y, monthMonth: m } = state.ui;
+  $('#m-title').textContent = `${MONTHS[m]} ${y}`;
+  const daysIn = new Date(y, m + 1, 0).getDate();
+  let words = 0, gram = 0, kanji = 0, days = 0;
+  for (let d = 1; d <= daysIn; d++){
+    const e = state.entries.get(fmtDate(new Date(y, m, d)));
+    if (e && entryTotal(e) > 0){
+      days++; words += e.words; gram += e.grammarPages; kanji += e.kanjiPages;
+    }
+  }
+  const avg = days > 0 ? words / days : 0;
+  const avgTxt = days > 0 ? (Number.isInteger(avg) ? avg : avg.toFixed(1)) : '—';
+  $('#month-stats').innerHTML = `
+    <div class="stat-tile"><div class="n">${words.toLocaleString()}</div><div class="l">📖 Total words</div></div>
+    <div class="stat-tile"><div class="n">${gram.toLocaleString()}</div><div class="l">文法 Grammar pages</div></div>
+    <div class="stat-tile"><div class="n">${kanji.toLocaleString()}</div><div class="l">漢字 Kanji pages</div></div>
+    <div class="stat-tile"><div class="n">${days}</div><div class="l">Study days</div></div>
+    <div class="stat-tile"><div class="n">${avgTxt}</div><div class="l">Avg words / study day</div></div>`;
+}
+
+function renderTrend(){
+  const now = new Date();
+  const cols = [];
+  for (let k = 5; k >= 0; k--){
+    const d = new Date(now.getFullYear(), now.getMonth() - k, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const daysIn = new Date(y, m + 1, 0).getDate();
+    let sum = 0;
+    for (let dd = 1; dd <= daysIn; dd++){
+      const e = state.entries.get(fmtDate(new Date(y, m, dd)));
+      if (e) sum += e.words;
+    }
+    cols.push({ label: MONTHS_SHORT[m], sum, cur: k === 0 });
+  }
+  const max = Math.max(1, ...cols.map(c => c.sum));
+  $('#trend-chart').innerHTML = cols.map(c => `
+    <div class="trend-col ${c.cur ? 'cur' : ''}">
+      <span class="trend-val">${c.sum ? c.sum.toLocaleString() : ''}</span>
+      <div class="trend-bar" data-h="${Math.max(3, Math.round(c.sum / max * 88))}"></div>
+      <span class="trend-lbl">${c.label}</span>
+    </div>`).join('');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    $$('#trend-chart .trend-bar').forEach(b => { b.style.height = b.dataset.h + 'px'; });
+  }));
+}
+
+/* ================================================================
+   REMINDERS & NOTIFICATIONS
+   ================================================================ */
+function notifApiSupported(){ return typeof Notification !== 'undefined'; }
+
+function inQuietHours(now){
+  const q = state.settings.quiet;
+  if (!q.enabled) return false;
+  const t = now.getHours() * 60 + now.getMinutes();
+  const s = toMin(q.start), e = toMin(q.end);
+  if (s === e) return false;
+  return s < e ? (t >= s && t < e) : (t >= s || t < e);
+}
+
+function buildReminder(){
+  const e = getTodayEntry();
+  const g = state.settings.goals;
+  const total = entryTotal(e);
+  const hasGoals = goalsActive();
+  const goalDone = hasGoals &&
+    (g.words <= 0        || e.words >= g.words) &&
+    (g.grammarPages <= 0 || e.grammarPages >= g.grammarPages) &&
+    (g.kanjiPages <= 0   || e.kanjiPages >= g.kanjiPages);
+  if (hasGoals && goalDone) return null;
+  if (!hasGoals && total > 0) return null;
+  const custom = state.settings.reminder.custom.trim();
+  if (hasGoals && total > 0){
+    const seg = [];
+    if (g.words > 0)        seg.push(`📖 ${e.words} / ${g.words} words`);
+    if (g.grammarPages > 0) seg.push(`文法 ${e.grammarPages} / ${g.grammarPages} pages`);
+    if (g.kanjiPages > 0)   seg.push(`漢字 ${e.kanjiPages} / ${g.kanjiPages} pages`);
+    return { title: '📚 You\u2019re almost there!', body: `You\u2019ve completed: ${seg.join(' · ')}. Just a little more today!` };
+  }
+  if (custom) return { title: '🌸 Time for Japanese!', body: custom };
+  return { title: '🌸 Time for Japanese!', body: '「今日も少しずつ。」 A little Japanese today. You haven\u2019t logged today\u2019s study yet.' };
+}
+
+async function deliverNotification(title, body){
+  try {
+    if (notifApiSupported() && Notification.permission === 'granted'){
+      const n = new Notification(title, { body });
+      if (n) return true;
+    }
+  } catch (e) {}
+  try {
+    if ('serviceWorker' in navigator){
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg){ await reg.showNotification(title, { body }); return true; }
+    }
+  } catch (e) {}
+  return false;
+}
+
+async function reminderTick(){
+  checkMidnight();
+  const r = state.settings.reminder;
+  if (!r.enabled || !TIME_RE.test(r.time)) return;
+  if (state.settings.lastReminderDate === todayStr()) return;
+  const now = new Date();
+  if (inQuietHours(now)) return;
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const t = toMin(r.time);
+  if (cur < t || cur >= t + 90) return;
+  const msg = buildReminder();
+  if (!msg) return;
+  let delivered = false;
+  if (notifApiSupported() && Notification.permission === 'granted'){
+    delivered = await deliverNotification(msg.title, msg.body);
+  }
+  if (!delivered) toast(`${msg.title} ${msg.body}`, 6000);
+  state.settings.lastReminderDate = todayStr();
+  await persistSettings();
+}
+
+function refreshNotifUI(){
+  const badge = $('#perm-badge'), btn = $('#perm-btn'), note = $('#notif-note');
+  let status, cls, showBtn = false, btnLabel = '';
+  if (!notifApiSupported() && !('serviceWorker' in navigator)){
+    status = 'Notifications not supported'; cls = 'mut';
+  } else if (!notifApiSupported()){
+    status = 'Limited support'; cls = 'warn';
+  } else if (Notification.permission === 'granted'){
+    status = '✓ Notifications allowed'; cls = 'ok';
+  } else if (Notification.permission === 'denied'){
+    status = 'Notifications blocked'; cls = 'warn';
+  } else {
+    status = 'Permission not set'; cls = 'mut'; showBtn = true; btnLabel = 'Enable notifications';
+  }
+  badge.textContent = status; badge.className = 'badge ' + cls;
+  btn.style.display = showBtn ? '' : 'none'; btn.textContent = btnLabel;
+  note.textContent = notifApiSupported()
+    ? (Notification.permission === 'denied'
+        ? 'Notifications are blocked in your browser settings. Reminders will appear inside the app instead. The tracker keeps working fully.'
+        : 'Reminders fire while the app is open. Android and Windows are supported where the browser allows notifications. Browsers may limit background delivery — keeping the app installed and occasionally open helps.')
+    : 'This browser does not expose a notification API. Reminders will appear as in-app messages instead. The tracker keeps working fully.';
+}
+
+async function testNotification(){
+  if (notifApiSupported()){
+    if (Notification.permission === 'default'){
+      try { await Notification.requestPermission(); } catch (e) {}
+    }
+    if (Notification.permission === 'granted'){
+      const ok = await deliverNotification('🔔 Test — 毎日日本語', 'Reminders are working. 頑張って！');
+      toast(ok ? 'Test notification sent ✓' : 'System notification failed here — reminders will appear in-app.');
+    } else if (Notification.permission === 'denied'){
+      toast('Notifications are blocked. Allow them in your browser settings.');
+    } else {
+      toast('Permission not granted.');
+    }
+  } else {
+    toast('🌸 This browser can\u2019t show system notifications — reminders appear in-app.');
+  }
+  refreshNotifUI();
+}
+
+/* ================================================================
+   BACKUP — export / import (validated, never executed)
+   ================================================================ */
+function buildExport(){
+  return {
+    app: 'mainichi-nihongo',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    entries: [...state.entries.values()].map(e => sanitizeEntry(e)),
+    settings: state.settings
+  };
+}
+function exportData(){
+  const data = buildExport();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `mainichi-nihongo-backup-${todayStr()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  toast('Backup exported ✓');
+}
+function validateBackup(text){
+  let obj;
+  try { obj = JSON.parse(text); } catch (e){ return { ok: false, error: 'This file is not valid JSON.' }; }
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return { ok: false, error: 'Unrecognized backup structure.' };
+  if (obj.app !== 'mainichi-nihongo') return { ok: false, error: 'This file is not a 毎日日本語 backup.' };
+  if (!Array.isArray(obj.entries)) return { ok: false, error: 'Backup is missing the study entries list.' };
+  if (obj.entries.length > 20000) return { ok: false, error: 'Backup file is too large.' };
+  const entries = [];
+  for (const raw of obj.entries){
+    const e = sanitizeEntry(raw);
+    if (!e) return { ok: false, error: `An entry has an invalid date or values${raw && raw.date ? ` (${raw.date})` : ''}. Import cancelled.` };
+    entries.push(e);
+  }
+  const settings = obj.settings ? mergeSettings(obj.settings) : null;
+  return { ok: true, entries, settings };
+}
+function importData(){ $('#import-file').click(); }
+async function handleImportFile(file){
+  let text;
+  try { text = await file.text(); } catch (e){ toast('Could not read that file.'); return; }
+  const res = validateBackup(text);
+  if (!res.ok){ toast('⚠️ ' + res.error, 5000); return; }
+  const dates = res.entries.map(e => e.date).sort();
+  const range = dates.length ? `${dates[0]} → ${dates[dates.length - 1]}` : 'no entries';
+  openModal(`
+    <h3>Import backup</h3>
+    <p class="m-sub"><b>${res.entries.length}</b> entries (${esc(range)})${res.settings ? ' + settings' : ''}. How should it be applied?</p>
+    <label class="radio-row"><input type="radio" name="imp-mode" value="merge" checked><span><b>Merge</b><small>Imported days overwrite the same dates; everything else is kept.</small></span></label>
+    <label class="radio-row"><input type="radio" name="imp-mode" value="replace"><span><b>Replace everything</b><small>Delete current study history first, then import.</small></span></label>
+    <div class="btn-row">
+      <button class="btn" id="imp-cancel">Cancel</button>
+      <button class="btn" id="imp-go" style="background:var(--green);color:#fdfbf3;border-color:var(--green)">Import</button>
+    </div>`, wrap => {
+    wrap.querySelector('#imp-cancel').onclick = closeModal;
+    wrap.querySelector('#imp-go').onclick = async () => {
+      const mode = wrap.querySelector('input[name="imp-mode"]:checked').value;
+      if (mode === 'replace'){ await stClearStudy(); state.entries.clear(); }
+      for (const e of res.entries){ state.entries.set(e.date, e); await stPutStudy(e); }
+      if (res.settings){ state.settings = res.settings; await persistSettings(); applyTheme(); }
+      closeModal();
+      toast(`Imported ${res.entries.length} entries ✓`);
+      syncSettingsUI();
+      rerenderActive();
+    };
+  });
+}
+
+/* ================================================================
+   SETTINGS UI bindings (optimistic: UI updates first, then persist)
+   ================================================================ */
+function syncSettingsUI(){
+  const s = state.settings;
+  $$('#theme-seg button').forEach(b => b.classList.toggle('active', b.dataset.t === s.theme));
+  $('#goal-words').value    = s.goals.words || '';
+  $('#goal-grammar').value  = s.goals.grammarPages || '';
+  $('#goal-kanji').value    = s.goals.kanjiPages || '';
+  $('#rem-toggle').checked  = s.reminder.enabled;
+  $('#rem-time').value      = s.reminder.time;
+  $('#custom-msg').value    = s.reminder.custom;
+  $('#quiet-toggle').checked= s.quiet.enabled;
+  $('#quiet-start').value   = s.quiet.start;
+  $('#quiet-end').value     = s.quiet.end;
+  refreshNotifUI();
+  renderInstallArea();
+}
+function bindSettings(){
+  $$('#theme-seg button').forEach(b => b.addEventListener('click', () => {
+    state.settings.theme = b.dataset.t;
+    applyTheme();            // apply immediately
+    syncSettingsUI();
+    persistSettings();       // never blocks UI
+  }));
+  $('#save-goals-btn').addEventListener('click', () => {
+    state.settings.goals = {
+      words: clampInt($('#goal-words').value, 10000),
+      grammarPages: clampInt($('#goal-grammar').value, 10000),
+      kanjiPages: clampInt($('#goal-kanji').value, 10000)
+    };
+    toast('Goals saved 🎯');
+    refreshTodayDerived();
+    persistSettings();
+  });
+  $('#rem-toggle').addEventListener('change', e => {
+    state.settings.reminder.enabled = e.target.checked;
+    persistSettings();
+    if (e.target.checked && notifApiSupported() && Notification.permission === 'default'){
+      Notification.requestPermission().catch(() => {}).then(refreshNotifUI);
+    }
+  });
+  $('#rem-time').addEventListener('change', e => {
+    if (TIME_RE.test(e.target.value)){ state.settings.reminder.time = e.target.value; persistSettings(); }
+    else e.target.value = state.settings.reminder.time;
+  });
+  let msgTimer = null;
+  $('#custom-msg').addEventListener('input', e => {
+    clearTimeout(msgTimer);
+    msgTimer = setTimeout(() => {
+      state.settings.reminder.custom = e.target.value.slice(0, 200);
+      persistSettings();
+    }, 500);
+  });
+  $('#perm-btn').addEventListener('click', async () => {
+    if (notifApiSupported()){ try { await Notification.requestPermission(); } catch (e) {} }
+    refreshNotifUI();
+  });
+  $('#test-notif-btn').addEventListener('click', testNotification);
+  $('#quiet-toggle').addEventListener('change', e => {
+    state.settings.quiet.enabled = e.target.checked; persistSettings();
+  });
+  $('#quiet-start').addEventListener('change', e => {
+    if (TIME_RE.test(e.target.value)){ state.settings.quiet.start = e.target.value; persistSettings(); }
+    else e.target.value = state.settings.quiet.start;
+  });
+  $('#quiet-end').addEventListener('change', e => {
+    if (TIME_RE.test(e.target.value)){ state.settings.quiet.end = e.target.value; persistSettings(); }
+    else e.target.value = state.settings.quiet.end;
+  });
+  $('#export-btn').addEventListener('click', exportData);
+  $('#import-btn').addEventListener('click', importData);
+  $('#import-file').addEventListener('change', e => {
+    const f = e.target.files && e.target.files[0];
+    if (f) handleImportFile(f);
+    e.target.value = '';
+  });
+}
+
+/* ================================================================
+   THEME
+   ================================================================ */
+function applyTheme(){
+  const t = state.settings.theme;
+  const dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+}
+
+/* ================================================================
+   NAVIGATION / ROUTING
+   ================================================================ */
+const VIEWS = ['today', 'history', 'progress', 'settings'];
+function currentView(){
+  const h = location.hash.replace('#/', '');
+  return VIEWS.includes(h) ? h : 'today';
+}
+function rerenderActive(){
+  const v = currentView();
+  if (v === 'today') renderToday();
+  else if (v === 'history'){ renderCalendar(); renderDayDetail(); renderHistoryList(); }
+  else if (v === 'progress') renderProgress();
+  else if (v === 'settings') syncSettingsUI();
+}
+function switchView(v){
+  VIEWS.forEach(x => { $('#view-' + x).classList.toggle('active', x === v); });
+  $$('.nav-item, .bnav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  rerenderActive();
+  window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
+}
+function bindNav(){
+  $$('.nav-item, .bnav-btn').forEach(b => b.addEventListener('click', () => { location.hash = '#/' + b.dataset.view; }));
+  window.addEventListener('hashchange', () => switchView(currentView()));
+}
+
+/* ================================================================
+   INSTALL (PWA) + MANIFEST + ICONS + ONLINE STATUS
+   ================================================================ */
+function makeIconUrl(size){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d');
+  x.fillStyle = '#f3ecdd'; x.fillRect(0, 0, size, size);
+  x.fillStyle = '#6f9268';
+  x.beginPath(); x.arc(size/2, size/2, size*0.34, 0, Math.PI*2); x.fill();
+  x.fillStyle = '#fffcf5';
+  x.font = `bold ${Math.round(size*0.4)}px "Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif`;
+  x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText('日', size/2, size/2 + size*0.02);
+  return c.toDataURL('image/png');
+}
+function setupManifest(){
+  try {
+    const icon192 = makeIconUrl(192), icon512 = makeIconUrl(512);
+    const manifest = {
+      name: '毎日日本語 — Mainichi Nihongo',
+      short_name: '毎日日本語',
+      description: 'A little Japanese, every day. A cozy offline-first Japanese study tracker.',
+      start_url: location.href.split('#')[0],
+      scope: location.href.split('#')[0],
+      display: 'standalone',
+      background_color: '#f6f0e3',
+      theme_color: '#6f9268',
+      icons: [
+        { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any' }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    const link = document.createElement('link');
+    link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
+    document.head.appendChild(link);
+    const fav = document.createElement('link');
+    fav.rel = 'icon'; fav.href = icon192;
+    document.head.appendChild(fav);
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  } catch (e) {}
+}
+function renderInstallArea(){
+  const area = $('#install-area');
+  if (!area) return;
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (standalone){
+    area.innerHTML = `<p style="font-size:14px;color:var(--text-soft)">✅ Running as an installed app.</p>`;
+    return;
+  }
+  if (state.installEvent){
+    area.innerHTML = `<button class="btn" id="install-btn">📲 Install app</button>
+      <div class="notice">Install for a standalone, offline experience on Windows (Chrome/Edge) or Android (Chrome).</div>`;
+    $('#install-btn').onclick = async () => {
+      try {
+        state.installEvent.prompt();
+        await state.installEvent.userChoice;
+        state.installEvent = null;
+        renderInstallArea();
+      } catch (e) {}
+    };
+  } else {
+    area.innerHTML = `<div class="notice" style="margin-top:0">
+      <b>Windows:</b> open this page in Chrome or Edge → menu (⋮) → <i>Install 毎日日本語</i> / <i>Apps → Install</i>.<br>
+      <b>Android:</b> open in Chrome → menu (⋮) → <i>Add to Home screen</i> / <i>Install app</i>.
+    </div>`;
+  }
+}
+function bindInstall(){
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    state.installEvent = e;
+    renderInstallArea();
+  });
+  window.addEventListener('appinstalled', () => {
+    state.installEvent = null;
+    renderInstallArea();
+    toast('Installed! よろしくね 🎉');
+  });
+}
+function updateConn(){
+  const pill = $('#conn-pill'), lbl = $('#conn-label');
+  const on = navigator.onLine;
+  pill.classList.toggle('offline', !on);
+  lbl.textContent = on ? 'Online' : 'Offline — everything still works';
+}
+function bindOnline(){
+  window.addEventListener('online', updateConn);
+  window.addEventListener('offline', updateConn);
+  updateConn();
+}
+
+/* ---------------- midnight rollover ---------------- */
+function checkMidnight(){
+  const k = todayStr();
+  if (k !== cachedTodayKey){
+    cachedTodayKey = k;
+    state.ui.selDate = k;
+    renderToday();
+    if (currentView() === 'history'){ renderCalendar(); renderDayDetail(); renderHistoryList(); }
+  }
+}
+
+/* ---------------- init ---------------- */
+(function init(){
+  setupManifest();
+  buildStudyCards();
+  bindNav();
+  bindSettings();
+  bindInstall();
+  bindOnline();
+
+  $('#save-btn').addEventListener('click', saveCheckIn);
+  let notesTimer = null;
+  $('#notes-input').addEventListener('input', e => {
+    clearTimeout(notesTimer);
+    notesTimer = setTimeout(() => patchToday({ notes: e.target.value.slice(0, 2000) }), 600);
+  });
+  $('#edit-goals-link').addEventListener('click', () => { location.hash = '#/settings'; });
+
+  const now = new Date();
+  state.ui.calYear = now.getFullYear(); state.ui.calMonth = now.getMonth();
+  state.ui.selDate = todayStr();
+  state.ui.monthYear = now.getFullYear(); state.ui.monthMonth = now.getMonth();
+  $('#cal-prev').addEventListener('click', () => {
+    state.ui.calMonth--; if (state.ui.calMonth < 0){ state.ui.calMonth = 11; state.ui.calYear--; }
+    renderCalendar();
+  });
+  $('#cal-next').addEventListener('click', () => {
+    state.ui.calMonth++; if (state.ui.calMonth > 11){ state.ui.calMonth = 0; state.ui.calYear++; }
+    renderCalendar();
+  });
+  $$('#hist-filter button').forEach(b => b.addEventListener('click', () => {
+    state.ui.histFilter = b.dataset.f;
+    $$('#hist-filter button').forEach(x => x.classList.toggle('active', x === b));
+    renderHistoryList();
+  }));
+
+  $$('#week-metric button').forEach(b => b.addEventListener('click', () => {
+    state.ui.weekMetric = b.dataset.m;
+    $$('#week-metric button').forEach(x => x.classList.toggle('active', x === b));
+    renderWeekChart();
+  }));
+  $('#m-prev').addEventListener('click', () => {
+    state.ui.monthMonth--; if (state.ui.monthMonth < 0){ state.ui.monthMonth = 11; state.ui.monthYear--; }
+    renderMonthStats();
+  });
+  $('#m-next').addEventListener('click', () => {
+    state.ui.monthMonth++; if (state.ui.monthMonth > 11){ state.ui.monthMonth = 0; state.ui.monthYear++; }
+    renderMonthStats();
+  });
+
+  try {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (state.settings.theme === 'system') applyTheme();
+    });
+  } catch (e) {}
+
+  (async () => {
+    await loadAll();
+    applyTheme();
+    switchView(currentView());
+    renderToday();
+    syncSettingsUI();
+    reminderTick();
+    setInterval(reminderTick, 15000);
+    setInterval(checkMidnight, 30000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden){ checkMidnight(); reminderTick(); } });
+  })();
+})();
+</script>
+</body>
+</html>
