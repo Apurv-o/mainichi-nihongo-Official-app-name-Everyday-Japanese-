@@ -1807,6 +1807,14 @@ function renderHistoryList(){
 /* ================================================================
    SVG LINE CHART ENGINE & PROGRESS
    ================================================================ */
+function metricValue(e, m){
+  if (!e) return 0;
+  if (m === 'words') return e.words || 0;
+  if (m === 'grammar') return e.grammarPages || 0;
+  if (m === 'kanji') return e.kanjiPages || 0;
+  return e.studyMinutes || 0;
+}
+
 function createSvgLineChart({ data, labels, color = '#6f9268', gradientId = 'chartGrad', height = 170, unit = '' }){
   const w = 560, h = height;
   const padL = 40, padR = 25, padT = 25, padB = 30;
