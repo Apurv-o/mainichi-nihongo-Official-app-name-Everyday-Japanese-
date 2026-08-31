@@ -194,15 +194,58 @@ main{flex:1;min-width:0;padding:26px clamp(16px,4vw,52px) 120px}
   main{padding-bottom:130px}
 }
 
-/* ---------- cards ---------- */
+/* ---------- Smooth Micro-Animations & Transitions ---------- */
+.view{display:none}
+.view.active{display:block;animation:viewFadeSlide .34s cubic-bezier(0.16, 1, 0.3, 1) both}
+@keyframes viewFadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
 .card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   box-shadow:var(--shadow);padding:22px;
-  animation:cardIn .4s ease both;
+  transition:transform .24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .24s cubic-bezier(0.16, 1, 0.3, 1), border-color .2s;
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow), 0 12px 26px -12px rgba(0,0,0,0.14);
 }
 .card + .card{margin-top:18px}
-.card-mini{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card-mini{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm);transition:all .2s ease}
+
+.btn, .step-btn, .bnav-btn, .nav-item, .fc-btn, .quick-time-btn, .seg button, .cal-nav{
+  transition:all .18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn:active, .step-btn:active, .fc-btn:active, .quick-time-btn:active{
+  transform:scale(0.94);
+}
+
+.flashcard{
+  transition:transform 0.52s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.3s ease;
+}
+.flashcard:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow), 0 16px 32px -10px rgba(0,0,0,0.18);
+}
+.flashcard.flipped{
+  transform:rotateY(180deg);
+}
+.flashcard.flipped:hover{
+  transform:rotateY(180deg) translateY(-4px);
+}
+
+.timer-display.running{
+  animation:pulseTimer 2s ease-in-out infinite;
+}
+@keyframes pulseTimer{
+  0%,100%{filter:drop-shadow(0 0 2px rgba(217,126,74,0.3));opacity:1}
+  50%{filter:drop-shadow(0 0 8px rgba(217,126,74,0.7));opacity:0.88}
+}
+
+.bar-fill, .rpg-exp-fill{
+  transition:width 0.65s cubic-bezier(0.34, 1.25, 0.64, 1)!important;
+}
+
+@keyframes popNum{0%{transform:scale(1)}45%{transform:scale(1.2)}100%{transform:scale(1)}}
+.pop{display:inline-block;animation:popNum .32s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
 
 .section-title{font-size:19px;font-weight:800;margin:30px 0 14px;display:flex;align-items:baseline;gap:10px}
 .section-sub{font-size:13px;color:var(--text-soft);font-weight:500}
@@ -1164,12 +1207,14 @@ function initFocusTimer(){
   const logBtn = $('#timer-log-btn');
   if (!disp) return;
 
-  const updateDisp = () => { disp.textContent = formatTimerDigits(timerSecs); };
+  const updateDisp = () => { disp.textContent = formatTimerDigits(timerSecs);
+    disp.classList.remove('running'); };
 
   toggleBtn.addEventListener('click', () => {
     if (timerInterval){
       clearInterval(timerInterval);
       timerInterval = null;
+      disp.classList.remove('running');
       toggleBtn.textContent = '▶ Resume';
       toggleBtn.style.background = 'var(--fire)';
     } else {
@@ -1177,6 +1222,7 @@ function initFocusTimer(){
         timerSecs++;
         updateDisp();
       }, 1000);
+      disp.classList.add('running');
       toggleBtn.textContent = '⏸ Pause';
       toggleBtn.style.background = 'var(--text-soft)';
     }
