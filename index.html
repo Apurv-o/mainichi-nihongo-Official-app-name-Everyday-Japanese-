@@ -406,6 +406,13 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
 .fc-s-en{color:var(--text-soft);font-size:12.5px;font-style:italic}
 
 .fc-example{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:15px;font-weight:600;width:100%;max-width:400px;color:var(--text)}
+
+.fc-badge.n5{background:var(--green-soft);color:var(--green-deep)}
+.fc-badge.n4{background:var(--lav-soft);color:var(--lav)}
+.kj-lvl-tag{position:absolute;top:6px;left:8px;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:var(--surface2);color:var(--text-soft)}
+.kj-lvl-tag.n5{background:var(--green-soft);color:var(--green-deep)}
+.kj-lvl-tag.n4{background:var(--lav-soft);color:var(--lav)}
+
 .fc-badge{display:inline-block;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:700;background:var(--lav-soft);color:var(--lav);margin-bottom:6px}
 .fc-tip{font-size:12.5px;color:var(--text-faint);margin-top:14px}
 .fc-controls{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
@@ -468,7 +475,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
     </div>
     <nav class="sidenav" aria-label="Main navigation">
       <button class="nav-item active" data-view="today"><svg class="ic"><use href="#i-home"/></svg>Today<span class="jp">今日</span></button>
-      <button class="nav-item" data-view="kanji"><svg class="ic"><use href="#i-grid"/></svg>N4 Kanji<span class="jp">漢字</span></button>
+      <button class="nav-item" data-view="kanji"><svg class="ic"><use href="#i-grid"/></svg>Kanji (N5/N4)<span class="jp">漢字</span></button>
       <button class="nav-item" data-view="history"><svg class="ic"><use href="#i-cal"/></svg>History<span class="jp">履歴</span></button>
       <button class="nav-item" data-view="progress"><svg class="ic"><use href="#i-chart"/></svg>Progress<span class="jp">進捗</span></button>
       <button class="nav-item" data-view="settings"><svg class="ic"><use href="#i-sliders"/></svg>Settings<span class="jp">設定</span></button>
@@ -562,13 +569,20 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
       </div>
     </section>
 
-    <!-- ================= N4 KANJI PRACTICE ================= -->
-    <section class="view" id="view-kanji" aria-label="N4 Kanji Practice">
-      <div class="panel-head" style="margin-bottom:14px">
-        <h2 class="page-title" style="margin-bottom:0">🎴 N4 Kanji Practice</h2>
-        <div class="seg" id="kanji-view-mode" role="group" aria-label="View mode">
-          <button data-mode="flashcard" class="active">Flashcards</button>
-          <button data-mode="grid">Browse All (213)</button>
+    <!-- ================= KANJI PRACTICE (N5 / N4) ================= -->
+    <section class="view" id="view-kanji" aria-label="Kanji Practice N5 and N4">
+      <div class="panel-head" style="margin-bottom:14px;flex-wrap:wrap">
+        <h2 class="page-title" style="margin-bottom:0">🎴 Kanji Practice (N5 / N4)</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="seg" id="kanji-lvl-filter" role="group" aria-label="Filter by JLPT Level">
+            <button data-lvl="all" class="active">All (253)</button>
+            <button data-lvl="N5">N5 (105)</button>
+            <button data-lvl="N4">N4 (148)</button>
+          </div>
+          <div class="seg" id="kanji-view-mode" role="group" aria-label="View mode">
+            <button data-mode="flashcard" class="active">Flashcards</button>
+            <button data-mode="grid">Browse All</button>
+          </div>
         </div>
       </div>
 
@@ -582,7 +596,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
         <div class="fc-wrap">
           <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Kanji flashcard, tap to flip">
             <div class="fc-side fc-front">
-              <span class="fc-badge">JLPT N4</span>
+              <span class="fc-badge" id="fc-lvl-badge">JLPT N5</span>
               <div class="fc-kanji" id="fc-kanji">会</div>
               <p class="fc-tip">👆 Tap or Click to Flip</p>
             </div>
@@ -781,7 +795,7 @@ textarea:focus,input:focus{border-color:var(--green);outline:none}
   <!-- ======= Bottom nav (Android / mobile) ======= -->
   <nav class="bottomnav" aria-label="Main navigation">
     <button class="bnav-btn active" data-view="today"><svg class="ic" style="width:22px;height:22px"><use href="#i-home"/></svg>Today</button>
-    <button class="bnav-btn" data-view="kanji"><svg class="ic" style="width:22px;height:22px"><use href="#i-grid"/></svg>N4 Kanji</button>
+    <button class="bnav-btn" data-view="kanji"><svg class="ic" style="width:22px;height:22px"><use href="#i-grid"/></svg>Kanji</button>
     <button class="bnav-btn" data-view="history"><svg class="ic" style="width:22px;height:22px"><use href="#i-cal"/></svg>History</button>
     <button class="bnav-btn" data-view="progress"><svg class="ic" style="width:22px;height:22px"><use href="#i-chart"/></svg>Progress</button>
     <button class="bnav-btn" data-view="settings"><svg class="ic" style="width:22px;height:22px"><use href="#i-sliders"/></svg>Settings</button>
@@ -1093,6 +1107,12 @@ function initFocusTimer(){
    ================================================================ */
 const LS_KANJI_STARRED = 'mn.kanji.starred.v1';
 let kanjiDeck = [...N4_KANJI];
+let currentLvlFilter = 'all';
+
+function getFilteredDeck(){
+  if (currentLvlFilter === 'all') return [...N4_KANJI];
+  return N4_KANJI.filter(x => x.lvl === currentLvlFilter);
+}
 let kanjiIdx = 0;
 let kanjiStarred = new Set();
 
@@ -1115,6 +1135,11 @@ function updateFlashcardUI(){
   $('#fc-mastered-count').textContent = kanjiStarred.size;
 
   $('#fc-kanji').textContent = item.k;
+  const lvlBadge = $('#fc-lvl-badge');
+  if (lvlBadge){
+    lvlBadge.textContent = `JLPT ${item.lvl || 'N5'}`;
+    lvlBadge.className = `fc-badge ${(item.lvl||'n5').toLowerCase()}`;
+  }
   $('#fc-reading').textContent = item.h;
   $('#fc-romaji').textContent = item.r;
   $('#fc-meaning').textContent = item.m;
@@ -1138,11 +1163,12 @@ function renderKanjiGrid(){
   const f = state.ui.kanjiFilter || 'all';
 
   let items = N4_KANJI.filter(item => {
+    if (currentLvlFilter !== 'all' && item.lvl !== currentLvlFilter) return false;
     const isStarred = kanjiStarred.has(item.k);
     if (f === 'starred' && !isStarred) return false;
     if (f === 'unstarred' && isStarred) return false;
     if (q) {
-      return item.k.includes(q) || item.h.toLowerCase().includes(q) || item.r.toLowerCase().includes(q) || item.m.toLowerCase().includes(q) || item.ex.toLowerCase().includes(q);
+      return item.k.includes(q) || item.h.toLowerCase().includes(q) || item.r.toLowerCase().includes(q) || item.m.toLowerCase().includes(q) || (item.ex && item.ex.toLowerCase().includes(q)) || (item.s_jp && item.s_jp.includes(q));
     }
     return true;
   });
@@ -1155,6 +1181,7 @@ function renderKanjiGrid(){
   list.innerHTML = items.map(item => {
     const isStarred = kanjiStarred.has(item.k);
     return `<div class="kj-tile ${isStarred ? 'starred' : ''}" data-k="${item.k}">
+      <span class="kj-lvl-tag ${(item.lvl||'n5').toLowerCase()}">${item.lvl || 'N5'}</span>
       <div class="kj-char">${item.k}</div>
       <div class="kj-hira">${esc(item.h)}</div>
       <div class="kj-mean" title="${esc(item.m)}">${esc(item.m)}</div>
@@ -1230,6 +1257,17 @@ function initKanjiPractice(){
     const cur = getTodayEntry().kanjiPages || 0;
     await setMetric('kanjiPages', cur + 1);
     toast(`+1 Kanji logged to today! Total: ${cur + 1} 💮`);
+  });
+
+  $$('#kanji-lvl-filter button').forEach(b => {
+    b.addEventListener('click', () => {
+      currentLvlFilter = b.dataset.lvl;
+      $$('#kanji-lvl-filter button').forEach(x => x.classList.toggle('active', x === b));
+      kanjiDeck = getFilteredDeck();
+      kanjiIdx = 0;
+      updateFlashcardUI();
+      if (state.ui.kanjiMode === 'grid') renderKanjiGrid();
+    });
   });
 
   $$('#kanji-view-mode button').forEach(b => {
