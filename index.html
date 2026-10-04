@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>毎日日本語 — Mainichi Nihongo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
 <meta name="description" content="A little Japanese, every day. A cozy offline-first Japanese study tracker.">
 <meta name="theme-color" content="#5e7a5b">
 <style>
@@ -137,7 +140,11 @@
    ============================================================ */
 *{box-sizing:border-box;margin:0;padding:0}
 
+
 :root{
+  --font-ui:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --font-jp:'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif;
+  --font-serif:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;
   --bg:#f6f4ee; --surface:#ffffff; --surface2:#f2efe7; --field:#f9f8f4;
   --border:#eae5db; --border-strong:#ded7cb;
   --text:#2c2723; --text-soft:#766c62; --text-faint:#a69c90;
@@ -179,7 +186,7 @@
 
 html{scroll-behavior:smooth}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  font-family:var(--font-ui);
   background-color:var(--bg); color:var(--text);
   font-size:14.5px; line-height:1.5;
   -webkit-font-smoothing:antialiased;
@@ -205,9 +212,9 @@ button{cursor:pointer;background:none;border:none}
 
 .brand-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:16px}
 .brand-logo-svg{width:56px;height:38px;margin-bottom:6px}
-.brand-title{font-size:20px;font-weight:900;letter-spacing:.02em;color:var(--text)}
-.brand-sub{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;margin-top:2px}
-.brand-tag{font-size:11px;color:var(--text-faint);font-style:italic;margin-top:3px}
+.brand-title{font-family:var(--font-jp);font-size:20px;font-weight:900;letter-spacing:.02em;color:var(--text)}
+.brand-sub{font-family:var(--font-ui);font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;margin-top:2px}
+.brand-tag{font-family:var(--font-ui);font-size:11.5px;color:var(--text-faint);font-style:italic;margin-top:3px}
 
 .nav-menu{display:flex;flex-direction:column;gap:4px;flex:1;margin-top:6px}
 .nav-item{
@@ -249,7 +256,7 @@ button{cursor:pointer;background:none;border:none}
 }
 [data-theme="dark"] .torii-quote-box{background:rgba(30,26,23,0.9)}
 [data-theme="rpg"] .torii-quote-box{background:rgba(24,28,45,0.9)}
-.torii-quote-jp{font-size:13px;font-weight:900;color:var(--text)}
+.torii-quote-jp{font-family:var(--font-serif);font-size:14px;font-weight:700;letter-spacing:0.04em;color:#8e3d30}
 .torii-quote-romaji{font-size:9.5px;color:var(--text-soft);font-style:italic}
 .torii-quote-en{font-size:10px;color:var(--text-faint);margin-top:1px}
 .side-status-pill{
@@ -325,9 +332,9 @@ button{cursor:pointer;background:none;border:none}
   max-width:65%;pointer-events:none;z-index:1;
 }
 .fuji-text-wrap{position:relative;z-index:2;max-width:55%}
-.fuji-greeting{font-size:13px;font-weight:800;color:var(--text-soft);display:flex;align-items:center;gap:6px}
-.fuji-title{font-size:clamp(32px,4vw,38px);font-weight:900;line-height:1.15;color:var(--text);margin:4px 0 2px}
-.fuji-sub{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--text-soft)}
+.fuji-greeting{font-family:var(--font-jp);font-size:13.5px;font-weight:700;color:var(--text-soft);display:flex;align-items:center;gap:6px}
+.fuji-title{font-family:var(--font-jp);font-size:clamp(32px,4vw,38px);font-weight:900;line-height:1.15;letter-spacing:-0.01em;color:var(--text);margin:4px 0 2px}
+.fuji-sub{font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--text-soft)}
 .fuji-date-pill{
   display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.75);
   backdrop-filter:blur(4px);border:1px solid var(--border);border-radius:6px;
@@ -342,7 +349,7 @@ button{cursor:pointer;background:none;border:none}
   text-align:center;box-shadow:var(--shadow);position:relative;
 }
 .streak-fire-icon{width:32px;height:32px;margin-bottom:2px}
-.streak-big-num{font-size:42px;font-weight:900;line-height:1;color:var(--text);margin:2px 0}
+.streak-big-num{font-family:var(--font-ui);font-size:44px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);margin:2px 0}
 .streak-title-label{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--text-soft);text-transform:uppercase}
 .streak-sub-jp{font-size:11px;color:var(--text-faint);margin-top:6px;line-height:1.35}
 
@@ -354,8 +361,8 @@ button{cursor:pointer;background:none;border:none}
 }
 .quote-sakura-svg{position:absolute;right:80px;top:0;bottom:0;height:100%;pointer-events:none;opacity:.8}
 .quote-content{position:relative;z-index:2}
-.quote-text-jp{font-size:17px;font-weight:900;color:var(--text)}
-.quote-text-en{font-size:12.5px;color:var(--text-soft);font-style:italic;margin-top:2px}
+.quote-text-jp{font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.04em;color:#8e3d30}
+.quote-text-en{font-family:var(--font-ui);font-size:13px;color:var(--text-soft);font-style:italic;font-weight:500;margin-top:2px}
 .quote-controls{display:flex;gap:5px;position:relative;z-index:2}
 .quote-nav-btn{
   width:28px;height:28px;border-radius:6px;border:1px solid var(--border);
@@ -391,7 +398,7 @@ button{cursor:pointer;background:none;border:none}
 .m-days .m-icon-box{color:var(--amber-text)}
 
 .m-data{display:flex;flex-direction:column;position:relative;z-index:2}
-.m-num{font-size:26px;font-weight:900;line-height:1.1;color:var(--text)}
+.m-num{font-family:var(--font-ui);font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
 .m-label{font-size:12px;font-weight:600;color:var(--text-soft);margin-top:1px}
 .m-watermark-svg{position:absolute;right:0;bottom:0;height:65px;opacity:.28;pointer-events:none}
 
@@ -406,7 +413,7 @@ button{cursor:pointer;background:none;border:none}
   padding:18px 20px;box-shadow:var(--shadow);
 }
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.panel-title{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px}
+.panel-title{font-family:var(--font-jp);font-size:15.5px;font-weight:900;letter-spacing:0.01em;color:var(--text);display:flex;align-items:center;gap:6px}
 .panel-link{font-size:12px;font-weight:700;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
 .panel-link:hover{text-decoration:underline}
 
@@ -427,7 +434,7 @@ button{cursor:pointer;background:none;border:none}
 .sc-gram .study-card-icon{background:var(--pink-soft);color:var(--pink-text)}
 .sc-kj .study-card-icon{background:var(--lav-soft);color:var(--lav-text)}
 
-.sc-jp-name{font-size:12.5px;font-weight:900;color:var(--text)}
+.sc-jp-name{font-family:var(--font-jp);font-size:13px;font-weight:900;color:var(--text)}
 .sc-en-name{font-size:11px;color:var(--text-soft)}
 
 /* Mini Circular Progress Ring */
