@@ -8,31 +8,34 @@
 <meta name="theme-color" content="#5e7a5b">
 <style>
 /* ============================================================
-   毎日日本語 — Mainichi Nihongo (Modern Japanese Aesthetic)
+   毎日日本語 — Mainichi Nihongo (Exact Pixel-Perfect UI Match)
    ============================================================ */
 *{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#f8f6f0; --surface:#ffffff; --surface2:#f4f0e6; --field:#fcfbfa;
-  --border:#eae4d8; --border-strong:#ded6c7;
-  --text:#2c2723; --text-soft:#786f65; --text-faint:#a89f92;
-  --green:#5e7a5b; --green-deep:#486345; --green-soft:#eaf0e8; --green-btn:#4d684a;
-  --pink:#d6796a; --pink-soft:#faeeeb; --pink-btn:#f5c4ba; --pink-text:#9e4638;
-  --lav:#6d77bd; --lav-soft:#edf0fa; --lav-btn:#99a1e6; --lav-text:#4a5499;
-  --amber:#e08a3c; --amber-soft:#fcf3e8; --fire:#e07338; --fire-soft:#fdeee5;
-  --shadow:0 2px 8px rgba(44,39,35,0.04), 0 1px 3px rgba(44,39,35,0.02);
-  --shadow-sm:0 1px 4px rgba(44,39,35,0.04);
-  --radius:16px; --radius-sm:10px;
+  --bg:#f6f4ee; --surface:#ffffff; --surface2:#f2efe7; --field:#f9f8f4;
+  --border:#eae5db; --border-strong:#ded7cb;
+  --text:#2c2723; --text-soft:#766c62; --text-faint:#a69c90;
+  
+  --green:#5e7a5b; --green-deep:#436140; --green-soft:#e5ece3; --green-btn:#486345;
+  --pink:#d6796a; --pink-soft:#fbe8e4; --pink-btn:#f5c0b5; --pink-text:#8e3d30;
+  --lav:#6d77bd; --lav-soft:#eaeafd; --lav-btn:#9da7e8; --lav-text:#434c8c;
+  --amber:#e08a3c; --amber-soft:#faebd7; --amber-text:#8a521e;
+  --fire:#e07338;
+  
+  --shadow:0 2px 6px rgba(44,39,35,0.03), 0 1px 3px rgba(44,39,35,0.02);
+  --shadow-sm:0 1px 3px rgba(44,39,35,0.04);
+  --radius:14px; --radius-sm:10px;
 }
 
 [data-theme="dark"]{
-  --bg:#171513; --surface:#211d19; --surface2:#2c2621; --field:#1a1714;
-  --border:#3a322b; --border-strong:#4d433b;
+  --bg:#151311; --surface:#1e1a17; --surface2:#28231f; --field:#191613;
+  --border:#362f29; --border-strong:#483f37;
   --text:#f2eee6; --text-soft:#b8ad9e; --text-faint:#807567;
-  --green:#85a682; --green-deep:#a2c49e; --green-soft:#222d20; --green-btn:#3b5238;
-  --pink:#e59183; --pink-soft:#3a2320; --pink-btn:#542f2a; --pink-text:#ffb5a8;
-  --lav:#9da6e8; --lav-soft:#25273d; --lav-btn:#3b4066; --lav-text:#c4cbff;
-  --amber:#f0a35c; --amber-soft:#382717; --fire:#f0854d; --fire-soft:#3d2417;
+  --green:#85a682; --green-deep:#a2c49e; --green-soft:#212b1f; --green-btn:#3b5238;
+  --pink:#e59183; --pink-soft:#38221f; --pink-btn:#542f2a; --pink-text:#ffb5a8;
+  --lav:#9da6e8; --lav-soft:#23253b; --lav-btn:#3b4066; --lav-text:#c4cbff;
+  --amber:#f0a35c; --amber-soft:#362515; --amber-text:#ffd2a8; --fire:#f0854d;
   --shadow:0 2px 10px rgba(0,0,0,0.3);
   --shadow-sm:0 1px 4px rgba(0,0,0,0.25);
 }
@@ -44,16 +47,16 @@
   --green:#2ee68a; --green-deep:#26c274; --green-soft:#163829; --green-btn:#1e6b47;
   --pink:#ff6584; --pink-soft:#3d1a24; --pink-btn:#6b2336; --pink-text:#ffa3b8;
   --lav:#a78bfa; --lav-soft:#2b2244; --lav-btn:#4c3b7a; --lav-text:#d8ccff;
-  --amber:#f6c85f; --amber-soft:#382c12; --fire:#ff7b47; --fire-soft:#3e2216;
+  --amber:#f6c85f; --amber-soft:#382c12; --amber-text:#ffe49e; --fire:#ff7b47;
   --shadow:0 0 15px rgba(207,159,56,0.15), 0 4px 20px rgba(0,0,0,0.6);
   --shadow-sm:0 2px 6px rgba(0,0,0,0.5);
 }
 
 html{scroll-behavior:smooth}
 body{
-  font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
   background-color:var(--bg); color:var(--text);
-  font-size:15px; line-height:1.55;
+  font-size:14.5px; line-height:1.5;
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
 }
@@ -61,7 +64,7 @@ button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:none}
 :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:6px}
 
-/* Icons rule */
+/* Icons */
 .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
 /* Layout */
@@ -69,60 +72,60 @@ button{cursor:pointer;background:none;border:none}
 
 /* Left Sidebar */
 .sidebar{
-  width:250px;flex-shrink:0;position:sticky;top:0;height:100vh;
+  width:245px;flex-shrink:0;position:sticky;top:0;height:100vh;
   display:flex;flex-direction:column;justify-content:space-between;
-  padding:24px 16px 16px;background:var(--surface);
+  padding:22px 14px 16px;background:var(--surface);
   border-right:1px solid var(--border);z-index:20;
 }
 
-.brand-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:18px}
-.brand-logo-svg{width:58px;height:42px;margin-bottom:6px}
-.brand-title{font-size:20px;font-weight:800;letter-spacing:.02em;color:var(--text)}
-.brand-sub{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;margin-top:2px}
-.brand-tag{font-size:11px;color:var(--text-faint);font-style:italic;margin-top:4px}
+.brand-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:16px}
+.brand-logo-svg{width:56px;height:38px;margin-bottom:6px}
+.brand-title{font-size:20px;font-weight:900;letter-spacing:.02em;color:var(--text)}
+.brand-sub{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;margin-top:2px}
+.brand-tag{font-size:11px;color:var(--text-faint);font-style:italic;margin-top:3px}
 
-.nav-menu{display:flex;flex-direction:column;gap:5px;flex:1;margin-top:8px}
+.nav-menu{display:flex;flex-direction:column;gap:4px;flex:1;margin-top:6px}
 .nav-item{
-  display:flex;align-items:center;gap:12px;padding:10px 14px;
-  border-radius:12px;font-size:14px;font-weight:600;color:var(--text-soft);
-  transition:all .18s ease;position:relative;width:100%;text-align:left;
+  display:flex;align-items:center;gap:12px;padding:9px 14px;
+  border-radius:10px;font-size:14px;font-weight:600;color:var(--text-soft);
+  transition:all .15s ease;position:relative;width:100%;text-align:left;
 }
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{
-  background:var(--green-soft);color:var(--green-deep);font-weight:700;
+  background:var(--green-soft);color:var(--green-deep);font-weight:800;
 }
 .nav-item.active::before{
-  content:"";position:absolute;left:0;top:8px;bottom:8px;width:3.5px;
-  background:var(--green);border-radius:0 4px 4px 0;
+  content:"";position:absolute;left:0;top:6px;bottom:6px;width:3.5px;
+  background:var(--green-deep);border-radius:0 4px 4px 0;
 }
-.nav-item .nav-arrow{margin-left:auto;font-size:11px;opacity:.6;transition:transform .2s}
+.nav-item .nav-arrow{margin-left:auto;font-size:10px;opacity:.65;transition:transform .2s}
 .nav-item.open .nav-arrow{transform:rotate(180deg)}
 
-/* Sub-navigation for Library */
-.nav-submenu{display:none;flex-direction:column;gap:3px;padding-left:36px;margin-top:2px}
+/* Submenu for Library */
+.nav-submenu{display:none;flex-direction:column;gap:2px;padding-left:34px;margin-top:2px}
 .nav-submenu.show{display:flex}
 .subnav-item{
-  padding:6px 10px;font-size:13px;font-weight:500;color:var(--text-soft);
-  border-radius:8px;transition:all .15s;
+  padding:5px 10px;font-size:12.5px;font-weight:600;color:var(--text-soft);
+  border-radius:6px;transition:all .15s;
 }
 .subnav-item:hover{color:var(--text);background:var(--surface2)}
-.subnav-item.active{color:var(--green-deep);font-weight:700}
+.subnav-item.active{color:var(--green-deep);font-weight:800}
 
-/* Sidebar Footer Torii Card */
+/* Sidebar Footer Torii Artwork Card */
 .sidebar-foot-card{
   background:linear-gradient(180deg,var(--surface2) 0%,var(--field) 100%);
-  border:1px solid var(--border);border-radius:14px;
-  padding:14px;position:relative;overflow:hidden;text-align:center;
+  border:1px solid var(--border);border-radius:12px;
+  padding:12px;position:relative;overflow:hidden;text-align:center;
 }
-.sidebar-torii-svg{width:100%;height:68px;opacity:.85;margin-bottom:4px}
+.sidebar-torii-svg{width:100%;height:85px;margin-bottom:2px;display:block}
 .torii-quote-box{
-  background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);
-  border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:-14px;position:relative;z-index:2;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);
+  border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-top:-22px;position:relative;z-index:2;
 }
-[data-theme="dark"] .torii-quote-box{background:rgba(33,29,25,0.85)}
-[data-theme="rpg"] .torii-quote-box{background:rgba(24,28,45,0.85)}
-.torii-quote-jp{font-size:12.5px;font-weight:800;color:var(--text)}
-.torii-quote-romaji{font-size:10px;color:var(--text-soft);font-style:italic}
+[data-theme="dark"] .torii-quote-box{background:rgba(30,26,23,0.9)}
+[data-theme="rpg"] .torii-quote-box{background:rgba(24,28,45,0.9)}
+.torii-quote-jp{font-size:13px;font-weight:900;color:var(--text)}
+.torii-quote-romaji{font-size:9.5px;color:var(--text-soft);font-style:italic}
 .torii-quote-en{font-size:10px;color:var(--text-faint);margin-top:1px}
 .side-status-pill{
   display:flex;align-items:center;gap:6px;justify-content:center;
@@ -135,116 +138,116 @@ button{cursor:pointer;background:none;border:none}
 
 /* Top Navigation Bar */
 .topbar{
-  height:64px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;background:var(--surface);border-bottom:1px solid var(--border);
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border);
   position:sticky;top:0;z-index:15;
 }
 .search-box{
   display:flex;align-items:center;gap:10px;background:var(--bg);
-  border:1px solid var(--border);border-radius:10px;padding:7px 14px;
-  width:100%;max-width:380px;color:var(--text-soft);font-size:13.5px;cursor:pointer;
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+  width:100%;max-width:360px;color:var(--text-soft);font-size:13px;cursor:pointer;
   transition:border-color .15s;
 }
 .search-box:hover{border-color:var(--green)}
-.search-box input{border:none;background:none;outline:none;flex:1;font-size:13.5px;color:var(--text)}
+.search-box input{border:none;background:none;outline:none;flex:1;font-size:13px;color:var(--text)}
 .search-box kbd{
-  font-size:10.5px;font-weight:700;background:var(--surface);border:1px solid var(--border);
-  border-radius:4px;padding:2px 6px;color:var(--text-soft);
+  font-size:10px;font-weight:700;background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;padding:2px 5px;color:var(--text-soft);
 }
 
-.topbar-controls{display:flex;align-items:center;gap:10px}
+.topbar-controls{display:flex;align-items:center;gap:8px}
 .icon-btn{
-  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+  width:36px;height:36px;border-radius:8px;border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;color:var(--text-soft);
   background:var(--surface);transition:all .15s;position:relative;
 }
 .icon-btn:hover{background:var(--surface2);color:var(--text)}
 .notif-badge-dot{
-  position:absolute;top:7px;right:7px;width:7px;height:7px;
+  position:absolute;top:6px;right:6px;width:6px;height:6px;
   background:#ef4444;border-radius:50%;border:1.5px solid var(--surface);
 }
 .user-avatar{
-  width:38px;height:38px;border-radius:50%;background:var(--text);color:var(--surface);
-  font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:50%;background:var(--text);color:var(--surface);
+  font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;
 }
 
 /* Page Content View Area */
-.content-area{padding:24px 28px 80px;max-width:1160px;margin:0 auto;width:100%}
+.content-area{padding:20px 24px 80px;max-width:1180px;margin:0 auto;width:100%}
 .view{display:none}
 .view.active{display:block;animation:viewFadeSlide .25s ease both}
-@keyframes viewFadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes viewFadeSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* ============================================================
-   TODAY VIEW COMPONENTS
+   TODAY VIEW COMPONENTS (EXACT MATCH)
    ============================================================ */
-/* Hero Section with Mt. Fuji Art & Floating Streak */
+/* Hero Section Grid */
 .hero-split-grid{
-  display:grid;grid-template-columns:1fr 200px;gap:16px;margin-bottom:16px;
+  display:grid;grid-template-columns:1fr 180px;gap:14px;margin-bottom:14px;
 }
-@media(max-width:900px){.hero-split-grid{grid-template-columns:1fr}}
+@media(max-width:920px){.hero-split-grid{grid-template-columns:1fr}}
 
 .fuji-banner-card{
-  background:linear-gradient(135deg,#fbe7df 0%,#f5eada 40%,#dbe7f2 100%);
+  background:linear-gradient(135deg,#fdede6 0%,#f8efe2 35%,#e1ecf6 100%);
   border:1px solid var(--border);border-radius:var(--radius);
-  padding:24px 28px;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;justify-content:space-between;min-height:190px;
+  padding:22px 26px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:185px;
 }
 [data-theme="dark"] .fuji-banner-card{background:linear-gradient(135deg,#36231f 0%,#2c241c 40%,#1c2633 100%)}
 [data-theme="rpg"] .fuji-banner-card{background:linear-gradient(135deg,#231633 0%,#15192c 50%,#0e1f2b 100%)}
 
 .fuji-art-svg{
   position:absolute;right:0;bottom:0;top:0;height:100%;width:auto;
-  max-width:65%;pointer-events:none;z-index:1;object-fit:cover;
+  max-width:65%;pointer-events:none;z-index:1;
 }
-.fuji-text-wrap{position:relative;z-index:2;max-width:60%}
-.fuji-greeting{font-size:13.5px;font-weight:700;color:var(--text-soft);display:flex;align-items:center;gap:6px}
-.fuji-title{font-size:clamp(32px,4vw,40px);font-weight:900;line-height:1.15;color:var(--text);margin:6px 0 3px}
-.fuji-sub{font-size:12px;font-weight:600;letter-spacing:.05em;color:var(--text-soft)}
+.fuji-text-wrap{position:relative;z-index:2;max-width:55%}
+.fuji-greeting{font-size:13px;font-weight:800;color:var(--text-soft);display:flex;align-items:center;gap:6px}
+.fuji-title{font-size:clamp(32px,4vw,38px);font-weight:900;line-height:1.15;color:var(--text);margin:4px 0 2px}
+.fuji-sub{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--text-soft)}
 .fuji-date-pill{
-  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.7);
-  backdrop-filter:blur(4px);border:1px solid var(--border);border-radius:8px;
-  padding:5px 12px;font-size:12px;font-weight:700;color:var(--text-soft);margin-top:14px;
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(4px);border:1px solid var(--border);border-radius:6px;
+  padding:4px 10px;font-size:11.5px;font-weight:700;color:var(--text-soft);margin-top:14px;
 }
-[data-theme="dark"] .fuji-date-pill{background:rgba(33,29,25,0.7)}
+[data-theme="dark"] .fuji-date-pill{background:rgba(30,26,23,0.75)}
 
 /* Streak Card */
 .streak-card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:20px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;box-shadow:var(--shadow);position:relative;
 }
-.streak-fire-icon{width:36px;height:36px;margin-bottom:4px}
-.streak-big-num{font-size:44px;font-weight:900;line-height:1;color:var(--text);margin:2px 0}
-.streak-title-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--text-soft);text-transform:uppercase}
-.streak-sub-jp{font-size:11.5px;color:var(--text-faint);margin-top:6px;line-height:1.3}
+.streak-fire-icon{width:32px;height:32px;margin-bottom:2px}
+.streak-big-num{font-size:42px;font-weight:900;line-height:1;color:var(--text);margin:2px 0}
+.streak-title-label{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--text-soft);text-transform:uppercase}
+.streak-sub-jp{font-size:11px;color:var(--text-faint);margin-top:6px;line-height:1.35}
 
 /* Motivational Quote Banner */
 .quote-banner{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:16px 24px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;
   box-shadow:var(--shadow);position:relative;overflow:hidden;
 }
-.quote-sakura-svg{position:absolute;right:90px;top:0;bottom:0;height:100%;pointer-events:none;opacity:.7}
+.quote-sakura-svg{position:absolute;right:80px;top:0;bottom:0;height:100%;pointer-events:none;opacity:.8}
 .quote-content{position:relative;z-index:2}
-.quote-text-jp{font-size:18px;font-weight:800;color:var(--text)}
-.quote-text-en{font-size:13px;color:var(--text-soft);font-style:italic;margin-top:2px}
-.quote-controls{display:flex;gap:6px;position:relative;z-index:2}
+.quote-text-jp{font-size:17px;font-weight:900;color:var(--text)}
+.quote-text-en{font-size:12.5px;color:var(--text-soft);font-style:italic;margin-top:2px}
+.quote-controls{display:flex;gap:5px;position:relative;z-index:2}
 .quote-nav-btn{
-  width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
+  width:28px;height:28px;border-radius:6px;border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;background:var(--surface);
-  font-size:13px;color:var(--text-soft);transition:all .15s;
+  font-size:12px;color:var(--text-soft);transition:all .15s;
 }
 .quote-nav-btn:hover{background:var(--surface2);color:var(--text)}
 
 /* 4 Metric Summary Cards */
 .metrics-4-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;
 }
 @media(max-width:900px){.metrics-4-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:500px){.metrics-4-grid{grid-template-columns:1fr}}
 
 .metric-tile{
-  border-radius:var(--radius);padding:18px 20px;display:flex;align-items:center;gap:16px;
+  border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;
   position:relative;overflow:hidden;border:1px solid transparent;box-shadow:var(--shadow);
 }
 .metric-tile.m-words{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 25%,transparent)}
@@ -253,63 +256,63 @@ button{cursor:pointer;background:none;border:none}
 .metric-tile.m-days{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 25%,transparent)}
 
 .m-icon-box{
-  width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,0.85);
+  width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.9);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm);
 }
 [data-theme="dark"] .m-icon-box{background:rgba(0,0,0,0.35)}
 .m-words .m-icon-box{color:var(--green-deep)}
 .m-grammar .m-icon-box{color:var(--pink-text)}
 .m-kanji .m-icon-box{color:var(--lav-text)}
-.m-days .m-icon-box{color:var(--amber)}
+.m-days .m-icon-box{color:var(--amber-text)}
 
 .m-data{display:flex;flex-direction:column;position:relative;z-index:2}
-.m-num{font-size:28px;font-weight:900;line-height:1.1;color:var(--text)}
-.m-label{font-size:12.5px;font-weight:600;color:var(--text-soft);margin-top:2px}
-.m-watermark-svg{position:absolute;right:-5px;bottom:-5px;height:70px;opacity:.25;pointer-events:none}
+.m-num{font-size:26px;font-weight:900;line-height:1.1;color:var(--text)}
+.m-label{font-size:12px;font-weight:600;color:var(--text-soft);margin-top:1px}
+.m-watermark-svg{position:absolute;right:0;bottom:0;height:65px;opacity:.28;pointer-events:none}
 
-/* Middle Two-Column Section */
+/* Middle Section */
 .mid-section-grid{
-  display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:18px;
+  display:grid;grid-template-columns:1fr 310px;gap:14px;margin-bottom:14px;
 }
 @media(max-width:960px){.mid-section-grid{grid-template-columns:1fr}}
 
 .panel-card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:20px 22px;box-shadow:var(--shadow);
+  padding:18px 20px;box-shadow:var(--shadow);
 }
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.panel-title{font-size:16px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
-.panel-link{font-size:12.5px;font-weight:700;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-title{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px}
+.panel-link{font-size:12px;font-weight:700;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
 .panel-link:hover{text-decoration:underline}
 
 /* Today's Study 3 Action Cards */
-.study-action-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.study-action-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:650px){.study-action-row{grid-template-columns:1fr}}
 
 .study-action-card{
-  background:var(--field);border:1px solid var(--border);border-radius:14px;
-  padding:14px;display:flex;flex-direction:column;gap:12px;
+  background:var(--field);border:1px solid var(--border);border-radius:12px;
+  padding:12px;display:flex;flex-direction:column;gap:10px;
 }
 .study-card-top{display:flex;align-items:center;justify-content:space-between}
-.study-card-title-wrap{display:flex;align-items:center;gap:10px}
+.study-card-title-wrap{display:flex;align-items:center;gap:8px}
 .study-card-icon{
-  width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
 }
 .sc-words .study-card-icon{background:var(--green-soft);color:var(--green-deep)}
 .sc-gram .study-card-icon{background:var(--pink-soft);color:var(--pink-text)}
 .sc-kj .study-card-icon{background:var(--lav-soft);color:var(--lav-text)}
 
-.sc-jp-name{font-size:13px;font-weight:800;color:var(--text)}
-.sc-en-name{font-size:11.5px;color:var(--text-soft)}
+.sc-jp-name{font-size:12.5px;font-weight:900;color:var(--text)}
+.sc-en-name{font-size:11px;color:var(--text-soft)}
 
 /* Mini Circular Progress Ring */
-.progress-ring-wrap{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
-.progress-ring-svg{transform:rotate(-90deg);width:44px;height:44px}
-.progress-ring-text{position:absolute;font-size:10px;font-weight:800;color:var(--text)}
+.progress-ring-wrap{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.progress-ring-svg{transform:rotate(-90deg);width:40px;height:40px}
+.progress-ring-text{position:absolute;font-size:9.5px;font-weight:800;color:var(--text)}
 
 .study-card-btn{
-  width:100%;padding:9px 12px;border-radius:10px;font-size:12.5px;font-weight:700;
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;
+  width:100%;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:800;
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;
 }
 .sc-words .study-card-btn{background:var(--green-btn);color:#ffffff}
 .sc-words .study-card-btn:hover{background:var(--green-deep)}
@@ -318,58 +321,57 @@ button{cursor:pointer;background:none;border:none}
 .sc-kj .study-card-btn{background:var(--lav-btn);color:#ffffff}
 .sc-kj .study-card-btn:hover{opacity:.9}
 
-/* Quick Stepper Counter Controls inside Card */
+/* Stepper inside Card */
 .study-card-stepper{
   display:flex;align-items:center;justify-content:space-between;background:var(--surface);
-  border:1px solid var(--border);border-radius:8px;padding:3px 6px;margin-top:2px;
+  border:1px solid var(--border);border-radius:6px;padding:2px 5px;
 }
 .step-btn-mini{
-  width:24px;height:24px;border-radius:6px;background:var(--surface2);
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;
+  width:22px;height:22px;border-radius:4px;background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;
 }
-.step-val-mini{font-size:14px;font-weight:800;color:var(--text)}
+.step-val-mini{font-size:13px;font-weight:900;color:var(--text)}
 
 /* This Week Bar Chart Widget */
-.week-bar-chart-wrap{display:flex;flex-direction:column;gap:12px;height:100%;justify-content:space-between}
 .week-bars-container{
-  display:flex;align-items:flex-end;justify-content:space-between;gap:8px;
-  height:130px;padding:10px 0 0;border-bottom:1px solid var(--border);position:relative;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:6px;
+  height:120px;padding:10px 0 0;border-bottom:1px solid var(--border);position:relative;
 }
-.week-bar-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.week-bar-col{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
 .week-bar-pill{
-  width:100%;max-width:26px;background:var(--green-soft);border-radius:6px 6px 0 0;
-  transition:height .3s ease;min-height:6px;position:relative;
+  width:100%;max-width:24px;background:#dbe4db;border-radius:4px 4px 0 0;
+  transition:height .3s ease;min-height:5px;position:relative;
 }
 .week-bar-pill.today-highlight{background:var(--pink)}
-.week-bar-dow{font-size:10.5px;font-weight:700;color:var(--text-soft)}
+.week-bar-dow{font-size:10px;font-weight:700;color:var(--text-soft)}
 
 /* Bottom 3 Action Cards */
-.bottom-3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bottom-3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:850px){.bottom-3-grid{grid-template-columns:1fr}}
 
 .action-tile{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;
   box-shadow:var(--shadow);
 }
-.action-tile-left{display:flex;align-items:center;gap:12px}
+.action-tile-left{display:flex;align-items:center;gap:10px}
 .action-tile-icon{
-  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .act-goals .action-tile-icon{background:var(--pink-soft);color:var(--pink-text)}
 .act-notes .action-tile-icon{background:var(--green-soft);color:var(--green-deep)}
-.act-remind .action-tile-icon{background:var(--amber-soft);color:var(--amber)}
+.act-remind .action-tile-icon{background:var(--amber-soft);color:var(--amber-text)}
 
-.action-tile-title{font-size:14px;font-weight:800;color:var(--text)}
-.action-tile-desc{font-size:11.5px;color:var(--text-soft);margin-top:2px}
+.action-tile-title{font-size:13.5px;font-weight:800;color:var(--text)}
+.action-tile-desc{font-size:11px;color:var(--text-soft);margin-top:1px}
 .action-tile-btn{
-  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:6px 12px;font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;transition:all .15s;
+  background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--text);white-space:nowrap;transition:all .15s;
 }
 .action-tile-btn:hover{background:var(--border)}
 
 /* Switch toggle */
-.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.switch{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0}
 .switch input{opacity:0;width:0;height:0}
 .switch .track{
   position:absolute;inset:0;background:var(--border-strong);border-radius:999px;
@@ -377,123 +379,122 @@ button{cursor:pointer;background:none;border:none}
 }
 .switch input:checked + .track{background:var(--green)}
 .switch .knob{
-  position:absolute;height:18px;width:18px;left:3px;bottom:3px;
+  position:absolute;height:16px;width:16px;left:3px;bottom:3px;
   background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none;
 }
-.switch input:checked + .track .knob{transform:translateX(20px)}
+.switch input:checked + .track .knob{transform:translateX(18px)}
 
-/* Focus Timer Widget */
+/* Focus Timer Strip */
 .timer-strip{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
-  background:var(--surface2);border:1px dashed var(--border-strong);border-radius:12px;
-  padding:12px 18px;margin-top:14px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  background:var(--surface2);border:1px dashed var(--border-strong);border-radius:10px;
+  padding:10px 14px;margin-top:12px;
 }
-.timer-strip-digits{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--fire)}
+.timer-strip-digits{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--fire)}
 
 /* ============================================================
-   KANJI / LIBRARY FLASHCARD STYLES
+   KANJI / FLASHCARD STYLES
    ============================================================ */
-.fc-wrap{perspective:1000px;margin:18px 0;display:flex;justify-content:center}
+.fc-wrap{perspective:1000px;margin:16px 0;display:flex;justify-content:center}
 .flashcard{
-  width:100%;max-width:480px;height:320px;position:relative;
+  width:100%;max-width:480px;height:310px;position:relative;
   transform-style:preserve-3d;transition:transform .5s cubic-bezier(0.34, 1.4, 0.64, 1);
   cursor:pointer;user-select:none;
 }
 .flashcard.flipped{transform:rotateY(180deg)}
 .fc-side{
-  position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;
-  padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;
+  padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);background:var(--surface);
 }
 .fc-back{transform:rotateY(180deg);background:linear-gradient(180deg,var(--surface) 0%,var(--surface2) 100%)}
-.fc-kanji{font-size:84px;font-weight:900;line-height:1;margin:8px 0;color:var(--text)}
-.fc-reading{font-size:20px;font-weight:800;color:var(--green-deep)}
-.fc-romaji{font-size:13px;color:var(--text-soft);font-style:italic}
-.fc-meaning{font-size:16px;font-weight:700;margin:6px 0;color:var(--text)}
-.fc-example{font-size:13.5px;color:var(--text-soft);background:var(--surface);padding:4px 12px;border-radius:8px;border:1px solid var(--border)}
+.fc-kanji{font-size:82px;font-weight:900;line-height:1;margin:6px 0;color:var(--text)}
+.fc-reading{font-size:19px;font-weight:800;color:var(--green-deep)}
+.fc-romaji{font-size:12.5px;color:var(--text-soft);font-style:italic}
+.fc-meaning{font-size:15.5px;font-weight:700;margin:5px 0;color:var(--text)}
+.fc-example{font-size:13px;color:var(--text-soft);background:var(--surface);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
 .fc-sentence{
-  background:var(--surface);border:1px dashed var(--border-strong);border-radius:10px;
-  padding:8px 12px;font-size:13px;margin-top:8px;text-align:left;width:100%;max-width:420px;
+  background:var(--surface);border:1px dashed var(--border-strong);border-radius:8px;
+  padding:7px 10px;font-size:12.5px;margin-top:8px;text-align:left;width:100%;max-width:420px;
 }
-.fc-s-jp{font-weight:700;color:var(--text);font-size:14px}
-.fc-s-hira{color:var(--green-deep);font-size:12px;font-weight:600}
-.fc-s-en{color:var(--text-soft);font-size:11.5px;font-style:italic}
-.fc-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:6px}
+.fc-s-jp{font-weight:800;color:var(--text);font-size:13.5px}
+.fc-s-hira{color:var(--green-deep);font-size:11.5px;font-weight:700}
+.fc-s-en{color:var(--text-soft);font-size:11px;font-style:italic}
+.fc-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:800;margin-bottom:4px}
 .fc-badge.n5{background:var(--green-soft);color:var(--green-deep)}
 .fc-badge.n4{background:var(--lav-soft);color:var(--lav-text)}
-.fc-controls{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+.fc-controls{display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:12px}
 .fc-btn{
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:8px 16px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:7px 14px;font-weight:700;font-size:12.5px;display:inline-flex;align-items:center;gap:5px;
 }
 .fc-btn:hover{background:var(--surface2)}
-.fc-btn.star.active{background:var(--amber-soft);color:var(--amber);border-color:var(--amber)}
+.fc-btn.star.active{background:var(--amber-soft);color:var(--amber-text);border-color:var(--amber)}
 
 /* Kanji Grid Tiles */
-.kanji-grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px}
+.kanji-grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:8px;margin-top:12px}
 .kj-tile{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:14px 8px;text-align:center;cursor:pointer;transition:all .15s;position:relative;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:12px 6px;text-align:center;cursor:pointer;transition:all .15s;position:relative;
 }
 .kj-tile:hover{transform:translateY(-2px);border-color:var(--green);box-shadow:var(--shadow-sm)}
-.kj-tile.starred::after{content:"★";position:absolute;top:5px;right:6px;font-size:11px;color:var(--amber)}
-.kj-lvl-tag{position:absolute;top:5px;left:6px;font-size:9.5px;font-weight:800;padding:1px 5px;border-radius:4px}
+.kj-tile.starred::after{content:"★";position:absolute;top:4px;right:5px;font-size:10.5px;color:var(--amber)}
+.kj-lvl-tag{position:absolute;top:4px;left:5px;font-size:9px;font-weight:800;padding:1px 4px;border-radius:4px}
 .kj-lvl-tag.n5{background:var(--green-soft);color:var(--green-deep)}
 .kj-lvl-tag.n4{background:var(--lav-soft);color:var(--lav-text)}
-.kj-char{font-size:32px;font-weight:900;color:var(--text);line-height:1.15;margin-top:4px}
-.kj-hira{font-size:12px;font-weight:700;color:var(--green-deep);margin-top:2px}
-.kj-mean{font-size:11px;color:var(--text-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kj-char{font-size:30px;font-weight:900;color:var(--text);line-height:1.15;margin-top:3px}
+.kj-hira{font-size:11.5px;font-weight:700;color:var(--green-deep);margin-top:2px}
+.kj-mean{font-size:10.5px;color:var(--text-soft);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* Segmented Buttons */
-.seg{display:inline-flex;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px}
 .seg button{
-  padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text-soft);transition:all .15s;
+  padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--text-soft);transition:all .15s;
 }
-.seg button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm);font-weight:700}
+.seg button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm);font-weight:800}
 
 /* Calendar & History */
-.history-grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+.history-grid{display:grid;grid-template-columns:1fr 320px;gap:14px}
 @media(max-width:850px){.history-grid{grid-template-columns:1fr}}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.cal-nav{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
-.cal-dow{font-size:11px;font-weight:800;color:var(--text-faint);padding:4px 0}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-nav{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-dow{font-size:10.5px;font-weight:800;color:var(--text-faint);padding:3px 0}
 .cal-cell{
-  aspect-ratio:1;border-radius:8px;border:1px solid transparent;display:flex;align-items:center;
-  justify-content:center;font-size:13px;font-weight:600;color:var(--text);transition:all .15s;
+  aspect-ratio:1;border-radius:6px;border:1px solid transparent;display:flex;align-items:center;
+  justify-content:center;font-size:12.5px;font-weight:600;color:var(--text);transition:all .15s;
 }
 .cal-cell:hover{background:var(--surface2)}
-.cal-cell.today{border-color:var(--green);font-weight:800}
-.cal-cell.studied{background:var(--green-soft);color:var(--green-deep);font-weight:800}
+.cal-cell.today{border-color:var(--green);font-weight:900}
+.cal-cell.studied{background:var(--green-soft);color:var(--green-deep);font-weight:900}
 .cal-cell.selected{outline:2px solid var(--green);background:var(--surface2)}
-.cal-cell.future{opacity:.35;pointer-events:none}
-.cal-legend{display:flex;gap:12px;font-size:11.5px;color:var(--text-soft);margin-top:12px;justify-content:center}
+.cal-legend{display:flex;gap:10px;font-size:11px;color:var(--text-soft);margin-top:10px;justify-content:center}
 
 /* Line Charts */
-.chart-container{position:relative;width:100%;overflow-x:auto;padding:6px 0}
-.line-chart-svg{display:block;width:100%;height:180px}
+.chart-container{position:relative;width:100%;overflow-x:auto;padding:4px 0}
+.line-chart-svg{display:block;width:100%;height:170px}
 .line-chart-svg .grid-line{stroke:var(--border);stroke-width:1;stroke-dasharray:3 3;opacity:.8}
-.line-chart-svg .axis-text{font-size:11px;font-weight:600;fill:var(--text-soft)}
+.line-chart-svg .axis-text{font-size:10.5px;font-weight:600;fill:var(--text-soft)}
 .line-chart-svg .data-dot{transition:r .15s,fill .15s;cursor:pointer}
-.line-chart-svg .data-dot:hover{r:6;fill:var(--fire)}
+.line-chart-svg .data-dot:hover{r:5.5;fill:var(--fire)}
 
 /* Modal & Toast */
 #modal-root{position:fixed;inset:0;z-index:99;display:none;align-items:center;justify-content:center;padding:16px}
 #modal-root.show{display:flex}
 .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px)}
 .modal-window{
-  background:var(--surface);border:1px solid var(--border);border-radius:18px;
-  max-width:540px;width:100%;padding:24px;position:relative;z-index:2;box-shadow:0 12px 36px rgba(0,0,0,0.25);
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  max-width:520px;width:100%;padding:22px;position:relative;z-index:2;box-shadow:0 12px 36px rgba(0,0,0,0.25);
   animation:modalPop .25s ease both;max-height:90vh;overflow-y:auto;
 }
 @keyframes modalPop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.modal-title{font-size:18px;font-weight:800;color:var(--text)}
-.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.modal-title{font-size:17px;font-weight:900;color:var(--text)}
+.modal-close{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
 
 .toast{
-  position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--surface);
-  padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  position:fixed;bottom:20px;right:20px;background:var(--text);color:var(--surface);
+  padding:10px 18px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.2);
   z-index:100;animation:toastIn .3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .toast.out{animation:toastOut .25s ease forwards}
@@ -502,25 +503,25 @@ button{cursor:pointer;background:none;border:none}
 
 /* Footer */
 .app-footer{
-  margin-top:40px;text-align:center;font-size:13px;color:var(--text-soft);
-  padding:20px 0;border-top:1px dashed var(--border);
+  margin-top:35px;text-align:center;font-size:12.5px;color:var(--text-soft);
+  padding:16px 0;border-top:1px dashed var(--border);
 }
 .app-footer a{color:var(--green);font-weight:700;text-decoration:none}
 .app-footer a:hover{text-decoration:underline}
 
 @media(max-width:880px){
   .sidebar{display:none}
-  .topbar{padding:0 16px}
-  .content-area{padding:16px 16px 90px}
+  .topbar{padding:0 14px}
+  .content-area{padding:14px 14px 85px}
   .bottomnav{
     display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;
     background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);
-    border-top:1px solid var(--border);padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border);padding:6px 6px calc(6px + env(safe-area-inset-bottom));
     justify-content:space-around;
   }
   [data-theme="dark"] .bottomnav{background:rgba(23,21,19,0.92)}
-  .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--text-soft);padding:6px}
-  .bnav-btn.active{color:var(--green-deep);font-weight:800}
+  .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--text-soft);padding:5px}
+  .bnav-btn.active{color:var(--green-deep);font-weight:900}
 }
 @media(min-width:881px){.bottomnav{display:none}}
 </style>
@@ -544,8 +545,6 @@ button{cursor:pointer;background:none;border:none}
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
   <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
   <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
 </svg>
 
 <div class="app-container">
@@ -555,8 +554,8 @@ button{cursor:pointer;background:none;border:none}
     <div>
       <div class="brand-wrap">
         <svg class="brand-logo-svg" viewBox="0 0 60 40">
-          <circle cx="30" cy="18" r="14" fill="#e05845" />
-          <path d="M10 36 L24 16 L30 22 L36 16 L50 36 Z" fill="#4a5d6e" />
+          <circle cx="30" cy="17" r="13" fill="#e05845" />
+          <path d="M12 36 L24 16 L30 22 L36 16 L48 36 Z" fill="#4a5d6e" />
           <path d="M24 16 L30 22 L36 16 L33 12 L30 14 L27 12 Z" fill="#ffffff" />
         </svg>
         <div class="brand-title">毎日日本語</div>
@@ -587,15 +586,15 @@ button{cursor:pointer;background:none;border:none}
 
     <!-- Sidebar Footer Torii Illustration -->
     <div class="sidebar-foot-card">
-      <svg class="sidebar-torii-svg" viewBox="0 0 200 100" preserveAspectRatio="none">
-        <path d="M0 100 Q 50 70 100 85 T 200 100 Z" fill="#dbe5d8" opacity="0.6"/>
+      <svg class="sidebar-torii-svg" viewBox="0 0 200 95" preserveAspectRatio="none">
+        <path d="M0 95 Q 50 65 100 80 T 200 95 Z" fill="#dbe5d8" opacity="0.6"/>
         <!-- Torii Gate -->
         <g fill="#a66352">
-          <rect x="75" y="30" width="6" height="50" rx="1"/>
-          <rect x="119" y="30" width="6" height="50" rx="1"/>
-          <path d="M60 26 Q 100 22 140 26 L 138 31 Q 100 28 62 31 Z"/>
-          <rect x="68" y="36" width="64" height="4" rx="1"/>
-          <rect x="97" y="31" width="6" height="9"/>
+          <rect x="75" y="24" width="6" height="52" rx="1"/>
+          <rect x="119" y="24" width="6" height="52" rx="1"/>
+          <path d="M60 20 Q 100 16 140 20 L 138 25 Q 100 22 62 25 Z"/>
+          <rect x="68" y="30" width="64" height="4" rx="1"/>
+          <rect x="97" y="25" width="6" height="9"/>
         </g>
         <!-- Sakura branch -->
         <path d="M150 0 Q 170 30 200 40" stroke="#8a6354" stroke-width="2" fill="none"/>
@@ -621,7 +620,7 @@ button{cursor:pointer;background:none;border:none}
     <!-- Top Bar -->
     <header class="topbar">
       <div class="search-box" id="search-box-btn">
-        <svg class="ic" style="width:16px;height:16px"><use href="#i-search"/></svg>
+        <svg class="ic" style="width:15px;height:15px"><use href="#i-search"/></svg>
         <input type="text" placeholder="Search words, grammar, kanji..." readonly>
         <kbd>Ctrl K</kbd>
       </div>
@@ -647,27 +646,27 @@ button{cursor:pointer;background:none;border:none}
         <div class="hero-split-grid">
           <!-- Left Panoramic Mt. Fuji Banner -->
           <div class="fuji-banner-card">
-            <svg class="fuji-art-svg" viewBox="0 0 500 200" preserveAspectRatio="xMaxYMid slice">
+            <svg class="fuji-art-svg" viewBox="0 0 520 200" preserveAspectRatio="xMaxYMid slice">
               <!-- Sun / Sky -->
-              <circle cx="280" cy="90" r="40" fill="#f43f5e" opacity="0.15"/>
+              <circle cx="300" cy="85" r="42" fill="#f43f5e" opacity="0.16"/>
               <!-- Clouds -->
-              <path d="M 50 60 Q 70 40 100 60 T 150 60" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.4"/>
+              <path d="M 50 50 Q 80 30 110 50 T 170 50" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.45"/>
               <!-- Mt. Fuji -->
-              <path d="M 160 200 L 260 70 L 280 70 L 380 200 Z" fill="#64748b" opacity="0.6"/>
-              <path d="M 260 70 L 280 70 L 305 105 L 290 100 L 270 108 L 250 98 L 235 105 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M 180 200 L 280 65 L 305 65 L 410 200 Z" fill="#64748b" opacity="0.6"/>
+              <path d="M 280 65 L 305 65 L 330 100 L 315 95 L 295 104 L 275 94 L 255 102 Z" fill="#ffffff" opacity="0.92"/>
               <!-- Pagoda -->
-              <g fill="#334155" opacity="0.85">
-                <path d="M 400 140 L 440 140 L 435 155 L 405 155 Z"/>
-                <path d="M 390 155 L 450 155 L 445 170 L 395 170 Z"/>
-                <path d="M 380 170 L 460 170 L 455 195 L 385 195 Z"/>
-                <rect x="418" y="120" width="4" height="20"/>
+              <g fill="#334155" opacity="0.88">
+                <path d="M 425 130 L 465 130 L 460 145 L 430 145 Z"/>
+                <path d="M 415 145 L 475 145 L 470 160 L 420 160 Z"/>
+                <path d="M 405 160 L 485 160 L 480 195 L 410 195 Z"/>
+                <rect x="443" y="110" width="4" height="20"/>
               </g>
               <!-- Sakura Tree Foreground -->
               <g fill="#fda4af" opacity="0.75">
-                <circle cx="450" cy="50" r="25"/>
-                <circle cx="475" cy="70" r="30"/>
-                <circle cx="430" cy="80" r="20"/>
-                <circle cx="410" cy="55" r="15"/>
+                <circle cx="475" cy="45" r="28"/>
+                <circle cx="500" cy="65" r="32"/>
+                <circle cx="455" cy="75" r="22"/>
+                <circle cx="435" cy="50" r="16"/>
               </g>
             </svg>
 
@@ -712,7 +711,7 @@ button{cursor:pointer;background:none;border:none}
         <div class="metrics-4-grid">
           <!-- Words -->
           <div class="metric-tile m-words">
-            <div class="m-icon-box"><svg class="ic" style="width:22px;height:22px"><use href="#i-book"/></svg></div>
+            <div class="m-icon-box"><svg class="ic" style="width:20px;height:20px"><use href="#i-book"/></svg></div>
             <div class="m-data">
               <div class="m-num" id="card-num-words">0</div>
               <div class="m-label">Words Learned</div>
@@ -722,7 +721,7 @@ button{cursor:pointer;background:none;border:none}
 
           <!-- Grammar -->
           <div class="metric-tile m-grammar">
-            <div class="m-icon-box"><svg class="ic" style="width:22px;height:22px"><use href="#i-pen"/></svg></div>
+            <div class="m-icon-box"><svg class="ic" style="width:20px;height:20px"><use href="#i-pen"/></svg></div>
             <div class="m-data">
               <div class="m-num" id="card-num-grammar">0</div>
               <div class="m-label">Grammar Pages</div>
@@ -732,7 +731,7 @@ button{cursor:pointer;background:none;border:none}
 
           <!-- Kanji -->
           <div class="metric-tile m-kanji">
-            <div class="m-icon-box"><svg class="ic" style="width:22px;height:22px"><use href="#i-torii"/></svg></div>
+            <div class="m-icon-box"><svg class="ic" style="width:20px;height:20px"><use href="#i-torii"/></svg></div>
             <div class="m-data">
               <div class="m-num" id="card-num-kanji">0</div>
               <div class="m-label">Kanji Pages</div>
@@ -742,7 +741,7 @@ button{cursor:pointer;background:none;border:none}
 
           <!-- Total Days -->
           <div class="metric-tile m-days">
-            <div class="m-icon-box"><svg class="ic" style="width:22px;height:22px"><use href="#i-cal"/></svg></div>
+            <div class="m-icon-box"><svg class="ic" style="width:20px;height:20px"><use href="#i-cal"/></svg></div>
             <div class="m-data">
               <div class="m-num" id="card-num-days">0</div>
               <div class="m-label">Total Study Days</div>
@@ -757,7 +756,7 @@ button{cursor:pointer;background:none;border:none}
           <!-- Today's Study Actions -->
           <div class="panel-card">
             <div class="panel-head">
-              <div class="panel-title">今日の学習 <span style="font-size:13px;color:var(--text-soft);font-weight:600">Today's Study</span></div>
+              <div class="panel-title">今日の学習 <span style="font-size:12.5px;color:var(--text-soft);font-weight:600">Today's Study</span></div>
               <a href="#/kanji" class="panel-link">View All →</a>
             </div>
 
@@ -826,7 +825,7 @@ button{cursor:pointer;background:none;border:none}
               <div class="study-action-card sc-kj">
                 <div class="study-card-top">
                   <div class="study-card-title-wrap">
-                    <div class="study-card-icon"><span style="font-weight:900;font-size:16px">漢</span></div>
+                    <div class="study-card-icon"><span style="font-weight:900;font-size:15px">漢</span></div>
                     <div>
                       <div class="sc-jp-name">漢字</div>
                       <div class="sc-en-name">Kanji</div>
@@ -855,9 +854,9 @@ button{cursor:pointer;background:none;border:none}
 
             <!-- Focus Timer Strip -->
             <div class="timer-strip">
-              <div style="display:flex;align-items:center;gap:10px">
+              <div style="display:flex;align-items:center;gap:8px">
                 <svg class="ic" style="color:var(--fire)"><use href="#i-clock"/></svg>
-                <span style="font-size:12.5px;font-weight:700;color:var(--text-soft)">Focus Timer:</span>
+                <span style="font-size:12px;font-weight:700;color:var(--text-soft)">Focus Timer:</span>
                 <span class="timer-strip-digits" id="timer-display">00:00:00</span>
               </div>
               <div style="display:flex;align-items:center;gap:6px">
@@ -871,15 +870,15 @@ button{cursor:pointer;background:none;border:none}
           <!-- This Week Bar Chart Widget -->
           <div class="panel-card">
             <div class="panel-head">
-              <div class="panel-title">今週の進捗 <span style="font-size:12.5px;color:var(--text-soft);font-weight:600">This Week</span></div>
+              <div class="panel-title">今週の進捗 <span style="font-size:12px;color:var(--text-soft);font-weight:600">This Week</span></div>
               <a href="#/progress" class="panel-link">View Details →</a>
             </div>
 
-            <div class="week-bar-chart-wrap">
+            <div style="display:flex;flex-direction:column;gap:10px;height:100%;justify-content:space-between">
               <div class="week-bars-container" id="widget-week-bars">
                 <!-- 7 Mon-Sun Bars populated via JS -->
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-soft);font-weight:600">
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-soft);font-weight:600">
                 <span>Total: <b id="widget-week-total" style="color:var(--text)">0</b> words</span>
                 <span style="color:var(--green-deep)">● Active streak</span>
               </div>
@@ -933,13 +932,13 @@ button{cursor:pointer;background:none;border:none}
 
       <!-- ================= KANJI / LIBRARY VIEW ================= -->
       <section class="view" id="view-kanji">
-        <div class="panel-head" style="flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <div class="panel-head" style="flex-wrap:wrap;gap:10px;margin-bottom:14px">
           <div>
-            <h2 style="font-size:22px;font-weight:900;color:var(--text)">🎴 Kanji & Library (N5 / N4)</h2>
-            <p style="font-size:13px;color:var(--text-soft)">253 total official Kanji with readings, vocabulary, and example sentences.</p>
+            <h2 style="font-size:20px;font-weight:900;color:var(--text)">🎴 Kanji & Library (N5 / N4)</h2>
+            <p style="font-size:12.5px;color:var(--text-soft)">253 total official Kanji with readings, vocabulary, and example sentences.</p>
           </div>
 
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
             <div class="seg" id="kanji-lvl-filter">
               <button data-lvl="all" class="active">All (253)</button>
               <button data-lvl="N5">N5 (105)</button>
@@ -954,7 +953,7 @@ button{cursor:pointer;background:none;border:none}
 
         <!-- Flashcard Mode -->
         <div id="kj-flashcard-mode">
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--text-soft)">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-soft)">
             <span>Card <b id="fc-current-idx" style="color:var(--text)">1</b> of <span id="fc-total-cards">253</span></span>
             <span>⭐ Mastered: <b id="fc-mastered-count" style="color:var(--amber)">0</b></span>
           </div>
@@ -964,7 +963,7 @@ button{cursor:pointer;background:none;border:none}
               <div class="fc-side fc-front">
                 <span class="fc-badge n5" id="fc-lvl-badge">JLPT N5</span>
                 <div class="fc-kanji" id="fc-kanji">一</div>
-                <p style="font-size:12px;color:var(--text-faint);margin-top:10px">👆 Click or Space to Flip</p>
+                <p style="font-size:11.5px;color:var(--text-faint);margin-top:8px">👆 Click or Space to Flip</p>
               </div>
               <div class="fc-side fc-back">
                 <span class="fc-badge" style="background:var(--surface2);color:var(--text)">Reading & Meaning</span>
@@ -993,9 +992,9 @@ button{cursor:pointer;background:none;border:none}
 
         <!-- Grid Mode -->
         <div id="kj-grid-mode" style="display:none">
-          <div class="panel-card" style="padding:14px;margin-bottom:14px">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
-              <input type="text" id="kj-search-input" placeholder="🔍 Search by Kanji, Hiragana, or Meaning..." style="flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg)">
+          <div class="panel-card" style="padding:12px;margin-bottom:12px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+              <input type="text" id="kj-search-input" placeholder="🔍 Search by Kanji, Hiragana, or Meaning..." style="flex:1;min-width:200px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg)">
               <div class="seg" id="kj-filter-seg">
                 <button data-kf="all" class="active">All</button>
                 <button data-kf="starred">Mastered ⭐</button>
@@ -1009,12 +1008,12 @@ button{cursor:pointer;background:none;border:none}
 
       <!-- ================= HISTORY VIEW ================= -->
       <section class="view" id="view-history">
-        <h2 style="font-size:22px;font-weight:900;margin-bottom:16px">📅 History & Calendar</h2>
+        <h2 style="font-size:20px;font-weight:900;margin-bottom:14px">📅 History & Calendar</h2>
         <div class="history-grid">
           <div class="panel-card">
             <div class="cal-head">
               <button class="cal-nav" id="cal-prev"><svg class="ic"><use href="#i-chev-l"/></svg></button>
-              <b id="cal-title" style="font-size:16px">—</b>
+              <b id="cal-title" style="font-size:15px">—</b>
               <button class="cal-nav" id="cal-next"><svg class="ic"><use href="#i-chev-r"/></svg></button>
             </div>
             <div class="cal-grid" id="cal-grid"></div>
@@ -1026,7 +1025,7 @@ button{cursor:pointer;background:none;border:none}
           </div>
         </div>
 
-        <div class="panel-card" style="margin-top:16px">
+        <div class="panel-card" style="margin-top:14px">
           <div class="panel-head">
             <div class="panel-title">Study Log</div>
             <div class="seg" id="hist-filter">
@@ -1042,10 +1041,10 @@ button{cursor:pointer;background:none;border:none}
 
       <!-- ================= PROGRESS VIEW ================= -->
       <section class="view" id="view-progress">
-        <h2 style="font-size:22px;font-weight:900;margin-bottom:16px">📊 Progress & Line Charts</h2>
+        <h2 style="font-size:20px;font-weight:900;margin-bottom:14px">📊 Progress & Line Charts</h2>
         
         <!-- Weekly Line Chart -->
-        <div class="panel-card" style="margin-bottom:16px">
+        <div class="panel-card" style="margin-bottom:14px">
           <div class="panel-head">
             <div class="panel-title">Weekly Study Trend (Line Chart)</div>
             <div class="seg" id="week-metric">
@@ -1055,7 +1054,7 @@ button{cursor:pointer;background:none;border:none}
               <button data-m="studyMinutes">⏱️ Time</button>
             </div>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-soft);margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-soft);margin-bottom:8px">
             <div>This week: <b id="week-total" style="color:var(--text)">0</b> <span id="week-unit">words</span></div>
             <div>Peak: <b id="week-peak" style="color:var(--text)">0</b> · Daily Avg: <b id="week-avg" style="color:var(--text)">0</b></div>
           </div>
@@ -1063,16 +1062,16 @@ button{cursor:pointer;background:none;border:none}
         </div>
 
         <!-- Monthly Line Chart -->
-        <div class="panel-card" style="margin-bottom:16px">
+        <div class="panel-card" style="margin-bottom:14px">
           <div class="panel-head">
             <div class="panel-title">Monthly Overview & Daily Trend (Line Chart)</div>
             <div style="display:flex;gap:6px;align-items:center">
               <button class="cal-nav" id="m-prev"><svg class="ic"><use href="#i-chev-l"/></svg></button>
-              <b id="m-title" style="font-size:14px;padding:0 6px">—</b>
+              <b id="m-title" style="font-size:13.5px;padding:0 4px">—</b>
               <button class="cal-nav" id="m-next"><svg class="ic"><use href="#i-chev-r"/></svg></button>
             </div>
           </div>
-          <div class="metrics-4-grid" id="month-stats" style="margin-bottom:16px"></div>
+          <div class="metrics-4-grid" id="month-stats" style="margin-bottom:14px"></div>
           <div class="chart-container" id="month-line-chart"></div>
         </div>
 
@@ -1085,26 +1084,26 @@ button{cursor:pointer;background:none;border:none}
 
       <!-- ================= GOALS VIEW ================= -->
       <section class="view" id="view-goals">
-        <h2 style="font-size:22px;font-weight:900;margin-bottom:16px">🎯 Daily Goals</h2>
+        <h2 style="font-size:20px;font-weight:900;margin-bottom:14px">🎯 Daily Goals</h2>
         <div class="panel-card">
-          <p style="font-size:13.5px;color:var(--text-soft);margin-bottom:16px">Set your personal daily learning targets. Leave at 0 to disable any specific goal.</p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px">
-            <div><label style="font-size:12px;font-weight:700">📖 Words / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-words" type="number" min="0" max="1000" placeholder="15"></div>
-            <div><label style="font-size:12px;font-weight:700">文法 Grammar pages / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-grammar" type="number" min="0" max="100" placeholder="3"></div>
-            <div><label style="font-size:12px;font-weight:700">漢字 Kanji pages / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-kanji" type="number" min="0" max="100" placeholder="2"></div>
-            <div><label style="font-size:12px;font-weight:700">⏱️ Study Time (mins) / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-time" type="number" min="0" max="1440" placeholder="30"></div>
+          <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px">Set your personal daily learning targets. Leave at 0 to disable any specific goal.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px">
+            <div><label style="font-size:11.5px;font-weight:700">📖 Words / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-words" type="number" min="0" max="1000" placeholder="15"></div>
+            <div><label style="font-size:11.5px;font-weight:700">文法 Grammar pages / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-grammar" type="number" min="0" max="100" placeholder="3"></div>
+            <div><label style="font-size:11.5px;font-weight:700">漢字 Kanji pages / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-kanji" type="number" min="0" max="100" placeholder="2"></div>
+            <div><label style="font-size:11.5px;font-weight:700">⏱️ Study Time (mins) / day</label><input class="action-tile-btn" style="width:100%;margin-top:4px;text-align:left" id="goal-time" type="number" min="0" max="1440" placeholder="30"></div>
           </div>
-          <button class="action-tile-btn" id="save-goals-btn" style="background:var(--green-btn);color:#fff;border-color:var(--green-btn);padding:8px 20px">Save Goals</button>
+          <button class="action-tile-btn" id="save-goals-btn" style="background:var(--green-btn);color:#fff;border-color:var(--green-btn);padding:7px 18px">Save Goals</button>
         </div>
       </section>
 
       <!-- ================= NOTES VIEW ================= -->
       <section class="view" id="view-notes">
-        <h2 style="font-size:22px;font-weight:900;margin-bottom:16px">📝 Quick Notes & Reflections</h2>
+        <h2 style="font-size:20px;font-weight:900;margin-bottom:14px">📝 Quick Notes & Reflections</h2>
         <div class="panel-card">
-          <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px">Write today's vocabulary reflections, grammar sentences, or study thoughts.</p>
-          <textarea id="notes-input" style="width:100%;min-height:160px;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text);font-family:inherit;font-size:14px" placeholder="e.g. Practiced te-form irregular verbs today..."></textarea>
-          <div style="margin-top:10px;display:flex;justify-content:flex-end">
+          <p style="font-size:12.5px;color:var(--text-soft);margin-bottom:10px">Write today's vocabulary reflections, grammar sentences, or study thoughts.</p>
+          <textarea id="notes-input" style="width:100%;min-height:150px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px" placeholder="e.g. Practiced te-form irregular verbs today..."></textarea>
+          <div style="margin-top:8px;display:flex;justify-content:flex-end">
             <button class="action-tile-btn" id="save-notes-btn" style="background:var(--green-btn);color:#fff">Save Note ✓</button>
           </div>
         </div>
@@ -1112,10 +1111,10 @@ button{cursor:pointer;background:none;border:none}
 
       <!-- ================= SETTINGS VIEW ================= -->
       <section class="view" id="view-settings">
-        <h2 style="font-size:22px;font-weight:900;margin-bottom:16px">⚙️ Settings</h2>
+        <h2 style="font-size:20px;font-weight:900;margin-bottom:14px">⚙️ Settings</h2>
         
         <!-- Theme -->
-        <div class="panel-card" style="margin-bottom:16px">
+        <div class="panel-card" style="margin-bottom:14px">
           <div class="panel-head"><div class="panel-title">🎨 Theme</div></div>
           <div class="seg" id="theme-seg">
             <button data-t="light" class="active">Light (和風)</button>
@@ -1126,29 +1125,29 @@ button{cursor:pointer;background:none;border:none}
         </div>
 
         <!-- Reminders -->
-        <div class="panel-card" style="margin-bottom:16px">
+        <div class="panel-card" style="margin-bottom:14px">
           <div class="panel-head"><div class="panel-title">🔔 Daily Reminder</div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
             <div>
-              <div style="font-size:14px;font-weight:700">Enable notification nudge</div>
-              <div style="font-size:12px;color:var(--text-soft)">Receive study reminder at set time</div>
+              <div style="font-size:13.5px;font-weight:700">Enable notification nudge</div>
+              <div style="font-size:11.5px;color:var(--text-soft)">Receive study reminder at set time</div>
             </div>
             <label class="switch">
               <input type="checkbox" id="settings-rem-toggle">
               <span class="track"><span class="knob"></span></span>
             </label>
           </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <label style="font-size:12.5px;font-weight:700">Reminder Time:</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <label style="font-size:12px;font-weight:700">Reminder Time:</label>
             <input type="time" id="rem-time-input" value="20:00" class="action-tile-btn">
           </div>
         </div>
 
         <!-- Data Management -->
-        <div class="panel-card" style="margin-bottom:16px">
+        <div class="panel-card" style="margin-bottom:14px">
           <div class="panel-head"><div class="panel-title">💾 Backup & Restore</div></div>
-          <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px">All study records are stored directly on your device. Export to transfer between devices.</p>
-          <div style="display:flex;gap:10px">
+          <p style="font-size:12.5px;color:var(--text-soft);margin-bottom:10px">All study records are stored directly on your device. Export to transfer between devices.</p>
+          <div style="display:flex;gap:8px">
             <button class="action-tile-btn" id="export-btn">📥 Export JSON Backup</button>
             <button class="action-tile-btn" id="import-btn">📤 Import Backup</button>
           </div>
@@ -1157,7 +1156,7 @@ button{cursor:pointer;background:none;border:none}
         <!-- About Card -->
         <div class="panel-card">
           <div class="panel-head"><div class="panel-title">ℹ️ About</div></div>
-          <p style="font-size:13.5px;color:var(--text-soft);line-height:1.8">
+          <p style="font-size:13px;color:var(--text-soft);line-height:1.75">
             <b>毎日日本語 — Mainichi Nihongo</b> v2.0<br>
             A cozy, offline-first Japanese study tracker & JLPT N5/N4 Kanji trainer.<br>
             Crafted with 🌸 by <a href="https://apurv-portfolio-gamma.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:700;text-decoration:underline">Apurv</a>.
@@ -1326,14 +1325,13 @@ const MOTIVATION = [
 ];
 
 /* ---------------- storage & state ---------------- */
-const DB_NAME = 'mainichi-nihongo', DB_VERSION = 1;
-const LS_STUDY = 'mn.study.v1', LS_SETTINGS = 'mn.settings.v1', LS_STARRED = 'mn.kanji.starred.v1';
-
 const DEFAULT_SETTINGS = {
   theme: 'light',
   goals: { words: 10, grammarPages: 5, kanjiPages: 5, studyMinutes: 30 },
   reminder: { enabled: false, time: '20:00', custom: '' }
 };
+
+const LS_STUDY = 'mn.study.v1', LS_SETTINGS = 'mn.settings.v1', LS_STARRED = 'mn.kanji.starred.v1';
 
 const state = {
   entries: new Map(),
@@ -1526,7 +1524,7 @@ function renderWidgetWeekChart(){
   $('#widget-week-total').textContent = sum;
 
   wrap.innerHTML = daysData.map(d => {
-    const h = Math.max(6, Math.round((d.val / max) * 100));
+    const h = Math.max(5, Math.round((d.val / max) * 90));
     return `
       <div class="week-bar-col">
         <div class="week-bar-pill ${d.isToday ? 'today-highlight' : ''}" style="height:${h}px" title="${d.label}: ${d.val} words"></div>
@@ -1797,16 +1795,16 @@ function renderDayDetail(){
   const p = parseKey(k);
 
   box.innerHTML = `
-    <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:12px">
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">
       ${WEEKDAYS[p.getDay()]}, ${MONTHS[p.getMonth()]} ${p.getDate()}
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div class="metric-tile m-words" style="padding:10px 14px"><div class="m-data"><div class="m-num" style="font-size:22px">${e.words||0}</div><div class="m-label">Words</div></div></div>
-      <div class="metric-tile m-grammar" style="padding:10px 14px"><div class="m-data"><div class="m-num" style="font-size:22px">${e.grammarPages||0}</div><div class="m-label">Grammar</div></div></div>
-      <div class="metric-tile m-kanji" style="padding:10px 14px"><div class="m-data"><div class="m-num" style="font-size:22px">${e.kanjiPages||0}</div><div class="m-label">Kanji</div></div></div>
-      <div class="metric-tile m-days" style="padding:10px 14px"><div class="m-data"><div class="m-num" style="font-size:22px">${fmtDuration(e.studyMinutes||0)}</div><div class="m-label">Time</div></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="metric-tile m-words" style="padding:10px 12px"><div class="m-data"><div class="m-num" style="font-size:20px">${e.words||0}</div><div class="m-label">Words</div></div></div>
+      <div class="metric-tile m-grammar" style="padding:10px 12px"><div class="m-data"><div class="m-num" style="font-size:20px">${e.grammarPages||0}</div><div class="m-label">Grammar</div></div></div>
+      <div class="metric-tile m-kanji" style="padding:10px 12px"><div class="m-data"><div class="m-num" style="font-size:20px">${e.kanjiPages||0}</div><div class="m-label">Kanji</div></div></div>
+      <div class="metric-tile m-days" style="padding:10px 12px"><div class="m-data"><div class="m-num" style="font-size:20px">${fmtDuration(e.studyMinutes||0)}</div><div class="m-label">Time</div></div></div>
     </div>
-    ${e.notes ? `<div style="font-size:13px;background:var(--bg);padding:10px 12px;border-radius:8px;border:1px solid var(--border)">📝 ${esc(e.notes)}</div>` : ''}
+    ${e.notes ? `<div style="font-size:12.5px;background:var(--bg);padding:8px 10px;border-radius:8px;border:1px solid var(--border)">📝 ${esc(e.notes)}</div>` : ''}
   `;
 }
 
@@ -1814,16 +1812,16 @@ function renderHistoryList(){
   const list = $('#history-list');
   const entries = Array.from(state.entries.values()).filter(e => entryTotal(e) > 0).sort((a,b) => b.date.localeCompare(a.date));
   if (!entries.length){
-    list.innerHTML = `<p style="font-size:13px;color:var(--text-soft);padding:12px 0">No study history recorded yet. Start learning today!</p>`;
+    list.innerHTML = `<p style="font-size:12.5px;color:var(--text-soft);padding:10px 0">No study history recorded yet. Start learning today!</p>`;
     return;
   }
   list.innerHTML = entries.map(e => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
       <div>
         <b>${e.date}</b>
         <span style="color:var(--text-soft);margin-left:8px">📖 ${e.words}w · 文法 ${e.grammarPages}p · 漢字 ${e.kanjiPages}p · ⏱️ ${fmtDuration(e.studyMinutes)}</span>
       </div>
-      ${e.notes ? `<span style="font-size:12px;color:var(--text-faint);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.notes)}</span>` : ''}
+      ${e.notes ? `<span style="font-size:11.5px;color:var(--text-faint);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.notes)}</span>` : ''}
     </div>
   `).join('');
 }
@@ -1872,8 +1870,8 @@ function initTimer(){
 /* ---------------- Global Search Modal (Ctrl + K) ---------------- */
 function openSearchModal(){
   const html = `
-    <input type="text" id="g-search-input" placeholder="Search words, kanji (e.g. 会, book), or grammar..." style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:var(--bg);color:var(--text)">
-    <div id="g-search-results" style="max-height:360px;overflow-y:auto;margin-top:14px;display:flex;flex-direction:column;gap:6px"></div>
+    <input type="text" id="g-search-input" placeholder="Search words, kanji (e.g. 会, book), or grammar..." style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text)">
+    <div id="g-search-results" style="max-height:340px;overflow-y:auto;margin-top:12px;display:flex;flex-direction:column;gap:6px"></div>
   `;
   openModal('🔍 Search Japanese Knowledge Base', html);
   const input = $('#g-search-input');
@@ -1885,16 +1883,16 @@ function openSearchModal(){
 
     const matches = N4_KANJI.filter(k => k.k.includes(q) || k.h.toLowerCase().includes(q) || k.r.toLowerCase().includes(q) || k.m.toLowerCase().includes(q)).slice(0, 15);
     if (!matches.length){
-      resBox.innerHTML = `<p style="font-size:13px;color:var(--text-soft);padding:8px">No matching Kanji or words found.</p>`;
+      resBox.innerHTML = `<p style="font-size:12.5px;color:var(--text-soft);padding:8px">No matching Kanji or words found.</p>`;
       return;
     }
     resBox.innerHTML = matches.map(m => `
-      <div class="search-res-item" style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between" data-k="${m.k}">
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:26px;font-weight:900">${m.k}</span>
+      <div class="search-res-item" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between" data-k="${m.k}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:24px;font-weight:900">${m.k}</span>
           <div>
-            <div style="font-weight:700;font-size:14px">${m.h} (${m.r})</div>
-            <div style="font-size:12px;color:var(--text-soft)">${m.m} · ${m.ex}</div>
+            <div style="font-weight:800;font-size:13.5px">${m.h} (${m.r})</div>
+            <div style="font-size:11.5px;color:var(--text-soft)">${m.m} · ${m.ex}</div>
           </div>
         </div>
         <span class="fc-badge ${(m.lvl||'n5').toLowerCase()}">JLPT ${m.lvl||'N5'}</span>
