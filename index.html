@@ -7,6 +7,131 @@
 <meta name="description" content="A little Japanese, every day. A cozy offline-first Japanese study tracker.">
 <meta name="theme-color" content="#5e7a5b">
 <style>
+
+/* ============================================================
+   JAPANESE LANDSCAPE QUOTE CARD — RECTANGULAR DESIGN
+   ============================================================ */
+.fuji-banner-card{
+  background:#1e1a17;border:1px solid var(--border);border-radius:0;
+  padding:24px 28px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:190px;
+}
+.fuji-banner-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center right;z-index:1;transition:transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fuji-banner-card:hover .fuji-banner-img{transform:scale(1.02)}
+.fuji-banner-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg, rgba(248,246,240,0.92) 0%, rgba(248,246,240,0.78) 45%, rgba(248,246,240,0.2) 100%);
+  z-index:2;pointer-events:none;
+}
+[data-theme="dark"] .fuji-banner-overlay{
+  background:linear-gradient(90deg, rgba(21,19,17,0.94) 0%, rgba(21,19,17,0.82) 45%, rgba(21,19,17,0.3) 100%);
+}
+[data-theme="rpg"] .fuji-banner-overlay{
+  background:linear-gradient(90deg, rgba(14,17,26,0.95) 0%, rgba(14,17,26,0.84) 45%, rgba(14,17,26,0.35) 100%);
+}
+.fuji-text-wrap{position:relative;z-index:3;max-width:58%}
+
+/* Landscape Quote Card */
+.landscape-quote-card{
+  position:relative;width:100%;border:1px solid #ded7cb;border-radius:0;
+  background:#f7f4ec;overflow:hidden;margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(44,39,35,0.04);
+  transition:border-color .3s ease, box-shadow .3s ease;
+}
+.landscape-quote-card:hover{
+  border-color:#8fa58a;
+  box-shadow:0 6px 20px rgba(44,39,35,0.08);
+}
+.lqc-bg-wrapper{
+  position:relative;width:100%;height:280px;overflow:hidden;
+}
+@media(max-width:640px){.lqc-bg-wrapper{height:230px}}
+.lqc-bg-img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  display:block;transition:transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), filter .4s ease;
+  animation:lqcFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.landscape-quote-card:hover .lqc-bg-img{
+  transform:scale(1.018);filter:brightness(1.02);
+}
+@keyframes lqcFadeIn{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:scale(1)}}
+
+.lqc-mist-overlay{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 60%, rgba(247,244,236,0.0) 30%, rgba(247,244,236,0.25) 100%);
+  pointer-events:none;
+}
+
+/* Drifting Petals Ambient Animation */
+.lqc-petals-layer{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2;
+}
+.lqc-petal{
+  position:absolute;font-size:14px;opacity:0.75;
+  animation:petalDrift 14s linear infinite;
+}
+.lqc-petal.p1{top:-20px;left:15%;animation-duration:12s;animation-delay:0s}
+.lqc-petal.p2{top:-20px;left:45%;animation-duration:16s;animation-delay:3s;font-size:12px}
+.lqc-petal.p3{top:-20px;left:75%;animation-duration:14s;animation-delay:6s;font-size:15px}
+.lqc-petal.p4{top:-20px;left:88%;animation-duration:18s;animation-delay:1.5s;font-size:11px}
+
+@keyframes petalDrift{
+  0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0}
+  15%{opacity:0.8}
+  85%{opacity:0.75}
+  100%{transform:translateY(320px) translateX(60px) rotate(360deg);opacity:0}
+}
+
+/* Sharp Ivory Quote Panel */
+.lqc-quote-panel{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 48px);max-width:540px;
+  background:rgba(247,244,236,0.96);backdrop-filter:blur(8px);
+  border:1px solid rgba(222,214,201,0.85);border-radius:0;
+  padding:16px 24px;text-align:center;z-index:3;
+  box-shadow:0 4px 16px rgba(44,39,35,0.06);
+  animation:lqcPanelUp .9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:background-color .25s ease, border-color .25s ease;
+}
+[data-theme="dark"] .lqc-quote-panel{
+  background:rgba(30,26,23,0.95);border-color:rgba(72,63,55,0.85);
+}
+[data-theme="rpg"] .lqc-quote-panel{
+  background:rgba(24,28,45,0.95);border-color:rgba(207,159,56,0.4);
+}
+
+@keyframes lqcPanelUp{
+  from{opacity:0;transform:translateX(-50%) translateY(16px)}
+  to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+
+.lqc-headline{
+  font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  font-size:clamp(22px, 3.2vw, 27px);
+  font-weight:900;letter-spacing:0.04em;
+  color:#8e3d30;line-height:1.25;margin-bottom:4px;
+}
+[data-theme="dark"] .lqc-headline{color:#e59183}
+[data-theme="rpg"] .lqc-headline{color:#f6c85f}
+
+.lqc-romaji{
+  font-size:13.5px;color:#6b6358;font-style:italic;font-weight:500;letter-spacing:0.02em;margin-bottom:2px;
+}
+[data-theme="dark"] .lqc-romaji{color:#b8ad9e}
+
+.lqc-english{
+  font-size:13px;color:#766c62;font-weight:600;letter-spacing:0.01em;
+}
+[data-theme="dark"] .lqc-english{color:#9e9385}
+
+@media(prefers-reduced-motion: reduce){
+  .lqc-petal{animation:none;display:none}
+  .lqc-bg-img, .lqc-quote-panel, .fuji-banner-img{animation:none;transition:none}
+}
+
 /* ============================================================
    毎日日本語 — Mainichi Nihongo (Exact Pixel-Perfect UI Match)
    ============================================================ */
@@ -553,11 +678,7 @@ button{cursor:pointer;background:none;border:none}
   <aside class="sidebar">
     <div>
       <div class="brand-wrap">
-        <svg class="brand-logo-svg" viewBox="0 0 60 40">
-          <circle cx="30" cy="17" r="13" fill="#e05845" />
-          <path d="M12 36 L24 16 L30 22 L36 16 L48 36 Z" fill="#4a5d6e" />
-          <path d="M24 16 L30 22 L36 16 L33 12 L30 14 L27 12 Z" fill="#ffffff" />
-        </svg>
+        <img src="assets/fuji_logo.png" alt="Mainichi Nihongo Logo" style="width:72px;height:auto;margin-bottom:6px;display:block">
         <div class="brand-title">毎日日本語</div>
         <div class="brand-sub">MAINICHI NIHONGO</div>
         <div class="brand-tag">"A little Japanese, every day."</div>
@@ -584,28 +705,15 @@ button{cursor:pointer;background:none;border:none}
       </nav>
     </div>
 
-    <!-- Sidebar Footer Torii Illustration -->
+    <!-- Sidebar Footer Torii Artwork Card with Authentic Image -->
     <div class="sidebar-foot-card">
-      <svg class="sidebar-torii-svg" viewBox="0 0 200 95" preserveAspectRatio="none">
-        <path d="M0 95 Q 50 65 100 80 T 200 95 Z" fill="#dbe5d8" opacity="0.6"/>
-        <!-- Torii Gate -->
-        <g fill="#a66352">
-          <rect x="75" y="24" width="6" height="52" rx="1"/>
-          <rect x="119" y="24" width="6" height="52" rx="1"/>
-          <path d="M60 20 Q 100 16 140 20 L 138 25 Q 100 22 62 25 Z"/>
-          <rect x="68" y="30" width="64" height="4" rx="1"/>
-          <rect x="97" y="25" width="6" height="9"/>
-        </g>
-        <!-- Sakura branch -->
-        <path d="M150 0 Q 170 30 200 40" stroke="#8a6354" stroke-width="2" fill="none"/>
-        <circle cx="160" cy="15" r="4" fill="#fca5a5"/>
-        <circle cx="175" cy="22" r="5" fill="#fca5a5"/>
-        <circle cx="190" cy="35" r="4" fill="#fca5a5"/>
-      </svg>
-      <div class="torii-quote-box">
-        <div class="torii-quote-jp">継続は力なり。</div>
+      <div style="position:relative;height:95px;overflow:hidden;border-radius:0;margin-bottom:2px">
+        <img src="assets/torii_landscape.jpg" alt="Torii Gate Landscape" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div class="torii-quote-box" style="border-radius:0">
+        <div class="torii-quote-jp" style="font-family:'Hiragino Mincho ProN','Yu Mincho',serif;color:#8e3d30">継続は力なり。</div>
         <div class="torii-quote-romaji">Keizoku wa chikara nari.</div>
-        <div class="torii-quote-en">"Consistency is power."</div>
+        <div class="torii-quote-en">“Consistency is power.”</div>
       </div>
       <div class="side-status-pill">
         <span class="side-status-dot"></span>
@@ -644,32 +752,10 @@ button{cursor:pointer;background:none;border:none}
         
         <!-- Hero Split Grid -->
         <div class="hero-split-grid">
-          <!-- Left Panoramic Mt. Fuji Banner -->
+          <!-- Left Panoramic Mt. Fuji Banner with Authentic Artwork -->
           <div class="fuji-banner-card">
-            <svg class="fuji-art-svg" viewBox="0 0 520 200" preserveAspectRatio="xMaxYMid slice">
-              <!-- Sun / Sky -->
-              <circle cx="300" cy="85" r="42" fill="#f43f5e" opacity="0.16"/>
-              <!-- Clouds -->
-              <path d="M 50 50 Q 80 30 110 50 T 170 50" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.45"/>
-              <!-- Mt. Fuji -->
-              <path d="M 180 200 L 280 65 L 305 65 L 410 200 Z" fill="#64748b" opacity="0.6"/>
-              <path d="M 280 65 L 305 65 L 330 100 L 315 95 L 295 104 L 275 94 L 255 102 Z" fill="#ffffff" opacity="0.92"/>
-              <!-- Pagoda -->
-              <g fill="#334155" opacity="0.88">
-                <path d="M 425 130 L 465 130 L 460 145 L 430 145 Z"/>
-                <path d="M 415 145 L 475 145 L 470 160 L 420 160 Z"/>
-                <path d="M 405 160 L 485 160 L 480 195 L 410 195 Z"/>
-                <rect x="443" y="110" width="4" height="20"/>
-              </g>
-              <!-- Sakura Tree Foreground -->
-              <g fill="#fda4af" opacity="0.75">
-                <circle cx="475" cy="45" r="28"/>
-                <circle cx="500" cy="65" r="32"/>
-                <circle cx="455" cy="75" r="22"/>
-                <circle cx="435" cy="50" r="16"/>
-              </g>
-            </svg>
-
+            <img src="assets/fuji_banner.png" alt="Mt. Fuji Panoramic Landscape" class="fuji-banner-img">
+            <div class="fuji-banner-overlay"></div>
             <div class="fuji-text-wrap">
               <div class="fuji-greeting" id="fuji-greeting">こんばんは 🌙</div>
               <h1 class="fuji-title">毎日日本語</h1>
@@ -704,6 +790,28 @@ button{cursor:pointer;background:none;border:none}
           <div class="quote-controls">
             <button class="quote-nav-btn" id="quote-prev-btn" aria-label="Previous quote">⟨</button>
             <button class="quote-nav-btn" id="quote-next-btn" aria-label="Next quote">⟩</button>
+          </div>
+        </div>
+
+                <!-- Premium Japanese Landscape Quote Card (Square Rectangular Design) -->
+        <div class="landscape-quote-card" id="torii-quote-component">
+          <div class="lqc-bg-wrapper">
+            <img src="assets/torii_landscape.jpg" alt="Japanese Torii Landscape" class="lqc-bg-img">
+            <div class="lqc-mist-overlay"></div>
+            <!-- Ambient Drifting Cherry Blossom Petals -->
+            <div class="lqc-petals-layer" aria-hidden="true">
+              <span class="lqc-petal p1">🌸</span>
+              <span class="lqc-petal p2">🌸</span>
+              <span class="lqc-petal p3">🌸</span>
+              <span class="lqc-petal p4">🌸</span>
+            </div>
+          </div>
+
+          <!-- Sharp Rectangular Ivory Quote Panel -->
+          <div class="lqc-quote-panel">
+            <div class="lqc-headline">継続は力なり。</div>
+            <div class="lqc-romaji">Keizoku wa chikara nari.</div>
+            <div class="lqc-english">“Consistency is power.”</div>
           </div>
         </div>
 

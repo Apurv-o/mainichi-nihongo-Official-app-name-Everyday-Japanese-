@@ -1,7 +1,10 @@
-const CACHE_NAME = 'mainichi-nihongo-v3';
+const CACHE_NAME = 'mainichi-nihongo-v4';
 const ASSETS = [
   './',
-  './index.html'
+  './index.html',
+  './assets/fuji_logo.png',
+  './assets/torii_landscape.jpg',
+  './assets/fuji_banner.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -65,8 +68,8 @@ self.addEventListener('push', (event) => {
   }
   const options = {
     body: data.body,
-    icon: data.icon || './',
-    badge: data.badge || data.icon || './',
+    icon: data.icon || './assets/fuji_logo.png',
+    badge: data.badge || data.icon || './assets/fuji_logo.png',
     tag: 'mainichi-nihongo-push',
     renotify: true,
     vibrate: [200, 100, 200],
