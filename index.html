@@ -203,11 +203,107 @@ button{cursor:pointer;background:none;border:none}
 .app-container{display:flex;min-height:100vh}
 
 /* Left Sidebar */
+
+/* ============================================================
+   RESPONSIVE & ZOOM OPTIMIZATIONS (ALL SCREEN SIZES & ZOOMS)
+   ============================================================ */
+/* Scrollbar styling for sidebar */
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px}
+
 .sidebar{
-  width:245px;flex-shrink:0;position:sticky;top:0;height:100vh;
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:22px 14px 16px;background:var(--surface);
+  width:235px;flex-shrink:0;position:sticky;top:0;
+  height:100dvh;max-height:100vh;overflow-y:auto;overflow-x:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:12px;
+  padding:20px 14px 16px;background:var(--surface);
   border-right:1px solid var(--border);z-index:20;
+}
+
+.topbar{
+  min-height:58px;height:auto;display:flex;align-items:center;justify-content:space-between;
+  padding:8px clamp(14px, 2.5vw, 26px);background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:15;gap:10px;flex-wrap:wrap;
+}
+.search-box{
+  display:flex;align-items:center;gap:10px;background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+  width:100%;max-width:min(360px, 100%);color:var(--text-soft);font-size:13px;cursor:pointer;
+  transition:border-color .15s;
+}
+
+.content-area{
+  padding:clamp(14px, 2vw, 22px) clamp(14px, 2.5vw, 26px) 85px;
+  max-width:1260px;margin:0 auto;width:100%;
+}
+
+/* Fluid Grids */
+.hero-split-grid{
+  display:grid;grid-template-columns:minmax(0, 1fr) minmax(160px, 190px);
+  gap:clamp(10px, 1.5vw, 14px);margin-bottom:14px;
+}
+.fuji-banner-card{
+  background:#1e1a17;border:1px solid var(--border);border-radius:0;
+  padding:clamp(18px, 2.5vw, 24px) clamp(18px, 2.5vw, 26px);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:180px;
+}
+.fuji-text-wrap{position:relative;z-index:3;max-width:min(480px, 85%)}
+.fuji-title{
+  font-family:var(--font-jp);font-size:clamp(26px, 3.8vw, 36px);
+  font-weight:900;line-height:1.15;letter-spacing:-0.01em;color:var(--text);margin:4px 0 2px;
+}
+
+.metrics-4-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:clamp(10px, 1.2vw, 14px);margin-bottom:14px;
+}
+.metric-tile{
+  border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px;
+  position:relative;overflow:hidden;border:1px solid transparent;box-shadow:var(--shadow);
+}
+.m-num{
+  font-family:var(--font-ui);font-size:clamp(22px, 2.4vw, 26px);
+  font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text);
+}
+
+.mid-section-grid{
+  display:grid;grid-template-columns:minmax(0, 1fr) minmax(280px, 330px);
+  gap:clamp(10px, 1.5vw, 14px);margin-bottom:14px;
+}
+.study-action-row{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:clamp(8px, 1vw, 10px);
+}
+
+.bottom-3-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  gap:clamp(10px, 1.2vw, 14px);
+}
+
+/* Breakpoint for zoom & mid-sized laptops */
+@media(max-width:1020px){
+  .mid-section-grid{grid-template-columns:1fr}
+}
+@media(max-width:880px){
+  .sidebar{display:none}
+  .hero-split-grid{grid-template-columns:1fr}
+  .bottomnav{
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);
+    border-top:1px solid var(--border);padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+    justify-content:space-around;
+  }
+  [data-theme="dark"] .bottomnav{background:rgba(23,21,19,0.95)}
+  [data-theme="rpg"] .bottomnav{background:rgba(14,17,26,0.95)}
+  .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--text-soft);padding:5px}
+  .bnav-btn.active{color:var(--green-deep);font-weight:900}
+}
+@media(min-width:881px){.bottomnav{display:none}}
+@media(max-width:540px){
+  .metrics-4-grid{grid-template-columns:repeat(2, 1fr)}
+  .study-action-row{grid-template-columns:1fr}
+  .bottom-3-grid{grid-template-columns:1fr}
+  .quote-banner{flex-direction:column;align-items:flex-start;gap:10px}
+  .quote-controls{align-self:flex-end}
 }
 
 .brand-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:16px}
