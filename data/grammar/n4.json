@@ -1,0 +1,56 @@
+[
+  {
+    "id": "n4-g-001",
+    "level": "N4",
+    "pattern": "〜ながら",
+    "meaning": "While doing ~ (simultaneous actions)",
+    "explanation": "Indicates doing one main action while simultaneously performing another secondary action. The main focus is on the second verb.",
+    "formation": "Verb (ます-stem) + ながら + Main Verb",
+    "examples": [
+      {
+        "jp": "音楽を聴きながら日本語を勉強します。",
+        "hira": "おんがくを ききながら にほんごを べんきょうします。",
+        "en": "I study Japanese while listening to music."
+      },
+      {
+        "jp": "歩きながら電話をしないでください。",
+        "hira": "あるきながら でんわを しないでください。",
+        "en": "Please do not make phone calls while walking."
+      }
+    ],
+    "commonMistakes": [
+      "Putting the main primary action before ながら instead of after it."
+    ],
+    "source": {
+      "name": "JLPT N4 Grammar Handbook",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n4-g-002",
+    "level": "N4",
+    "pattern": "〜たことがある",
+    "meaning": "Have done ~ before (past experience)",
+    "explanation": "Expresses having past experience of doing a certain action in one's life.",
+    "formation": "Verb (た-form) + ことがある",
+    "examples": [
+      {
+        "jp": "日本へ行ったことがありますか。",
+        "hira": "にほんへ いったことが ありますか。",
+        "en": "Have you ever been to Japan?"
+      },
+      {
+        "jp": "歌舞伎を見たことがあります。",
+        "hira": "かぶきを みたことが あります。",
+        "en": "I have seen Kabuki before."
+      }
+    ],
+    "commonMistakes": [
+      "Using present tense dictionary form instead of past た-form."
+    ],
+    "source": {
+      "name": "JLPT N4 Grammar Handbook",
+      "type": "curated"
+    }
+  }
+]

@@ -1,7 +1,22 @@
-const CACHE_NAME = 'mainichi-nihongo-v4';
+const CACHE_NAME = 'mainichi-nihongo-v10';
 const ASSETS = [
   './',
   './index.html',
+  './data/kanji/n5.json',
+  './data/kanji/n4.json',
+  './data/kanji/n3.json',
+  './data/kanji/n2.json',
+  './data/kanji/n1.json',
+  './data/vocabulary/n5.json',
+  './data/vocabulary/n4.json',
+  './data/vocabulary/n3.json',
+  './data/vocabulary/n2.json',
+  './data/vocabulary/n1.json',
+  './data/grammar/n5.json',
+  './data/grammar/n4.json',
+  './data/grammar/n3.json',
+  './data/grammar/n2.json',
+  './data/grammar/n1.json',
   './assets/fuji_logo.png',
   './assets/torii_landscape.jpg',
   './assets/fuji_banner.png'
@@ -29,6 +44,13 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  // Never intercept /api/ requests with static cache
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/api/')) {
+    return;
+  }
+
   // Network-first for navigation requests so users always get fresh updates immediately
   if (event.request.mode === 'navigate' || event.request.destination === 'document') {
     event.respondWith(
@@ -43,7 +65,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first with network fallback for other static assets
+  // Cache-first with network fallback for static assets & json data
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then((cached) => {
       if (cached) return cached;

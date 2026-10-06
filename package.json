@@ -1,0 +1,12 @@
+{
+  "name": "mainichi-nihongo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mainichi Nihongo (毎日日本語) — Everyday Japanese Learning PWA",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "test": "node test/verify-step2.js"
+  }
+}

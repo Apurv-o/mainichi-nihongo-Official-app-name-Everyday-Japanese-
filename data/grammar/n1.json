@@ -1,0 +1,512 @@
+[
+  {
+    "id": "gram-n1-001",
+    "level": "N1",
+    "pattern": "〜ごとき / 〜ごとく (gotoki / gotoku)",
+    "meaning": "like; as if; the likes of",
+    "explanation": "Classical comparison or humble/derogatory self-reference ('the likes of me').",
+    "formation": "Noun + の / Verb plain + ごとき + Noun / ごとく + Verb",
+    "examples": [
+      {
+        "jp": "光陰矢のごとしと言われるように時間は速い。",
+        "hira": "こういんやのごとしといわれるようにじかんははやい。",
+        "en": "As the saying 'Time flies like an arrow' goes, time is fast."
+      }
+    ],
+    "commonMistakes": "High literary register; used in rhetorical expressions.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-002",
+    "level": "N1",
+    "pattern": "〜極まる / 〜極まりない (kiwamaru / kiwamarinai)",
+    "meaning": "extremely; exceedingly; to the utmost degree",
+    "explanation": "States that a state has reached its absolute extreme limit, often for negative attitudes or perils.",
+    "formation": "な-adj stem + 極まる / 極まりない",
+    "examples": [
+      {
+        "jp": "彼の態度は失礼極まりない。",
+        "hira": "かれのたいどはしつれいきわまりない。",
+        "en": "His attitude is rude to the utmost extreme."
+      }
+    ],
+    "commonMistakes": "Extreme emphatic tone for critical evaluations.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-003",
+    "level": "N1",
+    "pattern": "〜を皮切りとして (wo kawakiri to shite)",
+    "meaning": "taking as the inaugural start of",
+    "explanation": "Denotes the opening milestone triggering successive grand events.",
+    "formation": "Noun + を皮切りとして",
+    "examples": [
+      {
+        "jp": "世界選手権を皮切りとして国際大会を転戦する。",
+        "hira": "せかいせんしゅけんをかわきりとしてこくさいたいかいをてんせんする。",
+        "en": "Starting with the world championship, he will tour international tournaments."
+      }
+    ],
+    "commonMistakes": "Literary and journalistic style.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-004",
+    "level": "N1",
+    "pattern": "〜と相まって (to aimatte)",
+    "meaning": "coupled with; together with; in combination with",
+    "explanation": "Expresses two or more synergistic factors combining to generate a remarkable effect.",
+    "formation": "Noun + と相まって",
+    "examples": [
+      {
+        "jp": "好天と相まって行楽地は大盛況となった。",
+        "hira": "こうてんとあいまってみどころはおおせいきょうとなった。",
+        "en": "Coupled with fine weather, the tourist spot was a great success."
+      }
+    ],
+    "commonMistakes": "Used when multiple causes combine to multiply the overall outcome.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-005",
+    "level": "N1",
+    "pattern": "〜にかこつけて (ni kakotsukete)",
+    "meaning": "using as a pretext/excuse for",
+    "explanation": "Using an ostensible reason to conceal one's real underlying objective.",
+    "formation": "Noun + にかこつけて",
+    "examples": [
+      {
+        "jp": "出張にかこつけて旧友と観光を楽しんだ。",
+        "hira": "しゅっちょうにかこつけてきゅうゆうとかんこうをたのしんだ。",
+        "en": "Using a business trip as a pretext, enjoyed sightseeing with an old friend."
+      }
+    ],
+    "commonMistakes": "Carries a critical or self-deprecating nuance.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-006",
+    "level": "N1",
+    "pattern": "〜をおいて (wo oite)",
+    "meaning": "aside from; except for (no other can compare)",
+    "explanation": "Emphasizes that nobody else or nothing else is qualified or suitable.",
+    "formation": "Noun + をおいて(〜ない)",
+    "examples": [
+      {
+        "jp": "この大役を任せられるのは彼をおいて他にいない。",
+        "hira": "このたいやくをまかせられるのはかれをおいてほかにいない。",
+        "en": "There is no one other than him who can be entrusted with this grand role."
+      }
+    ],
+    "commonMistakes": "Always paired with a negative following phrase (他にいない, 他にない).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-007",
+    "level": "N1",
+    "pattern": "〜ならでは (naredewa)",
+    "meaning": "distinctive to; unique to; only possible with",
+    "explanation": "Presents a unique positive attribute that only that entity can provide.",
+    "formation": "Noun + ならでは(の + Noun)",
+    "examples": [
+      {
+        "jp": "伝統工芸ならではの繊細な美しさに魅了される。",
+        "hira": "でんとうこうげいならではのせんさいなうつくしさにみりょうされる。",
+        "en": "Fascinated by the delicate beauty unique to traditional crafts."
+      }
+    ],
+    "commonMistakes": "Always carries high praise or special distinctive value.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-008",
+    "level": "N1",
+    "pattern": "〜ずにはおかない (zu ni wa okanai)",
+    "meaning": "will certainly; inevitably must; cannot help but",
+    "explanation": "Strong determination that an action will surely be performed, or an emotional reaction is inevitably provoked.",
+    "formation": "Verb (ない-stem) + ずにはおかない (する -> せずにはおかない)",
+    "examples": [
+      {
+        "jp": "彼の熱狂的な演技は観客を感動させずにはおかない。",
+        "hira": "かれのねっきょうてきなえんぎはかんきゃくをかんどうさせずにはおかない。",
+        "en": "His passionate performance never fails to move the audience."
+      }
+    ],
+    "commonMistakes": "Denotes inevitable compelling force.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-009",
+    "level": "N1",
+    "pattern": "〜ずにはすまない (zu ni wa sumanai)",
+    "meaning": "cannot get away without; must inevitably do (social/moral demand)",
+    "explanation": "Circumstances or conscience demand that an action must be done to resolve the situation.",
+    "formation": "Verb (ない-stem) + ずにはすまない (する -> せずにはすまない)",
+    "examples": [
+      {
+        "jp": "これだけの損害を出した以上、謝罪せずにはすまない。",
+        "hira": "これだけのそんがいをだしたいじょう、しゃざいせずにはすまない。",
+        "en": "Having caused this much damage, one cannot get away without apologizing."
+      }
+    ],
+    "commonMistakes": "Reflects ethical or situational necessity.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-010",
+    "level": "N1",
+    "pattern": "〜ないではすまない (nai dewa sumanai)",
+    "meaning": "must inevitably; cannot avoid doing",
+    "explanation": "Same meaning as ずにはすまない in a standard colloquial-formal blend.",
+    "formation": "Verb (ない-form) + ではすまない",
+    "examples": [
+      {
+        "jp": "本当のことを話さないではすまない状況になった。",
+        "hira": "ほんとうのことをはなさないではすまないじょうきょうになった。",
+        "en": "It reached a point where I could not avoid telling the truth."
+      }
+    ],
+    "commonMistakes": "Expresses unavoidable situational constraint.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-011",
+    "level": "N1",
+    "pattern": "〜をもって (wo motte)",
+    "meaning": "with; by means of; as of (time limit / formal means)",
+    "explanation": "Used to declare formal termination as of a date, or action accomplished by means of high effort.",
+    "formation": "Noun + をもって",
+    "examples": [
+      {
+        "jp": "本日をもって今年度の営業を終了いたします。",
+        "hira": "ほんじつをもってこんねんどのえいぎょうをしゅうりょういたします。",
+        "en": "As of today, we conclude this fiscal year's business operations."
+      }
+    ],
+    "commonMistakes": "Extremely formal ceremony or notice wording.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-012",
+    "level": "N1",
+    "pattern": "〜ばこそ (ba koso)",
+    "meaning": "precisely because; only because",
+    "explanation": "Emphatically highlights the genuine underlying reason for an action that might otherwise be misunderstood.",
+    "formation": "Verb (ば-form) / Noun+であれば + こそ",
+    "examples": [
+      {
+        "jp": "子どもの将来を思えばこそ厳しく指導するのです。",
+        "hira": "こどものしょうらいをおもえばこそきびしくしどうするのです。",
+        "en": "It is precisely because I think of the child's future that I instruct strictly."
+      }
+    ],
+    "commonMistakes": "Used to justify sincere motives.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-013",
+    "level": "N1",
+    "pattern": "〜なくして(は) (nakushite wa)",
+    "meaning": "without; if not for (impossible to achieve)",
+    "explanation": "Stipulates an indispensable prerequisite without which success cannot occur.",
+    "formation": "Noun + なくして(は) (〜ない)",
+    "examples": [
+      {
+        "jp": "皆様の温かいご支援なくして成功はあり得ませんでした。",
+        "hira": "みなさまのあたたかいごしえんなくしてせいこうはありえませんでした。",
+        "en": "Without everyone's warm support, success would have been impossible."
+      }
+    ],
+    "commonMistakes": "Followed by absolute impossibility or negation.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-014",
+    "level": "N1",
+    "pattern": "〜なしに(は) (nashi ni wa)",
+    "meaning": "without; lacking (cannot proceed)",
+    "explanation": "States that without a particular factor, a normal outcome is out of reach.",
+    "formation": "Noun / Verb (こと) + なしに(は)",
+    "examples": [
+      {
+        "jp": "事前の許可なしに立ち入ることは固く禁じられています。",
+        "hira": "じぜんのきょかなしにたちいることはかたくきんじられています。",
+        "en": "Entering without advance permission is strictly forbidden."
+      }
+    ],
+    "commonMistakes": "Formal condition requirement.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-015",
+    "level": "N1",
+    "pattern": "〜たりとも (taritomo)",
+    "meaning": "even a single... (not even one)",
+    "explanation": "Takes the smallest counting unit (one second, one drop) to emphasize zero tolerance or waste.",
+    "formation": "One + Counter + たりとも (〜ない)",
+    "examples": [
+      {
+        "jp": "一秒たりとも無駄にしてはならない。",
+        "hira": "いちびょうたりともむだにしてはならない。",
+        "en": "Not even a single second must be wasted."
+      }
+    ],
+    "commonMistakes": "Always pairs with number 1 (一刻, 一粒, 一円) and negation.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-016",
+    "level": "N1",
+    "pattern": "〜きらいがある (kirai ga aru)",
+    "meaning": "have a tendency to; prone to (undesirable trait)",
+    "explanation": "Points out an unfavorable inclination or habit in character or behavior.",
+    "formation": "Verb (dict/ない) / Noun + の + きらいがある",
+    "examples": [
+      {
+        "jp": "彼は物事を独断で決めてしまうきらいがある。",
+        "hira": "かれはものごとをどくだんできめてしまうきらいがある。",
+        "en": "He tends to decide things arbitrarily on his own."
+      }
+    ],
+    "commonMistakes": "Used for slight negative habits, not positive virtues.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-017",
+    "level": "N1",
+    "pattern": "〜ごとき (gotoki)",
+    "meaning": "like; such as",
+    "explanation": "Classical simulative comparison or deprecation.",
+    "formation": "Noun + のごとき",
+    "examples": [
+      {
+        "jp": "私のごとき未熟者にお任せいただき恐縮です。",
+        "hira": "わたしのごときみじゅくものにおまかせいただききょうしゅくです。",
+        "en": "I am humbled that you entrusted this to an inexperienced person like me."
+      }
+    ],
+    "commonMistakes": "Classical humble or figurative tone.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-018",
+    "level": "N1",
+    "pattern": "〜しまつだ (shimatsu da)",
+    "meaning": "ended up in such a sorry state as",
+    "explanation": "Narrates a deplorable culmination after a sequence of deteriorating events.",
+    "formation": "Verb plain form + 始末だ",
+    "examples": [
+      {
+        "jp": "浪費を重ねた挙句に借金を抱える始末だ。",
+        "hira": "ろうひをかさねたあげくにしゃっきんをかかえるしまつだ。",
+        "en": "After repeated wasteful spending, he ended up saddled with debt."
+      }
+    ],
+    "commonMistakes": "Always narrates an unfortunate, pitiable result.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-019",
+    "level": "N1",
+    "pattern": "〜であれ / 〜であろうと (de are / de arou to)",
+    "meaning": "whether it be... or; no matter what",
+    "explanation": "Asserts that regardless of the condition or identity, the statement holds universally.",
+    "formation": "Noun / Question word + であれ",
+    "examples": [
+      {
+        "jp": "理由が何であれ暴力は決して許されない。",
+        "hira": "りゆうがなんであれぼうりょくはけっしてゆるされない。",
+        "en": "No matter what the reason may be, violence is never permitted."
+      }
+    ],
+    "commonMistakes": "Formal unconditional assertion.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-020",
+    "level": "N1",
+    "pattern": "〜とあれば (to areba)",
+    "meaning": "if it comes to; if it is for the sake of",
+    "explanation": "If a special condition or request is present, one is willing to do whatever it takes.",
+    "formation": "Plain form + とあれば",
+    "examples": [
+      {
+        "jp": "愛する子どものためとあればどんな苦労もいとわない。",
+        "hira": "あいするこどものためとあればどんなくろうもいとわない。",
+        "en": "If it is for the sake of beloved children, I spare no hardship."
+      }
+    ],
+    "commonMistakes": "Expresses unwavering readiness to act under that condition.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-021",
+    "level": "N1",
+    "pattern": "〜とはいえ (to wa ie)",
+    "meaning": "though; although it is true that",
+    "explanation": "Concedes a stated premise while introducing a qualification or reservation.",
+    "formation": "Plain form + とはいえ",
+    "examples": [
+      {
+        "jp": "春とはいえ朝夕はまだ肌寒い。",
+        "hira": "はるとはいえあさゆうはまだはだざむい。",
+        "en": "Although it is spring, mornings and evenings are still chilly."
+      }
+    ],
+    "commonMistakes": "Connective concessive structure.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-022",
+    "level": "N1",
+    "pattern": "〜といえども (to iedomo)",
+    "meaning": "even though; even if it be",
+    "explanation": "High literary concessive stating that even under exceptional status, rules apply.",
+    "formation": "Noun / Plain form + といえども",
+    "examples": [
+      {
+        "jp": "熟練の達人といえども油断は禁物だ。",
+        "hira": "じゅくれんのたつじんといえどもゆだんはきんもつだ。",
+        "en": "Even for a skilled master, carelessness is strictly prohibited."
+      }
+    ],
+    "commonMistakes": "Classical literary register.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-023",
+    "level": "N1",
+    "pattern": "〜と思いきや (to omoikiya)",
+    "meaning": "contrary to expectations; just when I thought",
+    "explanation": "Reveals that what was presumed was immediately overturned by an unexpected reality.",
+    "formation": "Plain form + と思いきや",
+    "examples": [
+      {
+        "jp": "晴れると思いきや突然激しい雷雨となった。",
+        "hira": "はれるとおもいきやとつぜんはげしいらいうとなった。",
+        "en": "Just when I thought it would clear up, it suddenly turned into a heavy thunderstorm."
+      }
+    ],
+    "commonMistakes": "Emphasizes sharp unexpected contrast.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-024",
+    "level": "N1",
+    "pattern": "〜ないまでも (nai made mo)",
+    "meaning": "even if not quite... at least",
+    "explanation": "Concedes that the ideal maximum is not reached, but a reasonable minimum is attained.",
+    "formation": "Verb (ない-stem) + ないまでも",
+    "examples": [
+      {
+        "jp": "満点とは言えないまでも、合格点は十分に取れた。",
+        "hira": "まんてんとはいえないまでも、ごうかくてんはじゅうぶんにとれた。",
+        "en": "Even if not a perfect score, I comfortably achieved a passing grade."
+      }
+    ],
+    "commonMistakes": "Balances compromise with positive partial fulfillment.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-025",
+    "level": "N1",
+    "pattern": "〜ならいざしらず (nara iza shirazu)",
+    "meaning": "if it were... it might be excused, but (unacceptable here)",
+    "explanation": "Contrasts an exceptional case where something might pass against the unacceptable current reality.",
+    "formation": "Noun / Plain form + ならいざしらず",
+    "examples": [
+      {
+        "jp": "素人ならいざしらず、プロがこんなミスをしてはいけない。",
+        "hira": "しろうとならいざしらず、ぷろがこんなみすをしてはいけない。",
+        "en": "If it were an amateur it might be excusable, but a professional must not make such mistakes."
+      }
+    ],
+    "commonMistakes": "Sharply rebukes current unacceptable standard.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-026",
+    "level": "N1",
+    "pattern": "〜にかかわる (ni kakawaru)",
+    "meaning": "affecting; concerning; having grave bearing on",
+    "explanation": "Indicates that something has critical stakes concerning life, honor, or survival.",
+    "formation": "Noun + にかかわる / にかかわる + Noun",
+    "examples": [
+      {
+        "jp": "命にかかわる病気ではないので安心してください。",
+        "hira": "いのちにかかわるびょうきではないのであんしんしてください。",
+        "en": "Please rest assured as it is not a disease that threatens life."
+      }
+    ],
+    "commonMistakes": "Used with weighty themes (名誉, 信用, 存亡, 命).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-027",
+    "level": "N1",
+    "pattern": "〜に堪えない (ni taenai)",
+    "meaning": "cannot bear to; beyond endurance / deeply filled with (gratitude)",
+    "explanation": "Cannot endure seeing a miserable state, or overwhelmed by profound feelings of joy/gratitude.",
+    "formation": "Verb (dict) / Noun + に堪えない",
+    "examples": [
+      {
+        "jp": "皆様のご厚情に感謝の念に堪えません。",
+        "hira": "みなさまのごこうじょうにかんしゃのねんにたえません。",
+        "en": "I am overwhelmed with deep feelings of gratitude for everyone's kindness."
+      }
+    ],
+    "commonMistakes": "Two nuances: (1) unbearable to witness, (2) overflowing gratitude.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-028",
+    "level": "N1",
+    "pattern": "〜に足る (ni taru)",
+    "meaning": "worthy of; sufficient to; deserving of",
+    "explanation": "Affirms that a subject fully possesses the qualities or credibility needed.",
+    "formation": "Verb (dict) / Noun + に足る / に足りる",
+    "examples": [
+      {
+        "jp": "彼は信頼するに足る誠実な人物だ。",
+        "hira": "かれはしんらいするにたるせいじつなじんぶつだ。",
+        "en": "He is a sincere person worthy of trust."
+      }
+    ],
+    "commonMistakes": "Formal literary phrasing.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-029",
+    "level": "N1",
+    "pattern": "〜まみれ (mamire)",
+    "meaning": "covered all over with; smeared with (dust/mud/blood)",
+    "explanation": "Physical surface is unstoppably covered in an undesirable substance.",
+    "formation": "Noun + まみれ",
+    "examples": [
+      {
+        "jp": "泥まみれになりながらボールを追いかけた。",
+        "hira": "どろまみれになりながらぼーるをおいかけた。",
+        "en": "Chased the ball while covered all over in mud."
+      }
+    ],
+    "commonMistakes": "Differs from だらけ in that まみれ implies clinging viscous surface coating (泥, 汗, 血).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n1-030",
+    "level": "N1",
+    "pattern": "〜をおいて (wo oite)",
+    "meaning": "except; besides",
+    "explanation": "Unmatched singular designation.",
+    "formation": "Noun + をおいて",
+    "examples": [
+      {
+        "jp": "適任者は彼をおいて他には考えられない。",
+        "hira": "てきにんしゃはかれをおいてほかにはかんがえられない。",
+        "en": "No other suitable candidate can be thought of besides him."
+      }
+    ],
+    "commonMistakes": "Used in singular superlative assessments.",
+    "source": "JLPT-aligned Study Reference"
+  }
+]

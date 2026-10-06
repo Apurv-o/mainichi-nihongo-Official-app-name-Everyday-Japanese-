@@ -1,0 +1,56 @@
+[
+  {
+    "id": "n5-g-001",
+    "level": "N5",
+    "pattern": "〜は〜です",
+    "meaning": "A is B (polite statement)",
+    "explanation": "Basic topic marker は (pronounced 'wa') paired with copula です to state identity, characteristics, or description.",
+    "formation": "Noun A + は + Noun B / な-adj / い-adj + です",
+    "examples": [
+      {
+        "jp": "私は学生です。",
+        "hira": "わたしは がくせいです。",
+        "en": "I am a student."
+      },
+      {
+        "jp": "富士山は高いです。",
+        "hira": "ふじさんは たかいです。",
+        "en": "Mount Fuji is high."
+      }
+    ],
+    "commonMistakes": [
+      "Pronouncing the particle は as 'ha' instead of 'wa'."
+    ],
+    "source": {
+      "name": "JLPT N5 Grammar Handbook",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n5-g-002",
+    "level": "N5",
+    "pattern": "〜てください",
+    "meaning": "Please do ~ (polite request)",
+    "explanation": "Used to politely ask someone to do something.",
+    "formation": "Verb (て-form) + ください",
+    "examples": [
+      {
+        "jp": "ここに名前を書いてください。",
+        "hira": "ここに なまえを かいてください。",
+        "en": "Please write your name here."
+      },
+      {
+        "jp": "ゆっくり話してください。",
+        "hira": "ゆっくり はなしてください。",
+        "en": "Please speak slowly."
+      }
+    ],
+    "commonMistakes": [
+      "Using standard dictionary form instead of the て-form before ください."
+    ],
+    "source": {
+      "name": "JLPT N5 Grammar Handbook",
+      "type": "curated"
+    }
+  }
+]

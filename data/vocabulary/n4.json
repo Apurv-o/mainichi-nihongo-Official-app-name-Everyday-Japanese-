@@ -1,0 +1,111 @@
+[
+  {
+    "id": "n4-v-001",
+    "level": "N4",
+    "word": "準備",
+    "reading": "じゅんび",
+    "romaji": "junbi",
+    "meaning": "preparation, arrangements",
+    "partOfSpeech": "noun / suru-verb",
+    "example": {
+      "jp": "旅行の準備を前日に済ませました。",
+      "hira": "りょこうの じゅんびを ぜんじつに すませました。",
+      "en": "I finished preparations for the trip the day before."
+    },
+    "tags": [
+      "daily",
+      "actions"
+    ],
+    "source": {
+      "name": "JLPT N4 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n4-v-002",
+    "level": "N4",
+    "word": "案内",
+    "reading": "あんない",
+    "romaji": "annai",
+    "meaning": "guidance, leading the way",
+    "partOfSpeech": "noun / suru-verb",
+    "example": {
+      "jp": "友達に東京の街を案内しました。",
+      "hira": "ともだちに とうきょうの まちを あんないしました。",
+      "en": "I guided my friend around the streets of Tokyo."
+    },
+    "tags": [
+      "travel",
+      "communication"
+    ],
+    "source": {
+      "name": "JLPT N4 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n4-v-003",
+    "level": "N4",
+    "word": "複雑",
+    "reading": "ふくざつ",
+    "romaji": "fukuzatsu",
+    "meaning": "complicated, complex",
+    "partOfSpeech": "na-adjective",
+    "example": {
+      "jp": "この文法は少し複雑ですが、慣れれば簡単です。",
+      "hira": "この ぶんぽうは すこし ふくざつですが、なれれば かんたんです。",
+      "en": "This grammar is a little complicated, but easy once you get used to it."
+    },
+    "tags": [
+      "descriptors"
+    ],
+    "source": {
+      "name": "JLPT N4 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n4-v-004",
+    "level": "N4",
+    "word": "約束",
+    "reading": "やくそく",
+    "romaji": "yakusoku",
+    "meaning": "promise, appointment",
+    "partOfSpeech": "noun / suru-verb",
+    "example": {
+      "jp": "明日の午後三時に駅で会う約束をしました。",
+      "hira": "あしたの ごごさんじに えきで あう やくそくを しました。",
+      "en": "I made an appointment to meet at the station at 3:00 PM tomorrow."
+    },
+    "tags": [
+      "daily",
+      "social"
+    ],
+    "source": {
+      "name": "JLPT N4 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n4-v-005",
+    "level": "N4",
+    "word": "経験",
+    "reading": "けいけん",
+    "romaji": "keiken",
+    "meaning": "experience",
+    "partOfSpeech": "noun / suru-verb",
+    "example": {
+      "jp": "日本に留学した経験は一生の宝物です。",
+      "hira": "にほんに りゅうがくした けいけんは いっしょうの たからものです。",
+      "en": "My experience studying in Japan is a lifelong treasure."
+    },
+    "tags": [
+      "life",
+      "learning"
+    ],
+    "source": {
+      "name": "JLPT N4 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  }
+]

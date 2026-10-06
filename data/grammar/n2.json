@@ -1,0 +1,512 @@
+[
+  {
+    "id": "gram-n2-001",
+    "level": "N2",
+    "pattern": "〜にあたって / 〜に際して (ni atatte / ni saishite)",
+    "meaning": "on the occasion of; at the time of",
+    "explanation": "Used in formal situations when facing a major juncture, start of event, or ceremony.",
+    "formation": "Verb (dict) / Noun + にあたって",
+    "examples": [
+      {
+        "jp": "新年度の開始にあたり、一言ご挨拶を申し上げます。",
+        "hira": "しんねんどのかいしにあたり、ひとことごあいさつをもうしあげます。",
+        "en": "On the occasion of the new fiscal year start, I would like to say a few words."
+      }
+    ],
+    "commonMistakes": "Used for positive, prepared occasions; not for accidents or everyday events.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-002",
+    "level": "N2",
+    "pattern": "〜を契機に / 〜をきっかけに (wo keiki ni / wo kikkake ni)",
+    "meaning": "taking advantage of; triggered by; as a turning point",
+    "explanation": "Indicates an event or circumstance that acted as the decisive catalyst for change.",
+    "formation": "Noun + を契機に(して)",
+    "examples": [
+      {
+        "jp": "入院を契機に生活習慣を根本から見直した。",
+        "hira": "にゅういんをけいきにせいかつしゅうかんをこんぽんからみなおした。",
+        "en": "Using hospitalization as a turning point, I fundamentally reviewed my lifestyle habits."
+      }
+    ],
+    "commonMistakes": "契機 is formal and editorial; きっかけ is standard and conversational.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-003",
+    "level": "N2",
+    "pattern": "〜に先立って / 〜に先立ち (ni sakidatte / ni sakidachi)",
+    "meaning": "prior to; before starting",
+    "explanation": "Doing a preparatory action before a major main event.",
+    "formation": "Verb (dict) / Noun + に先立って",
+    "examples": [
+      {
+        "jp": "映画の公開に先立ち、特別試写会が行われた。",
+        "hira": "えいがのこうかいにさきだち、とくべつししゃかいがおこなわれた。",
+        "en": "Prior to the public release of the movie, a special preview screening was held."
+      }
+    ],
+    "commonMistakes": "Formal expression; not used for minor trivial actions.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-004",
+    "level": "N2",
+    "pattern": "〜を皮切りに (wo kawakiri ni)",
+    "meaning": "starting with; beginning with (a chain of events)",
+    "explanation": "Indicates that one event set off a continuous series of similar actions or events in succession.",
+    "formation": "Noun + を皮切りに(して)",
+    "examples": [
+      {
+        "jp": "東京公演を皮切りに全国ツアーが始まる。",
+        "hira": "とうきょうこうえんをかわきりにぜんこくつあーがはじまる。",
+        "en": "The nationwide tour starts beginning with the Tokyo performance."
+      }
+    ],
+    "commonMistakes": "Used when multiple successive events follow one another.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-005",
+    "level": "N2",
+    "pattern": "〜次第 (shidai)",
+    "meaning": "as soon as (immediately upon completion)",
+    "explanation": "Formal announcement that an action will occur immediately when a condition is fulfilled.",
+    "formation": "Verb (ます-stem) + 次第",
+    "examples": [
+      {
+        "jp": "準備が整い次第、ご連絡いたします。",
+        "hira": "じゅんびがととのいしだい、ごれんらくいたします。",
+        "en": "As soon as preparations are complete, we will contact you."
+      }
+    ],
+    "commonMistakes": "Trailing verb cannot be in past tense (e.g. *届き次第行きました is wrong).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-006",
+    "level": "N2",
+    "pattern": "〜をめぐって (wo megutte)",
+    "meaning": "concerning; over; surrounding (dispute/debate)",
+    "explanation": "Indicates the central disputed topic surrounding which debate, conflict, or speculation revolves.",
+    "formation": "Noun + をめぐって / をめぐる + Noun",
+    "examples": [
+      {
+        "jp": "遺産相続をめぐって親族間で争いが起きた。",
+        "hira": "いさんそうぞくをめぐってしんぞくかんであらそいがおきた。",
+        "en": "A dispute arose among relatives over inheritance succession."
+      }
+    ],
+    "commonMistakes": "Requires multiple people or sides interacting/disputing around the topic.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-007",
+    "level": "N2",
+    "pattern": "〜にかけては (ni kakete wa)",
+    "meaning": "when it comes to; in terms of (supreme skill)",
+    "explanation": "Expresses that the subject has unrivaled talent, knowledge, or confidence in that specific area.",
+    "formation": "Noun + にかけては",
+    "examples": [
+      {
+        "jp": "数学の知識にかけては彼の右に出る者はいない。",
+        "hira": "すうがくのちしきにかけてはかれのみぎにでるものはいない。",
+        "en": "When it comes to mathematical knowledge, nobody surpasses him."
+      }
+    ],
+    "commonMistakes": "Always followed by high praise or strong confidence.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-008",
+    "level": "N2",
+    "pattern": "〜にこたえて (ni kotaete)",
+    "meaning": "in response to; in answer to (expectations/demands)",
+    "explanation": "Taking an action to meet the hopes, requests, or cheers of others.",
+    "formation": "Noun + にこたえて / にこたえる + Noun",
+    "examples": [
+      {
+        "jp": "ファンの声援にこたえてアンコールに応じた。",
+        "hira": "ふぁんのせいえんにこたえてあんこーるにおうじた。",
+        "en": "Responded to an encore in answer to the fans' cheering."
+      }
+    ],
+    "commonMistakes": "Do not confuse with に答えて (answering a question directly).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-009",
+    "level": "N2",
+    "pattern": "〜に基づいて / 〜に基づき (ni motozuite / ni motozuki)",
+    "meaning": "based on; on the basis of",
+    "explanation": "Acting or creating something grounded on specific data, law, fact, or principle.",
+    "formation": "Noun + に基づいて / に基づく + Noun",
+    "examples": [
+      {
+        "jp": "最新のデータに基づいて計画を修正する。",
+        "hira": "さいしんのでーたにもとづいてけいかくをしゅうせいする。",
+        "en": "Revise the plan based on the latest data."
+      }
+    ],
+    "commonMistakes": "に基づき is the literary written continuative form.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-010",
+    "level": "N2",
+    "pattern": "〜のもとで / 〜のもとに (no moto de / no moto ni)",
+    "meaning": "under (the guidance/condition/influence of)",
+    "explanation": "Acting under someone's guidance or under a prevailing principle/condition.",
+    "formation": "Noun + のもとで / のもとに",
+    "examples": [
+      {
+        "jp": "名将の指導のもとで猛練習に励む。",
+        "hira": "めいしょうのしどうのもとでもうれんしゅうにはげむ。",
+        "en": "Engage in intense practice under the guidance of a renowned coach."
+      }
+    ],
+    "commonMistakes": "のもとで indicates human guidance; のもとに indicates conditions/principles.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-011",
+    "level": "N2",
+    "pattern": "〜を契機に / 〜を踏まえて (wo fumaete)",
+    "meaning": "taking into account; based upon (facts/experiences)",
+    "explanation": "Considering prior circumstances or feedback as the groundwork for subsequent action.",
+    "formation": "Noun + を踏まえて",
+    "examples": [
+      {
+        "jp": "前回の反省を踏まえて対策を強化する。",
+        "hira": "ぜんかいのはんせいをふまえてたいさくをきょうかする。",
+        "en": "Strengthen countermeasures taking into account reflections from last time."
+      }
+    ],
+    "commonMistakes": "Requires concrete experiential premise or data before を踏まえて.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-012",
+    "level": "N2",
+    "pattern": "〜に沿って (ni sotte)",
+    "meaning": "in accordance with; along (guidelines/path)",
+    "explanation": "Following a rule, policy, plan, or physical coastline/path without deviating.",
+    "formation": "Noun + に沿って / に沿う + Noun",
+    "examples": [
+      {
+        "jp": "基本方針に沿って業務を進めてください。",
+        "hira": "きほんほうしんにそってぎょうむをすすめてください。",
+        "en": "Please proceed with operations in accordance with the basic policy."
+      }
+    ],
+    "commonMistakes": "Do not deviate from the specified trajectory or guideline.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-013",
+    "level": "N2",
+    "pattern": "〜に伴って / 〜に伴い (ni tomonatte / ni tomonai)",
+    "meaning": "accompanying; as a consequence of; with",
+    "explanation": "Indicates that one major change brings about another simultaneous change.",
+    "formation": "Verb (dict) / Noun + に伴って / に伴い",
+    "examples": [
+      {
+        "jp": "都市開発に伴って交通量が増加した。",
+        "hira": "としかいはつにともなってこうつうりょうがぞうかした。",
+        "en": "Traffic volume increased accompanying urban development."
+      }
+    ],
+    "commonMistakes": "More formal than につれて; emphasizes cause-and-effect linkage.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-014",
+    "level": "N2",
+    "pattern": "〜とともに (to tomo ni)",
+    "meaning": "together with; as well as; along with the progress of",
+    "explanation": "Expresses simultaneous actions, mutual companionship, or gradual concurrent progression.",
+    "formation": "Noun / Verb (dict) + とともに",
+    "examples": [
+      {
+        "jp": "科学の進歩とともに生活が便利になった。",
+        "hira": "かがくのしんぽとともにせいかつがべんりになった。",
+        "en": "Along with the progress of science, life has become convenient."
+      }
+    ],
+    "commonMistakes": "Noun attaches with とともに (家族とともに).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-015",
+    "level": "N2",
+    "pattern": "〜に応じて (ni oujite)",
+    "meaning": "in accordance with; depending on; corresponding to",
+    "explanation": "Varying actions flexibly according to requirements, capability, or budget.",
+    "formation": "Noun + に応じて / に応じた + Noun",
+    "examples": [
+      {
+        "jp": "予算に応じて最適なプランをご提案します。",
+        "hira": "よさんにおうじてさいてきなぷらんをごていあんします。",
+        "en": "We propose the most suitable plan according to your budget."
+      }
+    ],
+    "commonMistakes": "Focuses on customized adaptation to conditions.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-016",
+    "level": "N2",
+    "pattern": "〜に応えて (ni kotaete)",
+    "meaning": "in response to (demands/wishes)",
+    "explanation": "Meeting expectations of supporters or requests.",
+    "formation": "Noun + に応えて",
+    "examples": [
+      {
+        "jp": "要望に応えて営業時間を延長した。",
+        "hira": "ようぼうにこたえてえいぎょうじかんをえんちょうした。",
+        "en": "Extended business hours in response to demands."
+      }
+    ],
+    "commonMistakes": "Matches expectation satisfaction.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-017",
+    "level": "N2",
+    "pattern": "〜ばかりか / 〜ばかりでなく (bakari ka / bakari denaku)",
+    "meaning": "not only... but also; let alone",
+    "explanation": "States that not only fact A is true, but an even greater fact B adds to it.",
+    "formation": "Plain form + ばかりか (な-adj + な / Noun + である)",
+    "examples": [
+      {
+        "jp": "彼は英語ばかりかフランス語も堪能だ。",
+        "hira": "かれはえいごばかりかふらんすごもたんのうだ。",
+        "en": "He is fluent not only in English but also in French."
+      }
+    ],
+    "commonMistakes": "Trailing clause often emphasizes something even more unexpected.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-018",
+    "level": "N2",
+    "pattern": "〜のみならず (nomi narazu)",
+    "meaning": "not only... but also (formal)",
+    "explanation": "Formal written equivalent of だけでなく expressing expansion beyond one element.",
+    "formation": "Plain form + のみならず (Noun attaches directly)",
+    "examples": [
+      {
+        "jp": "国内のみならず海外でも高い評価を得ている。",
+        "hira": "こくないのみならずかいがいでもたかいひょうかをえている。",
+        "en": "Receives high acclaim not only domestically but also overseas."
+      }
+    ],
+    "commonMistakes": "Written/editorial style.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-019",
+    "level": "N2",
+    "pattern": "〜をはじめとして (wo hajime to shite)",
+    "meaning": "starting with; represented primarily by",
+    "explanation": "Citing the primary representative item of a group.",
+    "formation": "Noun + をはじめとして",
+    "examples": [
+      {
+        "jp": "院長をはじめとしてスタッフ一同努力します。",
+        "hira": "いんちょうをはじめとしてすたっふいちどうどりょくします。",
+        "en": "The entire staff starting with the hospital director will make every effort."
+      }
+    ],
+    "commonMistakes": "Noun must be the leading figure or prominent exemplar.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-020",
+    "level": "N2",
+    "pattern": "〜上(は) / 〜上の (jou wa / jou no)",
+    "meaning": "from the viewpoint of; in terms of; for reasons of",
+    "explanation": "Limits the domain of evaluation to a specific standpoint (law, safety, health).",
+    "formation": "Noun + 上(は) / 上の + Noun",
+    "examples": [
+      {
+        "jp": "法律上の手続きをすべて完了した。",
+        "hira": "ほうりつじょうのてつづきをすべてかんりょうした。",
+        "en": "Completed all procedures in terms of law."
+      }
+    ],
+    "commonMistakes": "Attaches directly to kanji compound nouns (健康上, 形式上).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-021",
+    "level": "N2",
+    "pattern": "〜以上(は) (ijou wa)",
+    "meaning": "now that; as long as; since (moral resolve)",
+    "explanation": "Since a situation or commitment exists, a natural duty or strong determination follows.",
+    "formation": "Verb/Adj plain form + 以上(は)",
+    "examples": [
+      {
+        "jp": "引き受けた以上は最後まで責任を持つ。",
+        "hira": "ひきうけたじょうはさいごまでせきにんをもつ。",
+        "en": "Since I accepted it, I will take responsibility until the end."
+      }
+    ],
+    "commonMistakes": "Trailing clause must express determination, obligation, or advice.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-022",
+    "level": "N2",
+    "pattern": "〜からには (kara ni wa)",
+    "meaning": "since; now that; as long as (unyielding resolve)",
+    "explanation": "Expresses resolute obligation or determination resulting from a chosen premise.",
+    "formation": "Plain form + からには",
+    "examples": [
+      {
+        "jp": "試合に出るからには絶対に勝ちたい。",
+        "hira": "しあいにでるからにはぜったいにかちたい。",
+        "en": "Since I am entering the match, I definitely want to win."
+      }
+    ],
+    "commonMistakes": "Followed by strong intentional statements (たい, つもり, べき).",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-023",
+    "level": "N2",
+    "pattern": "〜折(に) (ori ni)",
+    "meaning": "on the occasion of; when (polite/formal)",
+    "explanation": "Polite formal term for 'at that opportune time' or 'when'.",
+    "formation": "Verb/Noun + の + 折(に)",
+    "examples": [
+      {
+        "jp": "上京の折にはぜひお立ち寄りください。",
+        "hira": "じょうきょうのおりにはぜひおたちよりください。",
+        "en": "When you visit Tokyo, please by all means drop by."
+      }
+    ],
+    "commonMistakes": "Used in formal correspondence and polite conversations.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-024",
+    "level": "N2",
+    "pattern": "〜に際して (ni saishite)",
+    "meaning": "at the time of; when facing",
+    "explanation": "Used when starting an important action or formal transaction.",
+    "formation": "Verb (dict) / Noun + に際して",
+    "examples": [
+      {
+        "jp": "契約の締結に際して書類を確認する。",
+        "hira": "けいやくのていけつにさいしてしょるいをかくにんする。",
+        "en": "Check documents at the time of concluding the contract."
+      }
+    ],
+    "commonMistakes": "Formal written/business nuance.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-025",
+    "level": "N2",
+    "pattern": "〜っこない (kko nai)",
+    "meaning": "definitely cannot; absolutely impossible to",
+    "explanation": "Colloquial and strong emotional dismissal of possibility.",
+    "formation": "Verb (ます-stem) + っこない",
+    "examples": [
+      {
+        "jp": "一日でこの量を全部覚えられっこない。",
+        "hira": "いちにちでこのりょうをぜんぶおぼえられっこない。",
+        "en": "There is no way I could possibly memorize this entire volume in one day."
+      }
+    ],
+    "commonMistakes": "Spoken and casual register.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-026",
+    "level": "N2",
+    "pattern": "〜かねない (kanenai)",
+    "meaning": "might well; there is danger of; could possibly (negative result)",
+    "explanation": "Warns of a risk or bad potential outcome resulting from a current state.",
+    "formation": "Verb (ます-stem) + かねない",
+    "examples": [
+      {
+        "jp": "無理を続けると過労で倒れかねない。",
+        "hira": "むりをつづけるとかろうでたおれかねない。",
+        "en": "If you keep overdoing it, you could collapse from overwork."
+      }
+    ],
+    "commonMistakes": "Used only for undesirable risks; not for happy possibilities.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-027",
+    "level": "N2",
+    "pattern": "〜かねる (kaneru)",
+    "meaning": "cannot do; unable to (polite refusal)",
+    "explanation": "Expresses hesitation or inability to fulfill a request due to position/rules.",
+    "formation": "Verb (ます-stem) + かねる",
+    "examples": [
+      {
+        "jp": "そのご要望にはお応えしかねます。",
+        "hira": "そのごようぼうにはおこたえしかねます。",
+        "en": "We are unable to accommodate that request."
+      }
+    ],
+    "commonMistakes": "Polite and diplomatic refusal in business contexts.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-028",
+    "level": "N2",
+    "pattern": "〜つつある (tsutsu aru)",
+    "meaning": "in the process of; gradually becoming",
+    "explanation": "Denotes ongoing gradual progression of continuous change.",
+    "formation": "Verb (ます-stem) + つつある",
+    "examples": [
+      {
+        "jp": "景気は緩やかに回復しつつある。",
+        "hira": "けいきはゆるやかにかいふくしつつある。",
+        "en": "The economy is gradually recovering."
+      }
+    ],
+    "commonMistakes": "Attached to change-of-state verbs; formal written tone.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-029",
+    "level": "N2",
+    "pattern": "〜つつ(も) (tsutsu mo)",
+    "meaning": "while; although (conflicting feelings/actions)",
+    "explanation": "Doing an action while harboring contradictory feelings or doing simultaneous acts.",
+    "formation": "Verb (ます-stem) + つつ(も)",
+    "examples": [
+      {
+        "jp": "体に悪いと知りつつも甘い物を食べてしまう。",
+        "hira": "からだにわるいとしりつつもあまいものをたべてしまう。",
+        "en": "Although knowing it is bad for health, I end up eating sweets."
+      }
+    ],
+    "commonMistakes": "Emphasizes internal moral or emotional conflict.",
+    "source": "JLPT-aligned Study Reference"
+  },
+  {
+    "id": "gram-n2-030",
+    "level": "N2",
+    "pattern": "〜得ない / 〜得る (enai / eru)",
+    "meaning": "cannot possibly / is possible to",
+    "explanation": "Expresses theoretical possibility or impossibility.",
+    "formation": "Verb (ます-stem) + 得る(える/うる) / 得ない(えない)",
+    "examples": [
+      {
+        "jp": "そんな事故は常識では考え得ない。",
+        "hira": "そんなじこはじょうしきではかんがええない。",
+        "en": "Such an accident is unthinkable by common sense."
+      }
+    ],
+    "commonMistakes": "Negative is always pronounced えない (not *うない).",
+    "source": "JLPT-aligned Study Reference"
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "n5-v-001",
+    "level": "N5",
+    "word": "友達",
+    "reading": "ともだち",
+    "romaji": "tomodachi",
+    "meaning": "friend",
+    "partOfSpeech": "noun",
+    "example": {
+      "jp": "友達と映画を見に行きました。",
+      "hira": "ともだちと えいがを みに いきました。",
+      "en": "I went to watch a movie with a friend."
+    },
+    "tags": [
+      "common",
+      "people"
+    ],
+    "source": {
+      "name": "JLPT N5 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n5-v-002",
+    "level": "N5",
+    "word": "毎日",
+    "reading": "まいにち",
+    "romaji": "mainichi",
+    "meaning": "every day",
+    "partOfSpeech": "noun / adverb",
+    "example": {
+      "jp": "毎日日本語を30分勉強します。",
+      "hira": "まいにち にほんごを さんじゅっぷん べんきょうします。",
+      "en": "I study Japanese for 30 minutes every day."
+    },
+    "tags": [
+      "common",
+      "time"
+    ],
+    "source": {
+      "name": "JLPT N5 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n5-v-003",
+    "level": "N5",
+    "word": "学校",
+    "reading": "がっこう",
+    "romaji": "gakkou",
+    "meaning": "school",
+    "partOfSpeech": "noun",
+    "example": {
+      "jp": "毎朝八時に学校へ行きます。",
+      "hira": "まいあさ はちじに がっこうへ いきます。",
+      "en": "I go to school at 8:00 every morning."
+    },
+    "tags": [
+      "places",
+      "education"
+    ],
+    "source": {
+      "name": "JLPT N5 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n5-v-004",
+    "level": "N5",
+    "word": "食べる",
+    "reading": "たべる",
+    "romaji": "taberu",
+    "meaning": "to eat",
+    "partOfSpeech": "verb (ichidan)",
+    "example": {
+      "jp": "朝ご飯にパンと卵を食べました。",
+      "hira": "あさごはんに ぱんと たまごを たべました。",
+      "en": "I ate bread and eggs for breakfast."
+    },
+    "tags": [
+      "actions",
+      "food"
+    ],
+    "source": {
+      "name": "JLPT N5 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  },
+  {
+    "id": "n5-v-005",
+    "level": "N5",
+    "word": "本",
+    "reading": "ほん",
+    "romaji": "hon",
+    "meaning": "book",
+    "partOfSpeech": "noun",
+    "example": {
+      "jp": "図書館で面白い本を借りました。",
+      "hira": "としょかんで おもしろい ほんを かりました。",
+      "en": "I borrowed an interesting book at the library."
+    },
+    "tags": [
+      "objects",
+      "study"
+    ],
+    "source": {
+      "name": "JLPT N5 Core Vocabulary (JMdict)",
+      "type": "curated"
+    }
+  }
+]
