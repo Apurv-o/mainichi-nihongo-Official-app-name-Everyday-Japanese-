@@ -202,21 +202,28 @@ button{cursor:pointer;background:none;border:none}
 /* Layout */
 .app-container{display:flex;min-height:100vh}
 
-/* Left Sidebar */
-
 /* ============================================================
    RESPONSIVE & ZOOM OPTIMIZATIONS (ALL SCREEN SIZES & ZOOMS)
    ============================================================ */
 /* Scrollbar styling for sidebar */
-.sidebar::-webkit-scrollbar{width:4px}
-.sidebar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px}
-
 .sidebar{
   width:235px;flex-shrink:0;position:sticky;top:0;
-  height:100dvh;max-height:100vh;overflow-y:auto;overflow-x:hidden;
-  display:flex;flex-direction:column;justify-content:space-between;gap:12px;
-  padding:20px 14px 16px;background:var(--surface);
+  height:100vh;height:100dvh;max-height:100vh;
+  overflow-y:auto;overflow-x:hidden;
+  display:flex;flex-direction:column;gap:14px;
+  padding:20px 14px 20px;background:var(--surface);
   border-right:1px solid var(--border);z-index:20;
+  scrollbar-width:thin;
+  scrollbar-color:var(--border-strong) transparent;
+}
+.sidebar::-webkit-scrollbar{width:5px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px}
+.sidebar::-webkit-scrollbar-thumb:hover{background:var(--green)}
+
+.sidebar-foot-card{
+  margin-top:auto;
+  flex-shrink:0;
 }
 
 .topbar{
