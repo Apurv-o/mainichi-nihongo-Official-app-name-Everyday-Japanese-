@@ -2142,9 +2142,19 @@ function syncNotesUI(){
 
 function syncSettingsUI(){
   $$('#theme-seg button').forEach(b => b.classList.toggle('active', b.dataset.t === state.settings.theme));
-  $('#settings-rem-toggle').checked = !!state.settings.reminder.enabled;
-  $('#widget-rem-toggle').checked = !!state.settings.reminder.enabled;
-  $('#rem-time-input').value = state.settings.reminder.time || '20:00';
+  const isEnabled = !!state.settings.reminder.enabled;
+  if ($('#settings-rem-toggle')) $('#settings-rem-toggle').checked = isEnabled;
+  if ($('#widget-rem-toggle')) $('#widget-rem-toggle').checked = isEnabled;
+  if ($('#rem-time-input')) $('#rem-time-input').value = state.settings.reminder.time || '20:00';
+
+  const notifBtn = $('#notif-toggle-btn');
+  if (notifBtn) {
+    const dot = notifBtn.querySelector('.notif-badge-dot');
+    if (dot) dot.style.display = isEnabled ? 'block' : 'none';
+    notifBtn.title = isEnabled 
+      ? `Daily Reminders ON (${state.settings.reminder.time || '20:00'})` 
+      : 'Click to enable daily study reminders 🔔';
+  }
 }
 
 /* ---------------- Export & Import ---------------- */
@@ -2236,6 +2246,64 @@ function handleImportFile(file){
     applyTheme(); persistSettings(); syncSettingsUI();
     toast(`Theme changed to ${next.toUpperCase()} 🎨`);
   };
+
+  // Notification Bell button in header
+  const topbarNotifBtn = $('#notif-toggle-btn');
+  if (topbarNotifBtn) {
+    topbarNotifBtn.onclick = async () => {
+      if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        try { await Notification.requestPermission(); } catch(e){}
+      }
+      const cur = !!state.settings.reminder.enabled;
+      const next = !cur;
+      state.settings.reminder.enabled = next;
+      await persistSettings();
+      syncSettingsUI();
+
+      if (next) {
+        toast(`Daily study reminders enabled for ${state.settings.reminder.time || '20:00'} 🔔`);
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+          try {
+            new Notification('🌸 毎日日本語 — Mainichi Nihongo', {
+              body: `Reminders enabled! We'll remind you daily to study Japanese.`,
+              icon: 'assets/fuji_logo.png'
+            });
+          } catch(e){}
+        }
+      } else {
+        toast('Daily study reminders disabled 🔕');
+      }
+    };
+  }
+
+  // Reminder time input
+  const remTimeInput = $('#rem-time-input');
+  if (remTimeInput) {
+    remTimeInput.onchange = async e => {
+      state.settings.reminder.time = e.target.value;
+      await persistSettings();
+      syncSettingsUI();
+      toast(`Reminder time set to ${e.target.value} ⏰`);
+    };
+  }
+
+  // Periodic Reminder Tick
+  setInterval(() => {
+    if (!state.settings.reminder || !state.settings.reminder.enabled) return;
+    const now = new Date();
+    const curTime = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+    if (curTime === state.settings.reminder.time && now.getSeconds() < 20) {
+      const e = getTodayEntry();
+      if (entryTotal(e) === 0) {
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+          new Notification('🌸 毎日日本語 — Time to Study!', {
+            body: `Keep your streak alive! Open Mainichi Nihongo for today's practice.`,
+            icon: 'assets/fuji_logo.png'
+          });
+        }
+      }
+    }
+  }, 20000);
 
   // Quotes cycling buttons
   $('#quote-prev-btn').onclick = () => {
